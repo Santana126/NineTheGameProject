@@ -3,15 +3,19 @@ package it.esercizi.ninethegame
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import it.esercizi.ninethegame.screens.HomePage
+import it.esercizi.ninethegame.screens.PlayPage
 import it.esercizi.ninethegame.ui.theme.MyAppTheme
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +30,9 @@ class MainActivity : AppCompatActivity() {
 
                     NavHost(navController = navController, startDestination = "main"){
                         composable("main") { HomePage(navController) }
+                        composable("playPage") { PlayPage(navController)}
                     }
+
                 }
             }
         }

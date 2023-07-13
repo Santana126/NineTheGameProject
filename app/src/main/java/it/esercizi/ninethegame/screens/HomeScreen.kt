@@ -57,7 +57,7 @@ fun HomePage(navController: NavController) {
                     )
                 }
                 Button(
-                    onClick = { },
+                    onClick = { navController.navigate("playPage") },
                     modifier = Modifier
                         .constrainAs(playBtn) {
                             top.linkTo(trainingBtn.bottom)
