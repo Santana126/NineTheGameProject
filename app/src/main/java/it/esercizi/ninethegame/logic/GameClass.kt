@@ -10,6 +10,12 @@ import kotlinx.parcelize.Parcelize
 class GameClass : Parcelable {
 
     @IgnoredOnParcel
+    val choice = mutableStateOf(0)
+
+    @IgnoredOnParcel
+    val squaresSymbol = mutableListOf("","","","","","","","","")
+
+    @IgnoredOnParcel
     val squaresValues = mutableStateListOf("","","","","","","","","")
 
     @IgnoredOnParcel
@@ -40,13 +46,53 @@ class GameClass : Parcelable {
     fun calculatePlayerCode(){
         if(this.attempt.value == 0){
             squaresValues.forEachIndexed { index, s ->
-                playerCode[index] = s
+                playerCode[index] = (s.toInt() + 1).toString()
             }
         }else{
             retrySquaresValue.forEachIndexed { index, s ->
-                playerCode[index] = s
+                playerCode[index] = (s.toInt() + 1).toString()
             }
         }
     }
+
+    fun loadSymbol(){
+
+        val choice = this.choice.value
+
+        val symbolProvider = SymbolProvider()
+
+        if(choice == 1){
+            symbolProvider.symbolsNumeric.forEachIndexed { index, s ->
+                squaresSymbol[index] = s
+            }
+        }
+        if(choice == 2){
+            symbolProvider.symbolsAlpha.forEachIndexed { index, i ->
+                squaresSymbol[index] = i
+            }
+        }
+        if(choice == 3){
+            symbolProvider.symbolsEmoji.forEachIndexed { index, i ->
+                squaresSymbol[index] = i
+            }
+        }
+        if(choice == 4){
+            symbolProvider.symbolsBall.forEachIndexed { index, i ->
+                squaresSymbol[index] = i
+            }
+        }
+        if(choice == 5){
+            symbolProvider.symbolsHeart.forEachIndexed { index, i ->
+                squaresSymbol[index] = i
+            }
+        }
+        if(choice == 6){
+            symbolProvider.symbolsColoredCircle.forEachIndexed { index, i ->
+                squaresSymbol[index] = i
+            }
+        }
+    }
+
+
 
 }

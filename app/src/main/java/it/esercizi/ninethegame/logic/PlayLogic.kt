@@ -59,6 +59,8 @@ class PlayLogic {
             showResult.value = false
         }
 
+        game.choice.value = 6
+        game.loadSymbol()
 
         gameField.GameFieldMaker(game, navController)
         {
@@ -77,6 +79,10 @@ class PlayLogic {
         if(game.attempt.value == 0){
             gameLogic.distanceVectorCalculator(game)
             game.attempt.value++
+            if(gameLogic.checkMatchingCode(game)){
+                result.value = true
+                showResult.value = true
+            }
             Log.d("Distance Vector (game.distanceVector)",game.distanceVector.joinToString() )
         }else{
             gameLogic.distanceVectorCalculator(game)
@@ -133,7 +139,7 @@ class PlayLogic {
             .setPositiveButton("Ok") { dialog, _ ->
                 // Azioni da eseguire quando si preme il pulsante OK
 
-                saveResult(result)
+                //saveResult(result)
                 navController.navigate("main")
                 dialog.dismiss() // Chiude l'AlertDialog
             }

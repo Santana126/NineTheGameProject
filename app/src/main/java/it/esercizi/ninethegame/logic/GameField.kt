@@ -69,25 +69,24 @@ class GameField {
                 }
             }
 
-            KeyBoardMaker(
+            KeyBoardMaker(game,
                 {
                     if (game.attempt.value <= 0) {
-                        game.squaresValues[game.selectedSquareIndex.value] = it.toString()
-                        game.selectedSquareIndex.value = (game.selectedSquareIndex.value + 1) % 9
+                        game.squaresValues[game.selectedSquareIndex.value] = it
+                        if(it != "") game.selectedSquareIndex.value = (game.selectedSquareIndex.value + 1) % 9
                     } else {
-                        game.retrySquaresValue[game.selectedRetrySquareIndex.value] = it.toString()
-                        game.selectedRetrySquareIndex.value =
+                        game.retrySquaresValue[game.selectedRetrySquareIndex.value] = it
+                        if(it != "") game.selectedRetrySquareIndex.value =
                             (game.selectedRetrySquareIndex.value + 1) % 9
                     }
 
                 },
-                { navController.navigate("main") },
-                {
-                    confirmRequest()
-                    game.selectedSquareIndex.value = -1
-                    showDistace.value = true
-                }
-            )
+                { navController.navigate("main") }
+            ) {
+                confirmRequest()
+                game.selectedSquareIndex.value = -1
+                showDistace.value = true
+            }
 
 
         }
@@ -122,7 +121,12 @@ class GameField {
 
             for (i in 0..8) {
                 Text(
-                    text = game.squaresValues[i],
+                    //text = game.squaresValues[i],
+                    text = if (game.squaresValues[i] == "") {
+                        ""
+                    } else {
+                        game.squaresSymbol[game.squaresValues[i].toInt()]
+                    },
                     textAlign = TextAlign.Center,
                     fontSize = 25.sp,
                     modifier = Modifier
@@ -216,7 +220,11 @@ class GameField {
 
                 for (i in 0..8) {
                     Text(
-                        text = game.retrySquaresValue[i],
+                        text = if (game.retrySquaresValue[i] == "") {
+                            ""
+                        } else {
+                            game.squaresSymbol[game.retrySquaresValue[i].toInt()]
+                        },
                         textAlign = TextAlign.Center,
                         fontSize = 25.sp,
                         modifier = Modifier
@@ -258,7 +266,8 @@ class GameField {
 
     @Composable
     fun KeyBoardMaker(
-        keyboardClick: (Int) -> Unit,
+        game: GameClass,
+        keyboardClick: (String) -> Unit,
         exitRequest: () -> Unit,
         confirmPressed: () -> Unit
     ) {
@@ -289,7 +298,76 @@ class GameField {
                 }
             )
 
+            game.squaresSymbol.forEachIndexed { i, s ->
+                Button(
+                    onClick = { keyboardClick(i.toString()) },
+                    modifier = Modifier
+                        .constrainAs(buttonRefs[i]) {
+                            when (i) {
+                                0 -> {
+                                    top.linkTo(lineRef.bottom)
+                                    bottom.linkTo(buttonRefs[4].top)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(buttonRefs[1].start)
+                                }
+                                1 -> {
+                                    top.linkTo(lineRef.bottom)
+                                    bottom.linkTo(buttonRefs[4].top)
+                                    start.linkTo(buttonRefs[0].end)
+                                    end.linkTo(buttonRefs[2].start)
+                                }
+                                2 -> {
+                                    top.linkTo(lineRef.bottom)
+                                    bottom.linkTo(buttonRefs[4].top)
+                                    start.linkTo(buttonRefs[1].end)
+                                    end.linkTo(parent.end)
+                                }
+                                3 -> {
+                                    top.linkTo(buttonRefs[1].bottom)
+                                    bottom.linkTo(buttonRefs[7].top)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(buttonRefs[4].start)
+                                }
+                                4 -> {
+                                    top.linkTo(buttonRefs[1].bottom)
+                                    bottom.linkTo(buttonRefs[7].top)
+                                    start.linkTo(buttonRefs[3].end)
+                                    end.linkTo(buttonRefs[5].start)
+                                }
+                                5 -> {
+                                    top.linkTo(buttonRefs[1].bottom)
+                                    bottom.linkTo(buttonRefs[7].top)
+                                    start.linkTo(buttonRefs[4].end)
+                                    end.linkTo(parent.end)
+                                }
+                                6 -> {
+                                    top.linkTo(buttonRefs[4].bottom)
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(buttonRefs[7].start)
+                                }
+                                7 -> {
+                                    top.linkTo(buttonRefs[4].bottom)
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(buttonRefs[6].end)
+                                    end.linkTo(buttonRefs[8].start)
+                                }
+                                8 -> {
+                                    top.linkTo(buttonRefs[4].bottom)
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(buttonRefs[7].end)
+                                    end.linkTo(parent.end)
+                                }
+                            }
+                        }
+                        .size(70.dp)
+                        .border(6.dp, color = BtnBorder)
+                ) {
+                    Text(text = s)
+                }
+            }
 
+            /*
             for (i in 0..8) {
                 Button(
                     onClick = { keyboardClick(i + 1) },
@@ -359,6 +437,8 @@ class GameField {
                 }
             }
 
+             */
+
             val (confirmButton, cancelButton, exitButton) = createRefs()
 
             Button(
@@ -390,7 +470,7 @@ class GameField {
                 Text(text = "Exit")
             }
             Button(
-                onClick = { keyboardClick(("".toInt())) },
+                onClick = { keyboardClick(("")) },
                 modifier = Modifier
                     .constrainAs(cancelButton) {
                         bottom.linkTo(parent.bottom)
