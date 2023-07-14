@@ -56,6 +56,33 @@ class GameLogic {
 
     }
 
+    fun trainingDistanceVectorCalculator(gameClass: GameClass){
+
+        gameClass.calculatePlayerCode()
+        val distanceVectorInit = checkForDistanceCode(gameClass.secretCode.toList(),gameClass.playerCode.toList())
+
+        Log.d("distanceVectorInit",distanceVectorInit.toString())
+        Log.d("playerCode (game.playerCode)",gameClass.playerCode.joinToString())
+        Log.d("secretCode (game.secretCode)",gameClass.secretCode.joinToString())
+
+        if(gameClass.attempt.value > 0){
+
+            gameClass.retrySquaresValue.forEachIndexed { index, s ->
+                gameClass.squaresValues[index] = s
+            }
+        }
+
+        distanceVectorInit.forEachIndexed { index, s ->
+            gameClass.distanceVector[index] = s
+            if (s == "0"){
+                gameClass.retrySquaresValue[index] = gameClass.squaresValues[index]
+            }else{
+                gameClass.retrySquaresValue[index] = ""
+            }
+        }
+
+    }
+
     private fun checkForDistanceCode(secretCode: List<String>?, playerCode: List<String>): List<String> {
 
         val distanceList = mutableListOf<String>()

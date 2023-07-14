@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import it.esercizi.ninethegame.screens.HomePage
 import it.esercizi.ninethegame.screens.PlayPage
+import it.esercizi.ninethegame.screens.TrainingPage
 import it.esercizi.ninethegame.ui.theme.MyAppTheme
 
 
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                     NavHost(navController = navController, startDestination = "main"){
                         composable("main") { HomePage(navController) }
                         composable("playPage") { PlayPage(navController)}
+                        composable("trainingPage"){ TrainingPage(navController)}
                     }
 
                 }
