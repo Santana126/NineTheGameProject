@@ -2,10 +2,14 @@ package it.esercizi.ninethegame.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Feedback
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -13,26 +17,44 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import it.esercizi.ninethegame.R
+import it.esercizi.ninethegame.logic.settings.SettingsClass
 import it.esercizi.ninethegame.ui.theme.MyAppTheme
 
 
 @Composable
-fun HomePage(navController: NavController) {
+fun HomePage(navController: NavController, appSettings: SettingsClass) {
 
-    MyAppTheme {
+    MyAppTheme(backgroundChoice = appSettings.backgroundChoice.value) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
         ) {
+            Spacer(modifier = Modifier.weight(0.2f))
+
+            Image(
+                painter = painterResource(id = R.drawable.app_logo_home_nine_version2),
+                contentDescription = "AppTitleLogo",
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .padding(20.dp)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.logo_app_home_sfondo),
+                contentDescription = "AppLogoImg",
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .size(250.dp)
+            )
+
+            Spacer(modifier = Modifier.weight(0.3f))
 
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight()
                     .padding(top = 20.dp)
             ) {
 
-                val (trainingBtn, playBtn, statsBtn, fbBtn, helpBtn) = createRefs()
+                val (trainingBtn, playBtn, statsBtn) = createRefs()
 
 
 
@@ -71,7 +93,7 @@ fun HomePage(navController: NavController) {
                     Text(text = "Play", color = Color.Black)
                 }
                 Button(
-                    onClick = { },
+                    onClick = { navController.navigate("statsPage") },
                     modifier = Modifier
                         .constrainAs(statsBtn) {
                             top.linkTo(playBtn.bottom)
@@ -80,49 +102,27 @@ fun HomePage(navController: NavController) {
                             bottom.linkTo(parent.bottom)
                         }
                         .padding(8.dp)
-                        .width(120.dp),
+                        .width(150.dp),
                 ) {
                     Text(text = "Stats", color = Color.Black)
                 }
-                Button(onClick = {
 
-                },
-                    shape = RoundedCornerShape(50.dp),
-                    modifier = Modifier
-                        .constrainAs(fbBtn) {
-                            top.linkTo(parent.top)
-                            end.linkTo(parent.end)
-                        }
-                        .padding(10.dp)
-                        .size(80.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.feedback_icon ),
-                        contentDescription = "FeedbackImage",
-                        Modifier
-                            .size(80.dp)
+            }
+            Spacer(modifier = Modifier.weight(0.5f))
+            BottomAppBar(cutoutShape = CircleShape, modifier = Modifier.align(CenterHorizontally)) {
 
-                    )
+                IconButton(onClick = { /* TODO */ }, modifier = Modifier.weight(1f)) {
+                    Icon(Icons.Default.Help, contentDescription = "Help")
                 }
-                Button(onClick = {
-
-                },
-                    shape = RoundedCornerShape(50.dp),
-                    modifier = Modifier
-                        .constrainAs(helpBtn) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                        }
-                        .padding(10.dp)
-                        .size(80.dp)
+                IconButton(
+                    onClick = { navController.navigate("settingsPage") },
+                    modifier = Modifier.weight(1f)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.help_icon),
-                        contentDescription = "HelpImage",
-                        Modifier
-                            .size(80.dp)
+                    Icon(Icons.Default.Settings, contentDescription = "Settings")
+                }
+                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
+                    Icon(Icons.Default.Feedback, contentDescription = "Feedback")
 
-                    )
                 }
             }
         }
