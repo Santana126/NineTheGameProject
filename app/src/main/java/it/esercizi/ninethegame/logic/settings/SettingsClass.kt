@@ -19,6 +19,12 @@ class SettingsClass : Parcelable {
     val autoSave = mutableStateOf(true)
 
     @IgnoredOnParcel
+    val music = mutableStateOf(true)
+
+    @IgnoredOnParcel
+    val autoInsert = mutableStateOf(false)
+
+    @IgnoredOnParcel
     val symbolChoice = mutableStateOf(1)
 
     @IgnoredOnParcel

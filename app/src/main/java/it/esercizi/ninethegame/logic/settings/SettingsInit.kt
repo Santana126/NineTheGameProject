@@ -1,23 +1,22 @@
 package it.esercizi.ninethegame.logic.settings
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowRight
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import it.esercizi.ninethegame.R
 
 class SettingsInit {
 
@@ -26,12 +25,26 @@ class SettingsInit {
 
         //var isMenuExpanded by mutableStateOf(false)
 
-        val settingsOption by mutableStateOf(listOf("Dark Mode", "Auto Save", "Notification"))
+        val settingsOption by mutableStateOf(
+            listOf(
+                "Dark Mode",
+                "Auto Save",
+                "Notification",
+                "Music",
+                "Auto Insert"
+            )
+        )
 
         //val settingsValue = remember { mutableStateListOf(false, true, false) }
 
         val settingsValueArray = remember {
-            mutableStateListOf(settingsClass.darkMode.value,settingsClass.autoSave.value,settingsClass.notification.value)
+            mutableStateListOf(
+                settingsClass.darkMode.value,
+                settingsClass.autoSave.value,
+                settingsClass.notification.value,
+                settingsClass.music.value,
+                settingsClass.autoInsert.value
+            )
         }
 
         var selectedOption by remember { mutableStateOf("") }
@@ -69,7 +82,25 @@ class SettingsInit {
              */
 
             Spacer(modifier = Modifier.height(16.dp))
-
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                    .padding(5.dp)
+                    .height(30.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .background(color = Color.Gray),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = "Settings",
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(3.dp),
+                    fontWeight = FontWeight.Bold
+                )
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -145,6 +176,26 @@ class SettingsInit {
             val symbolChoice = remember {
                 settingsClass.symbolChoice
             }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                    .padding(5.dp)
+                    .height(30.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .background(color = Color.Gray),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = "Symbol Choice",
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(3.dp),
+                    fontWeight = FontWeight.Bold
+                )
+            }
             availableSymbol.forEachIndexed { index, strings ->
                 Row(
                     modifier = Modifier
@@ -163,11 +214,11 @@ class SettingsInit {
                             .padding(3.dp)
                     )
                     RadioButton(
-                        selected = (symbolChoice.value == index+1),
-                        onClick = { symbolChoice.value = index+1})
+                        selected = (symbolChoice.value == index + 1),
+                        onClick = { symbolChoice.value = index + 1 })
                 }
             }
-
+/*
             val backgroundChoice = remember {
                 settingsClass.backgroundChoice
             }
@@ -193,25 +244,25 @@ class SettingsInit {
 
             }
             Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp, top = 3.dp)
-                        .padding(5.dp)
-                        .height(30.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .background(color = Color.LightGray),
-            verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                    .padding(5.dp)
+                    .height(30.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .background(color = Color.LightGray),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-            Image(
-                painter = painterResource(id = R.drawable.gradient_backgrounds_b2),
-                contentDescription = null,
-                modifier = Modifier.size(25.dp)
-            )
-            RadioButton(
-                selected = (backgroundChoice.value == 2),
-                onClick = { backgroundChoice.value = 2 })
+                Image(
+                    painter = painterResource(id = R.drawable.gradient_backgrounds_b2),
+                    contentDescription = null,
+                    modifier = Modifier.size(25.dp)
+                )
+                RadioButton(
+                    selected = (backgroundChoice.value == 2),
+                    onClick = { backgroundChoice.value = 2 })
 
-        }
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -233,13 +284,24 @@ class SettingsInit {
 
             }
 
+ */
+
             Spacer(modifier = Modifier.weight(1f))
+            /*
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
             ) {
                 Button(
-                    onClick = { saveSettings(settingsValueArray, symbolChoice, settingsClass,backgroundChoice, context) },
+                    onClick = {
+                        saveSettings(
+                            settingsValueArray,
+                            symbolChoice,
+                            settingsClass,
+                            //backgroundChoice,
+                            context
+                        )
+                    },
                     modifier = Modifier
 
                         .padding(16.dp)
@@ -254,34 +316,79 @@ class SettingsInit {
                     Text(text = "Exit")
                 }
 
-            }
-        }
+             */
+            BottomAppBar(
+                cutoutShape = CircleShape,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+/*
+                IconButton(onClick = { showRules.value = true }, modifier = Modifier.weight(1f)) {
+                    Icon(Icons.Default.Help, contentDescription = "Help")
+                }
 
+                IconButton(
+                    onClick = { navController.navigate("settingsPage") },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(Icons.Default.Settings, contentDescription = "Settings")
+                }
+
+ */
+                IconButton(onClick = {
+                    saveSettings(
+                        settingsValueArray,
+                        symbolChoice,
+                        settingsClass,
+                        //backgroundChoice,
+                        context, navController
+                    )
+                }, modifier = Modifier.weight(1f)) {
+                    Icon(Icons.Default.Home, contentDescription = "Home")
+
+                }
+                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
+                    Icon(Icons.Default.Feedback, contentDescription = "Feedback")
+
+                }
+            }
+
+        }
     }
+
 
     private fun saveSettings(
         settingsValueArray: SnapshotStateList<Boolean>,
         symbolChoice: MutableState<Int>,
         settingsClass: SettingsClass,
-        backgroundChoice: MutableState<Int>,
-        context: Context
-    ) {
+        //backgroundChoice: MutableState<Int>,
+        context: Context,
+        navController: NavHostController,
 
-        settingsClass.darkMode.value = settingsValueArray[0]
-        settingsClass.autoSave.value = settingsValueArray[1]
-        settingsClass.notification.value = settingsValueArray[2]
+        ) {
 
-        settingsClass.symbolChoice.value = symbolChoice.value
 
-        settingsClass.backgroundChoice.value = backgroundChoice.value
+        //settingsClass.backgroundChoice.value = backgroundChoice.value
 
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context)
-            .setTitle("Settings Saved")
-            .setMessage("New settings are saved successfully")
+            .setTitle("Settings Changes")
+            .setMessage("Confirm Setting changes or return home")
             .setPositiveButton("Ok") { dialog, _ ->
                 // Azioni da eseguire quando si preme il pulsante OK
+                settingsClass.darkMode.value = settingsValueArray[0]
+                settingsClass.autoSave.value = settingsValueArray[1]
+                settingsClass.notification.value = settingsValueArray[2]
+                settingsClass.music.value = settingsValueArray[3]
 
+                settingsClass.symbolChoice.value = symbolChoice.value
+
+                navController.navigate("main")
                 dialog.dismiss() // Chiude l'AlertDialog
+            }
+            .setNegativeButton("Undo Changes") { dialog, _ ->
+
+                navController.navigate("main")
+                dialog.dismiss()
+
             }
             .create()
 
