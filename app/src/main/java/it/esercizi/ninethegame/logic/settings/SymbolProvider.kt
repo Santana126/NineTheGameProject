@@ -1,4 +1,4 @@
-package it.esercizi.ninethegame.logic
+package it.esercizi.ninethegame.logic.settings
 
 class SymbolProvider {
 
@@ -13,5 +13,14 @@ class SymbolProvider {
         val symbolsHeart = listOf("❤️","\uD83E\uDDE1","💛","💚","💙","💜","🖤","🤎","🤍")
 
         val symbolsColoredCircle = listOf("⚪","⚫","🔴","🔵","🟤","🟣","🟢","🟡","🟠")
+
+        fun getAvailableTrailerSymbol(): List<List<String>> {
+                return listOf(
+                        symbolsNumeric.take(3),
+                        symbolsAlpha.take(3),
+                        symbolsEmoji.take(3),
+                        symbolsBall.take(3)
+                )
+        }
 
 }
