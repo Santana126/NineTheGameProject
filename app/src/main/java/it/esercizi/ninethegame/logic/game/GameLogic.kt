@@ -1,4 +1,4 @@
-package it.esercizi.ninethegame.logic
+package it.esercizi.ninethegame.logic.game
 
 import android.util.Log
 import java.util.*

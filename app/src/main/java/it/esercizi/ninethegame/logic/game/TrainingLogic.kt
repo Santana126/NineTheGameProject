@@ -1,19 +1,14 @@
-package it.esercizi.ninethegame.logic
+package it.esercizi.ninethegame.logic.game
 
 import android.util.Log
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 
-class PlayLogic {
-
+class TrainingLogic{
 
     @Composable
-    fun PlayInit(navController: NavHostController){
-
+    fun TrainingInit(navController: NavHostController){
 
         val gameInit = remember {
             mutableStateOf(GameClass())
@@ -54,13 +49,13 @@ class PlayLogic {
         }
 
         if (showResult.value) {
-            ShowResult(result.value,navController)
+            ShowResult(result.value,navController,game.attempt.value)
             saveResult(result.value)
             showResult.value = false
         }
 
-        game.choice.value = 6
         game.loadSymbol()
+        game.choice.value = 1
 
         gameField.GameFieldMaker(game, navController)
         {
@@ -68,7 +63,9 @@ class PlayLogic {
         }
 
 
+
     }
+
 
     private fun codeConfirm(
         game: GameClass,
@@ -76,22 +73,56 @@ class PlayLogic {
         result: MutableState<Boolean>,
         showResult: MutableState<Boolean>
     ) {
-        if(game.attempt.value == 0){
-            gameLogic.distanceVectorCalculator(game)
-            game.attempt.value++
-            if(gameLogic.checkMatchingCode(game)){
-                result.value = true
-                showResult.value = true
-            }
-            Log.d("Distance Vector (game.distanceVector)",game.distanceVector.joinToString() )
-        }else{
-            gameLogic.distanceVectorCalculator(game)
-            result.value = gameLogic.checkMatchingCode(game)
+
+        gameLogic.trainingDistanceVectorCalculator(game)
+        game.attempt.value++
+        if (gameLogic.checkMatchingCode(game)){
+            result.value = true
             showResult.value = true
         }
+        Log.d("Distance Vector (game.distanceVector)",game.distanceVector.joinToString() )
 
     }
 
+
+    @Composable
+    fun ShowResult(result: Boolean, navController: NavHostController,attempt: Int) {
+
+        //Il result sarà sempre True. Sistemare in questo caso. (es. result = false se si esce dalla partita)
+        val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
+            .setTitle("Finished")
+            .setMessage(
+                if (result) {
+                    "You have won in $attempt tries"
+                } else {
+                    "Sorry, try again"
+                }
+            )
+            .setPositiveButton("Ok") { dialog, _ ->
+                // Azioni da eseguire quando si preme il pulsante OK
+
+                //saveResult(result)
+                navController.navigate("main")
+                dialog.dismiss() // Chiude l'AlertDialog
+            }
+            .create()
+
+        alertDialog.show()
+
+    }
+
+
+    private fun saveResult(result: Boolean) {
+        val dummy = !result
+        if(dummy){
+            !dummy
+        }
+        /*
+        TODO:
+            Salvataggio della partita nel DB
+         */
+
+    }
 
     @Composable
     fun ShowAlert(message: String) {
@@ -110,42 +141,4 @@ class PlayLogic {
 
     }
 
-    private fun saveResult(result: Boolean) {
-        val dummy = !result
-        if(dummy){
-            !dummy
-        }
-        /*
-        TODO:
-            Salvataggio della partita nel DB
-         */
-
-    }
-
-
-    @Composable
-    fun ShowResult(result: Boolean, navController: NavHostController) {
-
-
-        val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-            .setTitle("Finished")
-            .setMessage(
-                if (result) {
-                    "You have won"
-                } else {
-                    "Sorry, try again"
-                }
-            )
-            .setPositiveButton("Ok") { dialog, _ ->
-                // Azioni da eseguire quando si preme il pulsante OK
-
-                //saveResult(result)
-                navController.navigate("main")
-                dialog.dismiss() // Chiude l'AlertDialog
-            }
-            .create()
-
-        alertDialog.show()
-
-    }
 }

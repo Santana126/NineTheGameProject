@@ -1,8 +1,9 @@
-package it.esercizi.ninethegame.logic
+package it.esercizi.ninethegame.logic.game
 
 import android.os.Parcelable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import it.esercizi.ninethegame.logic.settings.SymbolProvider
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
@@ -10,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 class GameClass : Parcelable {
 
     @IgnoredOnParcel
-    val choice = mutableStateOf(0)
+    val choice = mutableStateOf(1)
 
     @IgnoredOnParcel
     val squaresSymbol = mutableListOf("","","","","","","","","")
