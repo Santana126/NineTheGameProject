@@ -4,20 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Feedback
-import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,18 +25,25 @@ class GameField {
 
     @Composable
     fun GameFieldMaker(
-
         game: GameClass,
         navController: NavHostController,
-        confirmRequest: () -> Unit
+        confirmRequest: () -> Boolean
     ) {
-
-
         val squareLineRef = mutableStateOf<ConstrainedLayoutReference?>(null)
 
         val showDistace = remember {
             mutableStateOf(false)
         }
+
+        val showAlert = remember {
+            mutableStateOf(false)
+        }
+
+        if (showAlert.value) {
+            ShowAlert()
+            showAlert.value = false
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -51,6 +53,7 @@ class GameField {
                     .fillMaxWidth()
                     //.fillMaxHeight()
                     .padding(10.dp)
+                //.padding(20.dp)
             ) {
 
                 val separatorLine = createRef()
@@ -79,25 +82,36 @@ class GameField {
                 KeyBoardMaker(game,
                     {
                         if (game.attempt.value <= 0) {
-                            game.squaresValues[game.selectedSquareIndex.value] = it
-                            if (it != "") game.selectedSquareIndex.value =
-                                (game.selectedSquareIndex.value + 1) % 9
+                            if (game.selectedSquareIndex.value == -1) {
+                                showAlert.value = true
+                            } else {
+                                game.squaresValues[game.selectedSquareIndex.value] = it
+                                if (it != "") game.selectedSquareIndex.value =
+                                    (game.selectedSquareIndex.value + 1) % 9
+                            }
                         } else {
-                            game.retrySquaresValue[game.selectedRetrySquareIndex.value] = it
-                            if (it != "") game.selectedRetrySquareIndex.value =
-                                (game.selectedRetrySquareIndex.value + 1) % 9
+                            if (game.selectedRetrySquareIndex.value == -1) {
+                                showAlert.value = true
+                            } else {
+                                game.retrySquaresValue[game.selectedRetrySquareIndex.value] = it
+                                if (it != "") game.selectedRetrySquareIndex.value =
+                                    (game.selectedRetrySquareIndex.value + 1) % 9
+                            }
                         }
 
                     },
                     { navController.navigate("main") }
                 ) {
-                    confirmRequest()
-                    game.selectedSquareIndex.value = -1
-                    showDistace.value = true
+                    if(confirmRequest()){
+                        game.selectedSquareIndex.value = -1
+                        showDistace.value = true
+                    }
+
                 }
             }
-/*
-            Spacer(modifier = Modifier.weight(0.3f))
+
+            //Spacer(modifier = Modifier.weight(0.3f))
+            /*
             BottomAppBar(
                 cutoutShape = CircleShape,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -118,8 +132,7 @@ class GameField {
                 }
             }
 
- */
-
+             */
 
         }
     }
@@ -131,7 +144,6 @@ class GameField {
         squareLineRef: MutableState<ConstrainedLayoutReference?>,
         showDistance: Boolean,
         squareClick: (Int) -> Unit
-
     ) {
 
         ConstraintLayout(
@@ -293,7 +305,6 @@ class GameField {
         }
     }
 
-
     @Composable
     fun KeyBoardMaker(
         game: GameClass,
@@ -319,13 +330,15 @@ class GameField {
 
                 val lineRef = createRef()
 
+                val keyboardDivider = createRef()
 
                 Spacer(modifier = Modifier
                     .constrainAs(lineRef) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                         top.linkTo(parent.top)
-                        bottom.linkTo(buttonRefs[1].bottom)
+                        bottom.linkTo(parent.bottom)
+                        //bottom.linkTo(buttonRefs[1].bottom)
                     }
                 )
 
@@ -333,6 +346,7 @@ class GameField {
                     Button(
                         onClick = { keyboardClick(i.toString()) },
                         modifier = Modifier
+                            .padding(top = 10.dp)
                             .constrainAs(buttonRefs[i]) {
                                 when (i) {
                                     0 -> {
@@ -373,19 +387,19 @@ class GameField {
                                     }
                                     6 -> {
                                         top.linkTo(buttonRefs[4].bottom)
-                                        bottom.linkTo(cancelButton.top)
+                                        bottom.linkTo(keyboardDivider.top)//bottom.linkTo(cancelButton.top)
                                         start.linkTo(parent.start)
                                         end.linkTo(buttonRefs[7].start)
                                     }
                                     7 -> {
                                         top.linkTo(buttonRefs[4].bottom)
-                                        bottom.linkTo(cancelButton.top)
+                                        bottom.linkTo(keyboardDivider.top)//bottom.linkTo(cancelButton.top)
                                         start.linkTo(buttonRefs[6].end)
                                         end.linkTo(buttonRefs[8].start)
                                     }
                                     8 -> {
                                         top.linkTo(buttonRefs[4].bottom)
-                                        bottom.linkTo(cancelButton.top)
+                                        bottom.linkTo(keyboardDivider.top)//bottom.linkTo(cancelButton.top)
                                         start.linkTo(buttonRefs[7].end)
                                         end.linkTo(parent.end)
                                     }
@@ -471,14 +485,26 @@ class GameField {
 
                      */
 
+                Spacer(
+                    modifier = Modifier
+                        .constrainAs(keyboardDivider) {
+                            top.linkTo(buttonRefs[7].bottom)
+                            bottom.linkTo(cancelButton.top)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        }
+                        .height(30.dp)
+                )
 
 
                 Button(
                     onClick = { keyboardClick(("")) },
                     modifier = Modifier
+                        //.padding(10.dp)
                         .constrainAs(cancelButton) {
                             bottom.linkTo(parent.bottom)
-                            top.linkTo(buttonRefs[7].bottom)
+                            //top.linkTo(buttonRefs[7].bottom)
+                            top.linkTo(keyboardDivider.bottom)
                             start.linkTo(exitButton.end)
                             end.linkTo(confirmButton.start)
                         }
@@ -490,9 +516,10 @@ class GameField {
                 Button(
                     onClick = { exitRequest() },
                     modifier = Modifier
+                        //.padding(10.dp)
                         .constrainAs(exitButton) {
                             bottom.linkTo(parent.bottom)
-                            top.linkTo(buttonRefs[7].bottom)
+                            top.linkTo(keyboardDivider.bottom)//top.linkTo(buttonRefs[7].bottom)
                             start.linkTo(parent.start)
                             end.linkTo(cancelButton.start)
                         }
@@ -504,19 +531,38 @@ class GameField {
                 Button(
                     onClick = { confirmPressed() },
                     modifier = Modifier
+                        //.padding(10.dp)
                         .constrainAs(confirmButton) {
                             bottom.linkTo(parent.bottom)
-                            top.linkTo(buttonRefs[7].bottom)
+                            top.linkTo(keyboardDivider.bottom)//top.linkTo(buttonRefs[7].bottom)
                             start.linkTo(cancelButton.end)
                             end.linkTo(parent.end)
                         }
                         .size(70.dp)
                         .border(6.dp, color = BtnBorder)
                 ) {
-                    Text(text = "Confirm")
+                    Text(text = "OK")
                 }
             }
         }
+    }
+
+
+    @Composable
+    fun ShowAlert() {
+
+        val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
+            .setTitle("Warning")
+            .setMessage("First select the square")
+            .setPositiveButton("Ok") { dialog, _ ->
+                // Azioni da eseguire quando si preme il pulsante OK
+
+                dialog.dismiss() // Chiude l'AlertDialog
+            }
+            .create()
+
+        alertDialog.show()
+
     }
 
 
