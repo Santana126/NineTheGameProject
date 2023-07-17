@@ -18,7 +18,7 @@ class PlayLogic {
 
 
     @Composable
-    fun PlayInit(navController: NavHostController, appSettings: SettingsClass){
+    fun PlayInit(navController: NavHostController, appSettings: SettingsClass) {
 
 
         val gameInit = remember {
@@ -57,12 +57,13 @@ class PlayLogic {
 
         if (showAlert.value) {
             ShowAlert(message = message.value)
+            showAlert.value = false
         }
 
         val context = LocalContext.current
 
         if (showResult.value) {
-            ShowResult(result.value,navController)
+            ShowResult(result.value, navController)
             saveResult(result.value, context)
             showResult.value = false
         }
@@ -73,7 +74,7 @@ class PlayLogic {
 
         gameField.GameFieldMaker(game, navController)
         {
-            codeConfirm(game,gameLogic,result,showResult)
+            codeConfirm(game, gameLogic, result, showResult, message, showAlert)
         }
 
 
@@ -83,22 +84,37 @@ class PlayLogic {
         game: GameClass,
         gameLogic: GameLogic,
         result: MutableState<Boolean>,
-        showResult: MutableState<Boolean>
-    ) {
-        if(game.attempt.value == 0){
+        showResult: MutableState<Boolean>,
+        message: MutableState<String>,
+        showAlert: MutableState<Boolean>
+    ): Boolean {
+
+        if (gameLogic.checkMissing(game)) {
+            message.value = "You must enter all the symbols"
+            showAlert.value = true
+            return false
+        }
+        if (gameLogic.checkDuplicate(game)) {
+            message.value = "You have to enter all different symbols"
+            showAlert.value = true
+            return false
+        }
+
+
+        if (game.attempt.value == 0) {
             gameLogic.distanceVectorCalculator(game)
             game.attempt.value++
-            if(gameLogic.checkMatchingCode(game)){
+            if (gameLogic.checkMatchingCode(game)) {
                 result.value = true
                 showResult.value = true
             }
-            Log.d("Distance Vector (game.distanceVector)",game.distanceVector.joinToString() )
-        }else{
+            Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
+        } else {
             gameLogic.distanceVectorCalculator(game)
             result.value = gameLogic.checkMatchingCode(game)
             showResult.value = true
         }
-
+        return true
     }
 
 
@@ -125,13 +141,13 @@ class PlayLogic {
         val month = LocalDate.now().monthValue.toString()
         val year = LocalDate.now().year.toString()
 
-        val score = if(result){
+        val score = if (result) {
             10
-        }else{
+        } else {
             2
         }
 
-        val gameResult = GameResult(score,day,month,year)
+        val gameResult = GameResult(score, day, month, year)
 
 
         val db = DbGameResult.getInstance(context)

@@ -112,4 +112,16 @@ class GameLogic {
         }
         return true
     }
+
+    fun checkDuplicate(game: GameClass): Boolean {
+
+        return game.squaresValues.size != game.squaresValues.distinct().size
+
+    }
+
+    fun checkMissing(game: GameClass): Boolean {
+        return game.squaresValues.contains("")
+    }
+
+
 }
