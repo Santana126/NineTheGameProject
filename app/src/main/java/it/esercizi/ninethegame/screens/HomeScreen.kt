@@ -9,6 +9,8 @@ import androidx.compose.material.icons.filled.Feedback
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import it.esercizi.ninethegame.R
+import it.esercizi.ninethegame.logic.rules.RulesClass
 import it.esercizi.ninethegame.logic.settings.SettingsClass
 import it.esercizi.ninethegame.ui.theme.MyAppTheme
 
@@ -25,104 +28,122 @@ import it.esercizi.ninethegame.ui.theme.MyAppTheme
 fun HomePage(navController: NavController, appSettings: SettingsClass) {
 
     MyAppTheme(backgroundChoice = appSettings.backgroundChoice.value) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Spacer(modifier = Modifier.weight(0.2f))
 
-            Image(
-                painter = painterResource(id = R.drawable.app_logo_home_nine_version2),
-                contentDescription = "AppTitleLogo",
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .padding(20.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.logo_app_home_sfondo),
-                contentDescription = "AppLogoImg",
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .size(250.dp)
-            )
+        val showRules = remember {
+            mutableStateOf(false)
+        }
 
-            Spacer(modifier = Modifier.weight(0.3f))
+        if (showRules.value) {
+            val rulesClass = RulesClass()
+            rulesClass.ShowRules { showRules.value = false }
+        } else {
 
-            ConstraintLayout(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
+                    .fillMaxSize()
             ) {
 
-                val (trainingBtn, playBtn, statsBtn) = createRefs()
+                Spacer(modifier = Modifier.weight(0.2f))
 
-
-
-                Button(
-                    onClick = { navController.navigate("trainingPage") },
+                Image(
+                    painter = painterResource(id = R.drawable.app_logo_home_nine_version2),
+                    contentDescription = "AppTitleLogo",
                     modifier = Modifier
-                        .constrainAs(trainingBtn) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(playBtn.top)
-                        }
+                        .align(CenterHorizontally)
+                        .padding(20.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.logo_app_home_sfondo),
+                    contentDescription = "AppLogoImg",
+                    modifier = Modifier
+                        .align(CenterHorizontally)
+                        .size(250.dp)
+                )
+
+                Spacer(modifier = Modifier.weight(0.3f))
+
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(top = 20.dp)
-                        .padding(8.dp)
-                        .width(150.dp),
+                ) {
 
+                    val (trainingBtn, playBtn, statsBtn) = createRefs()
+
+
+
+                    Button(
+                        onClick = { navController.navigate("trainingPage") },
+                        modifier = Modifier
+                            .constrainAs(trainingBtn) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                                bottom.linkTo(playBtn.top)
+                            }
+                            .padding(top = 20.dp)
+                            .padding(8.dp)
+                            .width(150.dp),
+
+                        ) {
+                        Text(
+                            text = "Training",
+                            color = Color.Black
+
+                        )
+                    }
+                    Button(
+                        onClick = { navController.navigate("playPage") },
+                        modifier = Modifier
+                            .constrainAs(playBtn) {
+                                top.linkTo(trainingBtn.bottom)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                                bottom.linkTo(statsBtn.top)
+                            }
+                            .padding(8.dp)
+                            .width(150.dp),
                     ) {
-                    Text(
-                        text = "Training",
-                        color = Color.Black
+                        Text(text = "Play", color = Color.Black)
+                    }
+                    Button(
+                        onClick = { navController.navigate("statsPage") },
+                        modifier = Modifier
+                            .constrainAs(statsBtn) {
+                                top.linkTo(playBtn.bottom)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                                bottom.linkTo(parent.bottom)
+                            }
+                            .padding(8.dp)
+                            .width(150.dp),
+                    ) {
+                        Text(text = "Stats", color = Color.Black)
+                    }
 
-                    )
                 }
-                Button(
-                    onClick = { navController.navigate("playPage") },
-                    modifier = Modifier
-                        .constrainAs(playBtn) {
-                            top.linkTo(trainingBtn.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(statsBtn.top)
-                        }
-                        .padding(8.dp)
-                        .width(150.dp),
+                Spacer(modifier = Modifier.weight(0.5f))
+                BottomAppBar(
+                    cutoutShape = CircleShape,
+                    modifier = Modifier.align(CenterHorizontally)
                 ) {
-                    Text(text = "Play", color = Color.Black)
-                }
-                Button(
-                    onClick = { navController.navigate("statsPage") },
-                    modifier = Modifier
-                        .constrainAs(statsBtn) {
-                            top.linkTo(playBtn.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(parent.bottom)
-                        }
-                        .padding(8.dp)
-                        .width(150.dp),
-                ) {
-                    Text(text = "Stats", color = Color.Black)
-                }
 
-            }
-            Spacer(modifier = Modifier.weight(0.5f))
-            BottomAppBar(cutoutShape = CircleShape, modifier = Modifier.align(CenterHorizontally)) {
+                    IconButton(
+                        onClick = { showRules.value = true },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.Help, contentDescription = "Help")
+                    }
+                    IconButton(
+                        onClick = { navController.navigate("settingsPage") },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                    }
+                    IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
+                        Icon(Icons.Default.Feedback, contentDescription = "Feedback")
 
-                IconButton(onClick = { /* TODO */ }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Help, contentDescription = "Help")
-                }
-                IconButton(
-                    onClick = { navController.navigate("settingsPage") },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(Icons.Default.Settings, contentDescription = "Settings")
-                }
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Feedback, contentDescription = "Feedback")
-
+                    }
                 }
             }
         }
