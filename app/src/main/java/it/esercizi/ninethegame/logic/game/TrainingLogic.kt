@@ -119,11 +119,8 @@ class TrainingLogic {
                 }
             )
             .setPositiveButton("Ok") { dialog, _ ->
-                // Azioni da eseguire quando si preme il pulsante OK
-
-                //saveResult(result)
                 navController.navigate("main")
-                dialog.dismiss() // Chiude l'AlertDialog
+                dialog.dismiss()
             }
             .create()
 
@@ -151,9 +148,7 @@ class TrainingLogic {
             .setTitle("Warning")
             .setMessage(message)
             .setPositiveButton("Ok") { dialog, _ ->
-                // Azioni da eseguire quando si preme il pulsante OK
-
-                dialog.dismiss() // Chiude l'AlertDialog
+                dialog.dismiss()
             }
             .create()
 

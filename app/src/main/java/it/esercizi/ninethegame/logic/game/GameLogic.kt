@@ -2,7 +2,6 @@ package it.esercizi.ninethegame.logic.game
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.min
@@ -152,11 +151,7 @@ class GameLogic {
                 val randNum = (0..8).random()
                 Log.d("random Num",randNum.toString())
                 if(game.distanceVector[randNum] != "0"){
-                    Log.d("game.retrySquaresValue[randNum] before",game.retrySquaresValue[randNum])
                     game.retrySquaresValue[randNum] = (game.secretCode[randNum].toInt()-1).toString()
-                    Log.d("game.secretCode[randNum]",game.secretCode[randNum])
-                    Log.d("game.squaresSymbol[(game.secretCode[randNum].toInt())-1]",game.squaresSymbol[(game.secretCode[randNum].toInt())-1])
-                    Log.d("game.retrySquaresValue[randNum]",game.retrySquaresValue[randNum])
                     finish = false
                 }
             }

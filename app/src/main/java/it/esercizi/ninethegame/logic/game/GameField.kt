@@ -55,19 +55,8 @@ class GameField {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            /*
-            ConstraintLayout(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    //.fillMaxHeight()
-                    .padding(10.dp)
-                //.padding(20.dp)
-            ) {
 
-             */
-            //val hintBtn = createRef()
-
-
+            // Row with Hint Button
             Row(modifier = Modifier.height(30.dp)) {
                 Spacer(modifier = Modifier.weight(0.8f))
                 IconButton(onClick = { askHint() }) {
@@ -129,9 +118,7 @@ class GameField {
                 }
             }
 
-
-            //Spacer(modifier = Modifier.weight(0.3f))
-
+            //Bottom Bar
             BottomAppBar(
                 cutoutShape = CircleShape,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -154,7 +141,6 @@ class GameField {
         }
 
 
-
     }
 
 
@@ -168,7 +154,6 @@ class GameField {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
-                //.fillMaxHeight()
                 .padding(top = 40.dp, start = 10.dp, end = 10.dp)
         ) {
 
@@ -178,9 +163,9 @@ class GameField {
                 squareRefs.add(createRef())
             }
 
+            //Squares
             for (i in 0..8) {
                 Text(
-                    //text = game.squaresValues[i],
                     text = if (game.squaresValues[i] == "") {
                         ""
                     } else {
@@ -240,7 +225,7 @@ class GameField {
 
             if (showDistance) {
 
-
+                //Distance Squares
                 for (i in 0..8) {
                     Text(
                         text = game.distanceVector[i],
@@ -277,6 +262,7 @@ class GameField {
                     )
                 }
 
+                //Retry Squares
                 for (i in 0..8) {
                     Text(
                         text = if (game.retrySquaresValue[i] == "") {
@@ -329,47 +315,23 @@ class GameField {
         exitRequest: () -> Unit,
         confirmPressed: () -> Unit
     ) {
-
-/*
-            ConstraintLayout(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 40.dp, start = 10.dp, end = 10.dp)
-            ) {
-
- */
-
-/*
-                val buttonRefs = remember { mutableListOf<ConstrainedLayoutReference>() }
-                val (confirmButton, cancelButton, exitButton) = createRefs()
-
-                for (i in 1..9) {
-                    buttonRefs.add(createRef())
-                }
-
- */
-
+        //Keyboard Space
         Column(
             modifier = Modifier
                 .fillMaxSize()
-            //.background(Color.Gray)
         ) {
+            // Symbols Keyboard
             Column(
                 modifier = Modifier
                     .weight(0.7f)
-                    //.background(Color.Red)
             ) {
-
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 20.dp, end = 20.dp, top = 3.dp)
                         .weight(0.3f)
-                        //.padding(5.dp)
-                        //.height(30.dp)
                         .align(Alignment.CenterHorizontally),
-                        //.background(color = Color.LightGray),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -392,11 +354,7 @@ class GameField {
                         .fillMaxWidth()
                         .padding(start = 20.dp, end = 20.dp, top = 3.dp)
                         .weight(0.3f)
-
-                        //.padding(5.dp)
-                        //.height(30.dp)
                         .align(Alignment.CenterHorizontally),
-                        //.background(color = Color.LightGray),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -405,7 +363,6 @@ class GameField {
                             Button(
                                 onClick = { keyboardClick(i.toString()) },
                                 modifier = Modifier
-                                    //.size(70.dp)
                                     .weight(0.4f)
                                     .padding(10.dp)
                                     .border(6.dp, color = BtnBorder)
@@ -420,11 +377,7 @@ class GameField {
                         .fillMaxWidth()
                         .padding(start = 20.dp, end = 20.dp, top = 3.dp)
                         .weight(0.3f)
-
-                        //.padding(5.dp)
-                        //.height(30.dp)
                         .align(Alignment.CenterHorizontally),
-                        //.background(color = Color.LightGray),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -433,7 +386,6 @@ class GameField {
                             Button(
                                 onClick = { keyboardClick(i.toString()) },
                                 modifier = Modifier
-                                    //.size(70.dp)
                                     .weight(0.4f)
                                     .padding(10.dp)
                                     .border(6.dp, color = BtnBorder)
@@ -445,99 +397,10 @@ class GameField {
                 }
             }
 
-
-/*
-                game.squaresSymbol.forEachIndexed { i, s ->
-                    Button(
-                        onClick = { keyboardClick(i.toString()) },
-                        modifier = Modifier
-                            .padding(top = 10.dp)
-                            .constrainAs(buttonRefs[i]) {
-                                when (i) {
-                                    0 -> {
-                                        top.linkTo(lineRef.bottom)
-                                        bottom.linkTo(buttonRefs[4].top)
-                                        start.linkTo(parent.start)
-                                        end.linkTo(buttonRefs[1].start)
-                                    }
-                                    1 -> {
-                                        top.linkTo(lineRef.bottom)
-                                        bottom.linkTo(buttonRefs[4].top)
-                                        start.linkTo(buttonRefs[0].end)
-                                        end.linkTo(buttonRefs[2].start)
-                                    }
-                                    2 -> {
-                                        top.linkTo(lineRef.bottom)
-                                        bottom.linkTo(buttonRefs[4].top)
-                                        start.linkTo(buttonRefs[1].end)
-                                        end.linkTo(parent.end)
-                                    }
-                                    3 -> {
-                                        top.linkTo(buttonRefs[1].bottom)
-                                        bottom.linkTo(buttonRefs[7].top)
-                                        start.linkTo(parent.start)
-                                        end.linkTo(buttonRefs[4].start)
-                                    }
-                                    4 -> {
-                                        top.linkTo(buttonRefs[1].bottom)
-                                        bottom.linkTo(buttonRefs[7].top)
-                                        start.linkTo(buttonRefs[3].end)
-                                        end.linkTo(buttonRefs[5].start)
-                                    }
-                                    5 -> {
-                                        top.linkTo(buttonRefs[1].bottom)
-                                        bottom.linkTo(buttonRefs[7].top)
-                                        start.linkTo(buttonRefs[4].end)
-                                        end.linkTo(parent.end)
-                                    }
-                                    6 -> {
-                                        top.linkTo(buttonRefs[4].bottom)
-                                        bottom.linkTo(keyboardDivider.top)//bottom.linkTo(cancelButton.top)
-                                        start.linkTo(parent.start)
-                                        end.linkTo(buttonRefs[7].start)
-                                    }
-                                    7 -> {
-                                        top.linkTo(buttonRefs[4].bottom)
-                                        bottom.linkTo(keyboardDivider.top)//bottom.linkTo(cancelButton.top)
-                                        start.linkTo(buttonRefs[6].end)
-                                        end.linkTo(buttonRefs[8].start)
-                                    }
-                                    8 -> {
-                                        top.linkTo(buttonRefs[4].bottom)
-                                        bottom.linkTo(keyboardDivider.top)//bottom.linkTo(cancelButton.top)
-                                        start.linkTo(buttonRefs[7].end)
-                                        end.linkTo(parent.end)
-                                    }
-                                }
-                            }
-                            .size(70.dp)
-                            .border(6.dp, color = BtnBorder)
-                    ) {
-                        Text(text = s)
-                    }
-                }
-
- */
-
-
-/*
-                Spacer(
-                    modifier = Modifier
-                        .constrainAs(keyboardDivider) {
-                            top.linkTo(buttonRefs[7].bottom)
-                            bottom.linkTo(cancelButton.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .height(30.dp)
-                )
-
- */
-
+            //Action Button
             Column(
                 modifier = Modifier
                     .weight(0.3f)
-                    //.background(Color.Green)
             ) {
 
                 Row(
@@ -577,58 +440,6 @@ class GameField {
                     }
                 }
             }
-
-
-/*
-                Button(
-                    onClick = { keyboardClick(("")) },
-                    modifier = Modifier
-                        //.padding(10.dp)
-                        .constrainAs(cancelButton) {
-                            bottom.linkTo(parent.bottom)
-                            //top.linkTo(buttonRefs[7].bottom)
-                            top.linkTo(keyboardDivider.bottom)
-                            start.linkTo(exitButton.end)
-                            end.linkTo(confirmButton.start)
-                        }
-                        .size(70.dp)
-                        .border(6.dp, color = BtnBorder)
-                ) {
-                    Text(text = "Canc")
-                }
-                Button(
-                    onClick = { exitRequest() },
-                    modifier = Modifier
-                        //.padding(10.dp)
-                        .constrainAs(exitButton) {
-                            bottom.linkTo(parent.bottom)
-                            top.linkTo(keyboardDivider.bottom)//top.linkTo(buttonRefs[7].bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(cancelButton.start)
-                        }
-                        .size(70.dp)
-                        .border(6.dp, color = BtnBorder)
-                ) {
-                    Text(text = "Exit")
-                }
-                Button(
-                    onClick = { confirmPressed() },
-                    modifier = Modifier
-                        //.padding(10.dp)
-                        .constrainAs(confirmButton) {
-                            bottom.linkTo(parent.bottom)
-                            top.linkTo(keyboardDivider.bottom)//top.linkTo(buttonRefs[7].bottom)
-                            start.linkTo(cancelButton.end)
-                            end.linkTo(parent.end)
-                        }
-                        .size(70.dp)
-                        .border(6.dp, color = BtnBorder)
-                ) {
-                    Text(text = "OK")
-                }
-
- */
-
         }
     }
 
@@ -640,9 +451,7 @@ class GameField {
             .setTitle("Warning")
             .setMessage("First select the square")
             .setPositiveButton("Ok") { dialog, _ ->
-                // Azioni da eseguire quando si preme il pulsante OK
-
-                dialog.dismiss() // Chiude l'AlertDialog
+                dialog.dismiss()
             }
             .create()
 

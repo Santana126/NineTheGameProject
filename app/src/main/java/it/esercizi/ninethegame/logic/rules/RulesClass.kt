@@ -59,7 +59,6 @@ class RulesClass {
                         Text(text = "Nella barra in basso è presente la pagina delle impostazioni dove puoi modificare alcuni aspetti del gioco, e la pagina dedicata ai feedback dove puoi comunicare problemi o miglioramenti sull'applicazione\n")
                     }
                 }
-                //Spacer(modifier = Modifier.weight(1f))
                 Row(modifier = Modifier.background(color = Color.DarkGray).weight(0.1f)) {
                     Button(onClick = onClose, modifier = Modifier.padding(5.dp)) {
                         Text("Play the Tutorial")

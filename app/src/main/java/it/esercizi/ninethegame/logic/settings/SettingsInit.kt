@@ -25,8 +25,6 @@ class SettingsInit {
     @Composable
     fun showSettingsPage(navController: NavHostController, settingsClass: SettingsClass) {
 
-        //var isMenuExpanded by mutableStateOf(false)
-
         val settingsOption by mutableStateOf(
             listOf(
                 "Dark Mode",
@@ -36,8 +34,6 @@ class SettingsInit {
                 "Auto Insert"
             )
         )
-
-        //val settingsValue = remember { mutableStateListOf(false, true, false) }
 
         val settingsValueArray = remember {
             mutableStateListOf(
@@ -50,10 +46,6 @@ class SettingsInit {
         }
 
         var selectedOption by remember { mutableStateOf("") }
-        //val expanded = remember { mutableStateOf(false) }
-
-        //val languagesAvailable = listOf("Italiano", "Lingua1", "Lingua2", "Lingua3")
-
 
         val context = LocalContext.current
 
@@ -62,6 +54,7 @@ class SettingsInit {
         }
 
         if (openLanguagePage.value) {
+            //Language select Screen
             LanguageSettings().ShowLanguagePage(settingsClass,
                 { openLanguagePage.value = false },
                 {
@@ -72,33 +65,11 @@ class SettingsInit {
 
         } else {
 
-
+            //Settings Screen
             Column(modifier = Modifier.fillMaxSize()) {
-                /*
-                TopAppBar(
-                    title = { Text(text = "Settings") },
-                    navigationIcon = {
-                        IconButton(onClick = { isMenuExpanded = !isMenuExpanded }) {
-                            Icon(Icons.Filled.Menu, contentDescription = "Menu")
-                        }
-                    }
-                )
-                DropdownMenu(
-                    expanded = isMenuExpanded,
-                    onDismissRequest = { isMenuExpanded = false },
-                    modifier = Modifier.padding(start = 16.dp, top = 8.dp)
-                ) {
-                    DropdownMenuItem(onClick = { /* TODO */ }) {
-                        Text(text = "Option 1")
-                    }
-                    DropdownMenuItem(onClick = { /* TODO */ }) {
-                        Text(text = "Option 2")
-                    }
-                }
-
-                 */
 
                 Spacer(modifier = Modifier.height(16.dp))
+                //System settings
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -140,26 +111,6 @@ class SettingsInit {
                         contentDescription = "Freccia",
                         modifier = Modifier.clickable { openLanguagePage.value = true }
                     )
-
-                    /*DropdownMenu(
-                        expanded = expanded.value,
-                        onDismissRequest = { expanded.value = false }
-
-                        ) {
-                        languagesAvailable.forEach { language ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    selectedOption = language
-                                    expanded.value = false
-                                }
-                            ) {
-                                Text(text = language)
-                            }
-                        }
-                    }
-
-                     */
-
                 }
 
                 settingsOption.forEachIndexed { index, s ->
@@ -196,6 +147,7 @@ class SettingsInit {
                     settingsClass.symbolChoice
                 }
 
+                //Symbol select
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -208,7 +160,7 @@ class SettingsInit {
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = "Symbol Choice",
+                        text = "Select Symbol",
                         modifier = Modifier
                             .weight(1f)
                             .padding(3.dp),
@@ -237,134 +189,26 @@ class SettingsInit {
                             onClick = { symbolChoice.value = index + 1 })
                     }
                 }
-/*
-            val backgroundChoice = remember {
-                settingsClass.backgroundChoice
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
-                    .padding(5.dp)
-                    .height(30.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(color = Color.LightGray),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.gradient_backgrounds_b1),
-                    contentDescription = null,
-                    modifier = Modifier.size(25.dp)
-                )
-                RadioButton(
-                    selected = (backgroundChoice.value == 1),
-                    onClick = { backgroundChoice.value = 1 })
-
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
-                    .padding(5.dp)
-                    .height(30.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(color = Color.LightGray),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.gradient_backgrounds_b2),
-                    contentDescription = null,
-                    modifier = Modifier.size(25.dp)
-                )
-                RadioButton(
-                    selected = (backgroundChoice.value == 2),
-                    onClick = { backgroundChoice.value = 2 })
-
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
-                    .padding(5.dp)
-                    .height(30.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(color = Color.LightGray),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.gradient_backgrounds_b3),
-                    contentDescription = null,
-                    modifier = Modifier.size(25.dp)
-                )
-                RadioButton(
-                    selected = (backgroundChoice.value == 3),
-                    onClick = { backgroundChoice.value = 3 })
-
-            }
-
- */
 
                 Spacer(modifier = Modifier.weight(1f))
-                /*
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Button(
-                        onClick = {
-                            saveSettings(
-                                settingsValueArray,
-                                symbolChoice,
-                                settingsClass,
-                                //backgroundChoice,
-                                context
-                            )
-                        },
-                        modifier = Modifier
-
-                            .padding(16.dp)
-                    ) {
-                        Text(text = "Save")
-                    }
-                    Button(
-                        onClick = { navController.navigate("main") },
-                        modifier = Modifier
-                            .padding(16.dp)
-                    ) {
-                        Text(text = "Exit")
-                    }
-
-                 */
+                //Bottom Bar
                 BottomAppBar(
                     cutoutShape = CircleShape,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
-/*
-                IconButton(onClick = { showRules.value = true }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Help, contentDescription = "Help")
-                }
-
-                IconButton(
-                    onClick = { navController.navigate("settingsPage") },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(Icons.Default.Settings, contentDescription = "Settings")
-                }
-
- */
+                    //Save and Exit
                     IconButton(onClick = {
                         saveSettings(
                             settingsValueArray,
                             symbolChoice,
                             settingsClass,
-                            //backgroundChoice,
                             context, navController
                         )
                     }, modifier = Modifier.weight(1f)) {
                         Icon(Icons.Default.Home, contentDescription = "Home")
 
                     }
+                    //Feedback
                     IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
                         Icon(Icons.Default.Feedback, contentDescription = "Feedback")
 
@@ -380,20 +224,16 @@ class SettingsInit {
         settingsValueArray: SnapshotStateList<Boolean>,
         symbolChoice: MutableState<Int>,
         settingsClass: SettingsClass,
-        //backgroundChoice: MutableState<Int>,
         context: Context,
         navController: NavHostController,
 
         ) {
 
-
-        //settingsClass.backgroundChoice.value = backgroundChoice.value
-
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle("Settings Changes")
             .setMessage("Confirm Setting changes or return home")
             .setPositiveButton("Ok") { dialog, _ ->
-                // Azioni da eseguire quando si preme il pulsante OK
+                //Saving selected value into settings class
                 settingsClass.darkMode.value = settingsValueArray[0]
                 settingsClass.autoSave.value = settingsValueArray[1]
                 settingsClass.notification.value = settingsValueArray[2]
@@ -401,9 +241,11 @@ class SettingsInit {
 
                 settingsClass.symbolChoice.value = symbolChoice.value
 
+                //Go Home Page
                 navController.navigate("main")
-                dialog.dismiss() // Chiude l'AlertDialog
+                dialog.dismiss()
             }
+                //Discard Changes and go Home Page
             .setNegativeButton("Undo Changes") { dialog, _ ->
 
                 navController.navigate("main")
