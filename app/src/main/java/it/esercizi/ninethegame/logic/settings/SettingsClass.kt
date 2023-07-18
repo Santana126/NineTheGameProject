@@ -1,6 +1,7 @@
 package it.esercizi.ninethegame.logic.settings
 
 import android.os.Parcelable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -33,5 +34,11 @@ class SettingsClass : Parcelable {
     }else{
         mutableStateOf(3)
     }
+
+    @IgnoredOnParcel
+    val languageAvailable = mutableStateListOf("Italian","English","French","Spanish")
+
+    @IgnoredOnParcel
+    val language = mutableStateOf("English")
 
 }

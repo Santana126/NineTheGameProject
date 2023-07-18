@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowRight
+import androidx.compose.material.icons.filled.Feedback
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -48,155 +50,74 @@ class SettingsInit {
         }
 
         var selectedOption by remember { mutableStateOf("") }
-        val expanded = remember { mutableStateOf(false) }
+        //val expanded = remember { mutableStateOf(false) }
 
-        val languagesAvailable = listOf("Italiano", "Lingua1", "Lingua2", "Lingua3")
+        //val languagesAvailable = listOf("Italiano", "Lingua1", "Lingua2", "Lingua3")
 
 
         val context = LocalContext.current
 
+        val openLanguagePage = remember {
+            mutableStateOf(false)
+        }
 
-        Column(modifier = Modifier.fillMaxSize()) {
-            /*
-            TopAppBar(
-                title = { Text(text = "Settings") },
-                navigationIcon = {
-                    IconButton(onClick = { isMenuExpanded = !isMenuExpanded }) {
-                        Icon(Icons.Filled.Menu, contentDescription = "Menu")
-                    }
-                }
-            )
-            DropdownMenu(
-                expanded = isMenuExpanded,
-                onDismissRequest = { isMenuExpanded = false },
-                modifier = Modifier.padding(start = 16.dp, top = 8.dp)
-            ) {
-                DropdownMenuItem(onClick = { /* TODO */ }) {
-                    Text(text = "Option 1")
-                }
-                DropdownMenuItem(onClick = { /* TODO */ }) {
-                    Text(text = "Option 2")
-                }
-            }
+        if (openLanguagePage.value) {
+            LanguageSettings().ShowLanguagePage(settingsClass,
+                { openLanguagePage.value = false },
+                {
+                    selectedOption = it
+                    openLanguagePage.value = false
+                },
+                { navController.navigate("main") })
 
-             */
+        } else {
 
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
-                    .padding(5.dp)
-                    .height(30.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(color = Color.Gray),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    text = "Settings",
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(3.dp),
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
-                    .padding(5.dp)
-                    .height(30.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(color = Color.LightGray),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    text = "Language",
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(3.dp)
-                )
-                Icon(
-                    imageVector = Icons.Default.ArrowRight,
-                    contentDescription = "Freccia",
-                    modifier = Modifier.clickable { expanded.value = true }
-                )
 
-                DropdownMenu(
-                    expanded = expanded.value,
-                    onDismissRequest = { expanded.value = false },
-
-                    ) {
-                    languagesAvailable.forEach { language ->
-                        DropdownMenuItem(
-                            onClick = {
-                                selectedOption = language
-                                expanded.value = false
-                            }
-                        ) {
-                            Text(text = language)
+            Column(modifier = Modifier.fillMaxSize()) {
+                /*
+                TopAppBar(
+                    title = { Text(text = "Settings") },
+                    navigationIcon = {
+                        IconButton(onClick = { isMenuExpanded = !isMenuExpanded }) {
+                            Icon(Icons.Filled.Menu, contentDescription = "Menu")
                         }
                     }
-                }
-
-            }
-
-            settingsOption.forEachIndexed { index, s ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp, top = 3.dp)
-                        .padding(5.dp)
-                        .height(30.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .background(color = Color.LightGray),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = s,
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(3.dp)
-                    )
-                    Switch(
-                        checked = settingsValueArray[index],
-                        onCheckedChange = { settingsValueArray[index] = it },
-                        modifier = Modifier.padding(3.dp)
-                    )
-                }
-
-            }
-
-            val symbolProvider = SymbolProvider()
-
-            val availableSymbol = symbolProvider.getAvailableTrailerSymbol()
-
-            val symbolChoice = remember {
-                settingsClass.symbolChoice
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 3.dp)
-                    .padding(5.dp)
-                    .height(30.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(color = Color.Gray),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    text = "Symbol Choice",
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(3.dp),
-                    fontWeight = FontWeight.Bold
                 )
-            }
-            availableSymbol.forEachIndexed { index, strings ->
+                DropdownMenu(
+                    expanded = isMenuExpanded,
+                    onDismissRequest = { isMenuExpanded = false },
+                    modifier = Modifier.padding(start = 16.dp, top = 8.dp)
+                ) {
+                    DropdownMenuItem(onClick = { /* TODO */ }) {
+                        Text(text = "Option 1")
+                    }
+                    DropdownMenuItem(onClick = { /* TODO */ }) {
+                        Text(text = "Option 2")
+                    }
+                }
+
+                 */
+
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                        .padding(5.dp)
+                        .height(30.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .background(color = Color.Gray),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = "Settings",
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(3.dp),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -205,19 +126,117 @@ class SettingsInit {
                         .height(30.dp)
                         .align(Alignment.CenterHorizontally)
                         .background(color = Color.LightGray),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = strings.toString(),
+                        text = "Language",
                         modifier = Modifier
                             .weight(1f)
                             .padding(3.dp)
                     )
-                    RadioButton(
-                        selected = (symbolChoice.value == index + 1),
-                        onClick = { symbolChoice.value = index + 1 })
+                    Icon(
+                        imageVector = Icons.Default.ArrowRight,
+                        contentDescription = "Freccia",
+                        modifier = Modifier.clickable { openLanguagePage.value = true }
+                    )
+
+                    /*DropdownMenu(
+                        expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false }
+
+                        ) {
+                        languagesAvailable.forEach { language ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    selectedOption = language
+                                    expanded.value = false
+                                }
+                            ) {
+                                Text(text = language)
+                            }
+                        }
+                    }
+
+                     */
+
                 }
-            }
+
+                settingsOption.forEachIndexed { index, s ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                            .padding(5.dp)
+                            .height(30.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .background(color = Color.LightGray),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = s,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(3.dp)
+                        )
+                        Switch(
+                            checked = settingsValueArray[index],
+                            onCheckedChange = { settingsValueArray[index] = it },
+                            modifier = Modifier.padding(3.dp)
+                        )
+                    }
+
+                }
+
+                val symbolProvider = SymbolProvider()
+
+                val availableSymbol = symbolProvider.getAvailableTrailerSymbol()
+
+                val symbolChoice = remember {
+                    settingsClass.symbolChoice
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                        .padding(5.dp)
+                        .height(30.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .background(color = Color.Gray),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = "Symbol Choice",
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(3.dp),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                availableSymbol.forEachIndexed { index, strings ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                            .padding(5.dp)
+                            .height(30.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .background(color = Color.LightGray),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = strings.toString(),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(3.dp)
+                        )
+                        RadioButton(
+                            selected = (symbolChoice.value == index + 1),
+                            onClick = { symbolChoice.value = index + 1 })
+                    }
+                }
 /*
             val backgroundChoice = remember {
                 settingsClass.backgroundChoice
@@ -286,41 +305,41 @@ class SettingsInit {
 
  */
 
-            Spacer(modifier = Modifier.weight(1f))
-            /*
-            Row(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                Button(
-                    onClick = {
-                        saveSettings(
-                            settingsValueArray,
-                            symbolChoice,
-                            settingsClass,
-                            //backgroundChoice,
-                            context
-                        )
-                    },
+                Spacer(modifier = Modifier.weight(1f))
+                /*
+                Row(
                     modifier = Modifier
-
-                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally)
                 ) {
-                    Text(text = "Save")
-                }
-                Button(
-                    onClick = { navController.navigate("main") },
-                    modifier = Modifier
-                        .padding(16.dp)
-                ) {
-                    Text(text = "Exit")
-                }
+                    Button(
+                        onClick = {
+                            saveSettings(
+                                settingsValueArray,
+                                symbolChoice,
+                                settingsClass,
+                                //backgroundChoice,
+                                context
+                            )
+                        },
+                        modifier = Modifier
 
-             */
-            BottomAppBar(
-                cutoutShape = CircleShape,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
+                            .padding(16.dp)
+                    ) {
+                        Text(text = "Save")
+                    }
+                    Button(
+                        onClick = { navController.navigate("main") },
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ) {
+                        Text(text = "Exit")
+                    }
+
+                 */
+                BottomAppBar(
+                    cutoutShape = CircleShape,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
 /*
                 IconButton(onClick = { showRules.value = true }, modifier = Modifier.weight(1f)) {
                     Icon(Icons.Default.Help, contentDescription = "Help")
@@ -334,21 +353,22 @@ class SettingsInit {
                 }
 
  */
-                IconButton(onClick = {
-                    saveSettings(
-                        settingsValueArray,
-                        symbolChoice,
-                        settingsClass,
-                        //backgroundChoice,
-                        context, navController
-                    )
-                }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Home, contentDescription = "Home")
+                    IconButton(onClick = {
+                        saveSettings(
+                            settingsValueArray,
+                            symbolChoice,
+                            settingsClass,
+                            //backgroundChoice,
+                            context, navController
+                        )
+                    }, modifier = Modifier.weight(1f)) {
+                        Icon(Icons.Default.Home, contentDescription = "Home")
 
-                }
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Feedback, contentDescription = "Feedback")
+                    }
+                    IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
+                        Icon(Icons.Default.Feedback, contentDescription = "Feedback")
 
+                    }
                 }
             }
 
