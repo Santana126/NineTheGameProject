@@ -4,14 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Feedback
+import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.LightbulbCircle
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -23,7 +26,6 @@ import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import it.esercizi.ninethegame.ui.theme.BtnBorder
-import it.esercizi.ninethegame.ui.theme.BtnColor
 
 class GameField {
 
@@ -35,7 +37,6 @@ class GameField {
         exitRequest: () -> Unit,
         askHint: () -> Unit
     ) {
-        val squareLineRef = mutableStateOf<ConstrainedLayoutReference?>(null)
 
         val showDistace = remember {
             mutableStateOf(false)
@@ -54,6 +55,7 @@ class GameField {
             modifier = Modifier
                 .fillMaxSize()
         ) {
+            /*
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -61,30 +63,23 @@ class GameField {
                     .padding(10.dp)
                 //.padding(20.dp)
             ) {
-                //val hintBtn = createRef()
 
-                Row(modifier = Modifier.height(30.dp)) {
-                    Spacer(modifier = Modifier.weight(0.8f))
-                    IconButton(onClick = { askHint() }) {
-                            Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
-                    }
+             */
+            //val hintBtn = createRef()
 
+
+            Row(modifier = Modifier.height(30.dp)) {
+                Spacer(modifier = Modifier.weight(0.8f))
+                IconButton(onClick = { askHint() }) {
+                    Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
                 }
 
-                val separatorLine = createRef()
+            }
+            // Squares Space
+            Column(modifier = Modifier.weight(0.4f)) {
 
 
-                Spacer(modifier = Modifier
-                    .constrainAs(separatorLine) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                    }
-                )
-
-
-                SquaresMaker(game, squareLineRef, showDistace.value)
+                SquaresMaker(game, showDistace.value)
                 {
                     if (game.attempt.value <= 0) {
                         game.selectedSquareIndex.value = it
@@ -93,6 +88,14 @@ class GameField {
                         game.selectedRetrySquareIndex.value = it
                     }
                 }
+
+            }
+            // Keyboard Space
+            Column(
+                modifier = Modifier
+                    .weight(0.7f)
+
+            ) {
 
                 KeyBoardMaker(
                     game,
@@ -126,8 +129,9 @@ class GameField {
                 }
             }
 
+
             //Spacer(modifier = Modifier.weight(0.3f))
-            /*
+
             BottomAppBar(
                 cutoutShape = CircleShape,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -147,17 +151,16 @@ class GameField {
 
                 }
             }
-
-             */
-
         }
+
+
+
     }
 
 
     @Composable
     fun SquaresMaker(
         game: GameClass,
-        squareLineRef: MutableState<ConstrainedLayoutReference?>,
         showDistance: Boolean,
         squareClick: (Int) -> Unit
     ) {
@@ -174,8 +177,6 @@ class GameField {
             for (i in 1..9) {
                 squareRefs.add(createRef())
             }
-
-            squareLineRef.value = squareRefs[0]
 
             for (i in 0..8) {
                 Text(
@@ -328,15 +329,17 @@ class GameField {
         exitRequest: () -> Unit,
         confirmPressed: () -> Unit
     ) {
-        Column {
 
+/*
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 40.dp, start = 10.dp, end = 10.dp)
             ) {
 
+ */
 
+/*
                 val buttonRefs = remember { mutableListOf<ConstrainedLayoutReference>() }
                 val (confirmButton, cancelButton, exitButton) = createRefs()
 
@@ -344,20 +347,106 @@ class GameField {
                     buttonRefs.add(createRef())
                 }
 
-                val lineRef = createRef()
+ */
 
-                val keyboardDivider = createRef()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+            //.background(Color.Gray)
+        ) {
+            Column(
+                modifier = Modifier
+                    .weight(0.7f)
+                    //.background(Color.Red)
+            ) {
 
-                Spacer(modifier = Modifier
-                    .constrainAs(lineRef) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        //bottom.linkTo(buttonRefs[1].bottom)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                        .weight(0.3f)
+                        //.padding(5.dp)
+                        //.height(30.dp)
+                        .align(Alignment.CenterHorizontally),
+                        //.background(color = Color.LightGray),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    game.squaresSymbol.forEachIndexed { i, s ->
+                        if (i in (0..2)) {
+                            Button(
+                                onClick = { keyboardClick(i.toString()) },
+                                modifier = Modifier
+                                    .weight(0.4f)
+                                    .padding(10.dp)
+                                    .border(6.dp, color = BtnBorder)
+                            ) {
+                                Text(text = s)
+                            }
+                        }
                     }
-                )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                        .weight(0.3f)
 
+                        //.padding(5.dp)
+                        //.height(30.dp)
+                        .align(Alignment.CenterHorizontally),
+                        //.background(color = Color.LightGray),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    game.squaresSymbol.forEachIndexed { i, s ->
+                        if (i in (3..5)) {
+                            Button(
+                                onClick = { keyboardClick(i.toString()) },
+                                modifier = Modifier
+                                    //.size(70.dp)
+                                    .weight(0.4f)
+                                    .padding(10.dp)
+                                    .border(6.dp, color = BtnBorder)
+                            ) {
+                                Text(text = s)
+                            }
+                        }
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, top = 3.dp)
+                        .weight(0.3f)
+
+                        //.padding(5.dp)
+                        //.height(30.dp)
+                        .align(Alignment.CenterHorizontally),
+                        //.background(color = Color.LightGray),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    game.squaresSymbol.forEachIndexed { i, s ->
+                        if (i in (6..8)) {
+                            Button(
+                                onClick = { keyboardClick(i.toString()) },
+                                modifier = Modifier
+                                    //.size(70.dp)
+                                    .weight(0.4f)
+                                    .padding(10.dp)
+                                    .border(6.dp, color = BtnBorder)
+                            ) {
+                                Text(text = s)
+                            }
+                        }
+                    }
+                }
+            }
+
+
+/*
                 game.squaresSymbol.forEachIndexed { i, s ->
                     Button(
                         onClick = { keyboardClick(i.toString()) },
@@ -428,79 +517,10 @@ class GameField {
                     }
                 }
 
+ */
 
-                /*
-                    for (i in 0..8) {
-                        Button(
-                            onClick = { keyboardClick(i + 1) },
-                            modifier = Modifier
-                                .constrainAs(buttonRefs[i]) {
-                                    when (i) {
-                                        0 -> {
-                                            top.linkTo(lineRef.bottom)
-                                            bottom.linkTo(buttonRefs[4].top)
-                                            start.linkTo(parent.start)
-                                            end.linkTo(buttonRefs[1].start)
-                                        }
-                                        1 -> {
-                                            top.linkTo(lineRef.bottom)
-                                            bottom.linkTo(buttonRefs[4].top)
-                                            start.linkTo(buttonRefs[0].end)
-                                            end.linkTo(buttonRefs[2].start)
-                                        }
-                                        2 -> {
-                                            top.linkTo(lineRef.bottom)
-                                            bottom.linkTo(buttonRefs[4].top)
-                                            start.linkTo(buttonRefs[1].end)
-                                            end.linkTo(parent.end)
-                                        }
-                                        3 -> {
-                                            top.linkTo(buttonRefs[1].bottom)
-                                            bottom.linkTo(buttonRefs[7].top)
-                                            start.linkTo(parent.start)
-                                            end.linkTo(buttonRefs[4].start)
-                                        }
-                                        4 -> {
-                                            top.linkTo(buttonRefs[1].bottom)
-                                            bottom.linkTo(buttonRefs[7].top)
-                                            start.linkTo(buttonRefs[3].end)
-                                            end.linkTo(buttonRefs[5].start)
-                                        }
-                                        5 -> {
-                                            top.linkTo(buttonRefs[1].bottom)
-                                            bottom.linkTo(buttonRefs[7].top)
-                                            start.linkTo(buttonRefs[4].end)
-                                            end.linkTo(parent.end)
-                                        }
-                                        6 -> {
-                                            top.linkTo(buttonRefs[4].bottom)
-                                            bottom.linkTo(parent.bottom)
-                                            start.linkTo(parent.start)
-                                            end.linkTo(buttonRefs[7].start)
-                                        }
-                                        7 -> {
-                                            top.linkTo(buttonRefs[4].bottom)
-                                            bottom.linkTo(parent.bottom)
-                                            start.linkTo(buttonRefs[6].end)
-                                            end.linkTo(buttonRefs[8].start)
-                                        }
-                                        8 -> {
-                                            top.linkTo(buttonRefs[4].bottom)
-                                            bottom.linkTo(parent.bottom)
-                                            start.linkTo(buttonRefs[7].end)
-                                            end.linkTo(parent.end)
-                                        }
-                                    }
-                                }
-                                .size(70.dp)
-                                .border(6.dp, color = BtnBorder)
-                        ) {
-                            Text(text = (i + 1).toString())
-                        }
-                    }
 
-                     */
-
+/*
                 Spacer(
                     modifier = Modifier
                         .constrainAs(keyboardDivider) {
@@ -512,7 +532,54 @@ class GameField {
                         .height(30.dp)
                 )
 
+ */
 
+            Column(
+                modifier = Modifier
+                    .weight(0.3f)
+                    //.background(Color.Green)
+            ) {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
+                        .padding(5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Button(
+                        onClick = { exitRequest() },
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .weight(0.3f)
+                            .border(6.dp, color = BtnBorder)
+                    ) {
+                        Text(text = "Exit")
+                    }
+                    Button(
+                        onClick = { keyboardClick(("")) },
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .weight(0.3f)
+                            .border(6.dp, color = BtnBorder)
+                    ) {
+                        Text(text = "Canc")
+                    }
+                    Button(
+                        onClick = { confirmPressed() },
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .weight(0.3f)
+                            .border(6.dp, color = BtnBorder)
+                    ) {
+                        Text(text = "OK")
+                    }
+                }
+            }
+
+
+/*
                 Button(
                     onClick = { keyboardClick(("")) },
                     modifier = Modifier
@@ -559,7 +626,9 @@ class GameField {
                 ) {
                     Text(text = "OK")
                 }
-            }
+
+ */
+
         }
     }
 
