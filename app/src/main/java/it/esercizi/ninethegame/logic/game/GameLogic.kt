@@ -1,11 +1,33 @@
 package it.esercizi.ninethegame.logic.game
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.min
+import kotlin.random.Random
 
 class GameLogic {
+
+    var timer: Timer? = null
+    var gameTime = mutableStateOf(0)
+    fun startTimer() {
+        timer = Timer()
+        timer?.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                gameTime.value += 1
+                println("Tempo trascorso: ${gameTime.value} secondi")
+            }
+        }, 1000, 1000)
+    }
+
+
+    fun stopTimer() {
+        timer?.cancel()
+        timer = null
+        println("Timer interrotto. Tempo trascorso: ${gameTime.value} secondi")
+    }
 
     fun secretCodeGeneratorSecond(gameClass: GameClass){
 
@@ -23,10 +45,10 @@ class GameLogic {
 
     private fun generateRandomNumbers(): List<String> {
         val numbers = mutableListOf<String>()
-        val random = Random()
+        //val random = Random()
 
         while (numbers.size < 9) {
-            val randomNumber = (random.nextInt(9) + 1).toString()
+            val randomNumber = (Random.nextInt(9) + 1).toString()
             if (!numbers.contains(randomNumber)) {
                 numbers.add(randomNumber)
             }
@@ -123,5 +145,22 @@ class GameLogic {
         return game.squaresValues.contains("")
     }
 
+    fun getHint(game: GameClass){
+        if(game.attempt.value >= 1){
+            var finish = true
+            while(finish) {
+                val randNum = (0..8).random()
+                Log.d("random Num",randNum.toString())
+                if(game.distanceVector[randNum] != "0"){
+                    Log.d("game.retrySquaresValue[randNum] before",game.retrySquaresValue[randNum])
+                    game.retrySquaresValue[randNum] = (game.secretCode[randNum].toInt()-1).toString()
+                    Log.d("game.secretCode[randNum]",game.secretCode[randNum])
+                    Log.d("game.squaresSymbol[(game.secretCode[randNum].toInt())-1]",game.squaresSymbol[(game.secretCode[randNum].toInt())-1])
+                    Log.d("game.retrySquaresValue[randNum]",game.retrySquaresValue[randNum])
+                    finish = false
+                }
+            }
+        }
+    }
 
 }

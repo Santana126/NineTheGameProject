@@ -24,11 +24,14 @@ class PlayLogic {
         val gameInit = remember {
             mutableStateOf(GameClass())
         }
+        val gameLogicInit = remember {
+            mutableStateOf(GameLogic())
+        }
 
         val game = gameInit.value
 
 
-        val gameLogic = GameLogic()
+        val gameLogic = gameLogicInit.value
 
         val newGame = remember {
             mutableStateOf(true)
@@ -37,6 +40,7 @@ class PlayLogic {
         if (newGame.value) {
             newGame.value = false
             gameLogic.secretCodeGeneratorSecond(game)
+            gameLogic.startTimer()
         }
 
         val gameField = GameField()
@@ -63,7 +67,7 @@ class PlayLogic {
         val context = LocalContext.current
 
         if (showResult.value) {
-            ShowResult(result.value, navController)
+            ShowResult(result.value, gameLogic.gameTime, navController)
             saveResult(result.value, context)
             showResult.value = false
         }
@@ -72,10 +76,17 @@ class PlayLogic {
         game.loadSymbol()
 
 
-        gameField.GameFieldMaker(game, navController)
-        {
-            codeConfirm(game, gameLogic, result, showResult, message, showAlert)
-        }
+        gameField.GameFieldMaker(game, navController,
+            {
+                codeConfirm(game, gameLogic, result, showResult, message, showAlert)
+            },
+            {
+                gameLogic.stopTimer()
+                navController.navigate("main")
+            },
+            {
+                gameLogic.getHint(game)
+            })
 
 
     }
@@ -99,17 +110,21 @@ class PlayLogic {
             showAlert.value = true
             return false
         }
-
+        Log.d("Stampo timer", gameLogic.gameTime.value.toString())
 
         if (game.attempt.value == 0) {
             gameLogic.distanceVectorCalculator(game)
             game.attempt.value++
             if (gameLogic.checkMatchingCode(game)) {
+                gameLogic.stopTimer()
+                Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
                 result.value = true
                 showResult.value = true
             }
             Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
         } else {
+            gameLogic.stopTimer()
+            Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
             gameLogic.distanceVectorCalculator(game)
             result.value = gameLogic.checkMatchingCode(game)
             showResult.value = true
@@ -159,16 +174,16 @@ class PlayLogic {
 
 
     @Composable
-    fun ShowResult(result: Boolean, navController: NavHostController) {
+    fun ShowResult(result: Boolean, time: MutableState<Int>, navController: NavHostController) {
 
 
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
             .setTitle("Finished")
             .setMessage(
                 if (result) {
-                    "You have won"
+                    "You have won\nTime: ${(time.value % 3600) / 60} minutes and ${time.value % 60} seconds"
                 } else {
-                    "Sorry, try again"
+                    "Sorry, try again\nTime: ${(time.value % 3600) / 60} minutes and ${time.value % 60} seconds"
                 }
             )
             .setPositiveButton("Ok") { dialog, _ ->

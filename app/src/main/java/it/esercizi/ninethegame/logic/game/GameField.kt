@@ -5,6 +5,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.LightbulbCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +23,7 @@ import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import it.esercizi.ninethegame.ui.theme.BtnBorder
+import it.esercizi.ninethegame.ui.theme.BtnColor
 
 class GameField {
 
@@ -27,7 +31,9 @@ class GameField {
     fun GameFieldMaker(
         game: GameClass,
         navController: NavHostController,
-        confirmRequest: () -> Boolean
+        confirmRequest: () -> Boolean,
+        exitRequest: () -> Unit,
+        askHint: () -> Unit
     ) {
         val squareLineRef = mutableStateOf<ConstrainedLayoutReference?>(null)
 
@@ -55,6 +61,15 @@ class GameField {
                     .padding(10.dp)
                 //.padding(20.dp)
             ) {
+                //val hintBtn = createRef()
+
+                Row(modifier = Modifier.height(30.dp)) {
+                    Spacer(modifier = Modifier.weight(0.8f))
+                    IconButton(onClick = { askHint() }) {
+                            Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
+                    }
+
+                }
 
                 val separatorLine = createRef()
 
@@ -79,7 +94,8 @@ class GameField {
                     }
                 }
 
-                KeyBoardMaker(game,
+                KeyBoardMaker(
+                    game,
                     {
                         if (game.attempt.value <= 0) {
                             if (game.selectedSquareIndex.value == -1) {
@@ -100,9 +116,9 @@ class GameField {
                         }
 
                     },
-                    { navController.navigate("main") }
+                    exitRequest
                 ) {
-                    if(confirmRequest()){
+                    if (confirmRequest()) {
                         game.selectedSquareIndex.value = -1
                         showDistace.value = true
                     }
