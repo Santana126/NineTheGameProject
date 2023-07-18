@@ -53,7 +53,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                         .padding(20.dp)
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.logo_app_home_sfondo),
+                    painter = painterResource(id = R.drawable.app_logo_home),
                     contentDescription = "AppLogoImg",
                     modifier = Modifier
                         .align(CenterHorizontally)
