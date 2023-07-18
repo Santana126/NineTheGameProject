@@ -28,6 +28,10 @@ class SettingsClass : Parcelable {
     val symbolChoice = mutableStateOf(1)
 
     @IgnoredOnParcel
-    val backgroundChoice = mutableStateOf(1)
+    val backgroundChoice = if(darkMode.value){
+        mutableStateOf(1)
+    }else{
+        mutableStateOf(3)
+    }
 
 }
