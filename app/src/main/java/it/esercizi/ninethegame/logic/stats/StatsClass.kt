@@ -49,15 +49,23 @@ class StatsClass {
         }
 
 
-        val resultsList = if (orderByData.value && !(filterByMode.value)){
+        val resultsList = if (orderByData.value && !(filterByMode.value)) {
             results.reversed()
-        }else if(orderByData.value && filterByMode.value){
+        } else if (orderByData.value && filterByMode.value) {
             results.reversed().sortedBy { it.gameMode }
-        }else if(!orderByData.value && filterByMode.value){
+        } else if (!orderByData.value && filterByMode.value) {
             results.sortedBy { it.gameMode }
-        }else{
+        } else {
             results
         }
+
+        val showBestTime = remember {
+            mutableStateOf(false)
+        }
+
+
+
+
 
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -67,7 +75,7 @@ class StatsClass {
             //Page Title
             Row(
                 modifier = Modifier
-                    .weight(0.3f)
+                    .weight(0.2f)
                     .align(CenterHorizontally)
             ) {
                 Text(
@@ -77,33 +85,12 @@ class StatsClass {
                 )
             }
 
-            Spacer(modifier = Modifier.weight(0.2f))
-            Row(
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .padding(5.dp)
-                    .weight(0.2f)
-            ) {
-                Button(onClick = { orderByData.value = !orderByData.value }, modifier = Modifier.background(BtnColor)) {
-                    if(!orderByData.value){
-                        Text(text = "Order by newest")
-                    }else{
-                        Text(text = "Order by oldest")
-                    }
-                }
-                Button(onClick = { filterByMode.value = !filterByMode.value}, modifier = Modifier.background(BtnColor)) {
-                    if(!filterByMode.value){
-                        Text(text = "Group by Mode")
-                    }else{
-                        Text(text = "Without filter")
-                    }
-                }
-            }
+            Spacer(modifier = Modifier.weight(0.1f))
 
             //Lazy Column Space
             Column(
                 modifier = Modifier
-                    .weight(0.6f)
+                    .weight(0.8f)
                     .padding(10.dp)
                     .padding(10.dp)
             ) {
@@ -141,43 +128,136 @@ class StatsClass {
                         modifier = Modifier.weight(0.2f)
                     )
                 }
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(5.dp)
-                        .background(Color(85, 158, 207, 255))
-                ) {
-                    itemsIndexed(resultsList) { _, result ->
-                        Row(modifier = Modifier.align(CenterHorizontally)) {
+                if (showBestTime.value) {
+
+                    val bestTimeResult = results.minByOrNull { it.time }
+
+                    if (bestTimeResult != null) {
+                        Row(
+                            modifier = Modifier
+                                .align(CenterHorizontally)
+                                .background(Color(85, 158, 207, 255))
+                                .padding(5.dp)
+                        ) {
 
                             Text(
-                                text = result.score.toString(),
+                                text = bestTimeResult.score.toString(),
                                 modifier = Modifier.weight(0.2f)
                             )
                             Text(
-                                text = (((result.time) % 3600) / 60).toString() + ":" + ((result.time) % 60).toString(),
+                                text = (((bestTimeResult.time) % 3600) / 60).toString() + ":" + ((bestTimeResult.time) % 60).toString(),
                                 modifier = Modifier.weight(0.2f)
                             )
                             Text(
-                                text = result.gameMode,
+                                text = bestTimeResult.gameMode,
                                 modifier = Modifier.weight(0.2f)
                             )
                             Text(
-                                text = result.day + "/" + result.month + "/" + result.year.reversed()
+                                text = bestTimeResult.day + "/" + bestTimeResult.month + "/" + bestTimeResult.year.reversed()
                                     .take(2).reversed(),
                                 modifier = Modifier.weight(0.2f)
                             )
                         }
-                        Spacer(
+                    } else {
+                        Row(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(1.dp)
-                                .border(2.dp, color = BtnBorder)
-                        )
+                                .align(CenterHorizontally)
+                                .background(Color(85, 158, 207, 255))
+                        ) {
+                            Text(text = "No game result")
+                        }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .weight(0.9f)
+                    ) {
+                        itemsIndexed(resultsList) { _, result ->
+                            Row(
+                                modifier = Modifier
+                                    .align(CenterHorizontally)
+                                    .background(Color(85, 158, 207, 255))
+                            ) {
+
+                                Text(
+                                    text = result.score.toString(),
+                                    modifier = Modifier.weight(0.2f)
+                                )
+                                Text(
+                                    text = (((result.time) % 3600) / 60).toString() + ":" + ((result.time) % 60).toString(),
+                                    modifier = Modifier.weight(0.2f)
+                                )
+                                Text(
+                                    text = result.gameMode,
+                                    modifier = Modifier.weight(0.2f)
+                                )
+                                Text(
+                                    text = result.day + "/" + result.month + "/" + result.year.reversed()
+                                        .take(2).reversed(),
+                                    modifier = Modifier.weight(0.2f)
+                                )
+                            }
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(1.dp)
+                                    .border(2.dp, color = BtnBorder)
+                            )
+                        }
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(0.05f))
+            Row(
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .padding(10.dp)
+                    .weight(0.4f)
+            ) {
+                Button(onClick = { showBestTime.value = !showBestTime.value }) {
+                    if (!showBestTime.value) {
+                        Text(text = "Show best time game result")
+                    } else {
+                        Text(text = "Show all game results")
+                    }
+                }
+            }
+
+            // Data filters and sorting
+            Row(
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .padding(top = 10.dp,bottom = 10.dp, start = 25.dp,end = 25.dp)
+                    .weight(0.4f)
+            ) {
+                Button(
+                    onClick = { orderByData.value = !orderByData.value }, modifier = Modifier
+                        .background(BtnColor)
+                        .weight(0.4f)
+                ) {
+                    if (!orderByData.value) {
+                        Text(text = "Order by newest")
+                    } else {
+                        Text(text = "Order by oldest")
+                    }
+                }
+                Spacer(modifier = Modifier.weight(0.3f))
+                Button(
+                    onClick = { filterByMode.value = !filterByMode.value }, modifier = Modifier
+                        .background(BtnColor)
+                        .weight(0.4f)
+                ) {
+                    if (!filterByMode.value) {
+                        Text(text = "Group by Mode: ON")
+                    } else {
+                        Text(text = "Group by Mode: OFF")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.weight(0.05f))
 
             //Button Space
             Row(
