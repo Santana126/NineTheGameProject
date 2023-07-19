@@ -1,6 +1,5 @@
 package it.esercizi.ninethegame.logic.game
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import java.util.*
 import kotlin.math.absoluteValue
@@ -9,14 +8,14 @@ import kotlin.random.Random
 
 class GameLogic {
 
-    var timer: Timer? = null
+    private var timer: Timer? = null
     var gameTime = mutableStateOf(0)
     fun startTimer() {
         timer = Timer()
         timer?.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 gameTime.value += 1
-                println("Tempo trascorso: ${gameTime.value} secondi")
+                //println("Tempo trascorso: ${gameTime.value} secondi")
             }
         }, 1000, 1000)
     }
@@ -25,7 +24,7 @@ class GameLogic {
     fun stopTimer() {
         timer?.cancel()
         timer = null
-        println("Timer interrotto. Tempo trascorso: ${gameTime.value} secondi")
+        //println("Timer interrotto. Tempo trascorso: ${gameTime.value} secondi")
     }
 
     fun secretCodeGeneratorSecond(gameClass: GameClass){
@@ -37,14 +36,13 @@ class GameLogic {
                 gameClass.secretCode[index] = s
             }
 
-            Log.d("Secret code (game.secretcode)", gameClass.secretCode.joinToString())
+            //Log.d("Secret code (game.secretcode)", gameClass.secretCode.joinToString())
         }
 
     }
 
     private fun generateRandomNumbers(): List<String> {
         val numbers = mutableListOf<String>()
-        //val random = Random()
 
         while (numbers.size < 9) {
             val randomNumber = (Random.nextInt(9) + 1).toString()
@@ -61,11 +59,11 @@ class GameLogic {
 
         gameClass.calculatePlayerCode()
         val distanceVectorInit = checkForDistanceCode(gameClass.secretCode.toList(),gameClass.playerCode.toList())
-
+/*
         Log.d("distanceVectorInit",distanceVectorInit.toString())
         Log.d("playerCode (game.playerCode)",gameClass.playerCode.joinToString())
         Log.d("secretCode (game.secretCode)",gameClass.secretCode.joinToString())
-
+ */
 
 
         distanceVectorInit.forEachIndexed { index, s ->
@@ -81,10 +79,11 @@ class GameLogic {
 
         gameClass.calculatePlayerCode()
         val distanceVectorInit = checkForDistanceCode(gameClass.secretCode.toList(),gameClass.playerCode.toList())
-
+/*
         Log.d("distanceVectorInit",distanceVectorInit.toString())
         Log.d("playerCode (game.playerCode)",gameClass.playerCode.joinToString())
         Log.d("secretCode (game.secretCode)",gameClass.secretCode.joinToString())
+ */
 
         if(gameClass.attempt.value > 0){
 
@@ -149,7 +148,7 @@ class GameLogic {
             var finish = true
             while(finish) {
                 val randNum = (0..8).random()
-                Log.d("random Num",randNum.toString())
+                //Log.d("random Num",randNum.toString())
                 if(game.distanceVector[randNum] != "0"){
                     game.retrySquaresValue[randNum] = (game.secretCode[randNum].toInt()-1).toString()
                     finish = false

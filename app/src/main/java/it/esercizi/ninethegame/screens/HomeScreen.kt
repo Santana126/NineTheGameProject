@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
@@ -109,7 +110,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
 
                         ) {
                         Text(
-                            text = "Training",
+                            text = stringResource(R.string.Training),
                             color = Color.Black
 
                         )
@@ -126,7 +127,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                             .padding(8.dp)
                             .width(150.dp),
                     ) {
-                        Text(text = "Play", color = Color.Black)
+                        Text(text = stringResource(R.string.Play), color = Color.Black)
                     }
                     Button(
                         onClick = { navController.navigate("statsPage") },
@@ -140,7 +141,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                             .padding(8.dp)
                             .width(150.dp),
                     ) {
-                        Text(text = "Stats", color = Color.Black)
+                        Text(text = stringResource(R.string.Stats), color = Color.Black)
                     }
 
                 }

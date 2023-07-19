@@ -7,7 +7,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.db.DbGameResult
 import it.esercizi.ninethegame.db.GameResult
 import it.esercizi.ninethegame.db.Repository
@@ -85,7 +87,7 @@ class TrainingLogic {
         gameField.GameFieldMaker(
             game, navController,
             {
-                codeConfirm(game, gameLogic, result, showResult, message, showAlert)
+                codeConfirm(game, gameLogic, result, showResult, message, showAlert,context)
             },
             {
                 navController.navigate("main")
@@ -109,17 +111,18 @@ class TrainingLogic {
         result: MutableState<Boolean>,
         showResult: MutableState<Boolean>,
         message: MutableState<String>,
-        showAlert: MutableState<Boolean>
+        showAlert: MutableState<Boolean>,
+        context: Context
     ): Boolean {
         if (gameLogic.checkMissing(game)) {
-            message.value = "You must enter all the symbols"
+            message.value = context.getString(R.string.EnterAllSymbolsAlert)
             showAlert.value = true
             return false
         }
         if (game.attempt.value > 0) {
 
             if (gameLogic.checkRetryMissing(game)) {
-                message.value = "You must enter all the symbols"
+                message.value = context.getString(R.string.EnterAllSymbolsAlert)
                 showAlert.value = true
                 return false
             }
@@ -132,7 +135,7 @@ class TrainingLogic {
             result.value = true
             showResult.value = true
         }
-        Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
+        //Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
 
         return true
 
@@ -150,9 +153,9 @@ class TrainingLogic {
     ) {
 
 
-        val askForSave = "Do you want to save this game stats?"
+        val askForSave = stringResource(R.string.AskSaveGameStats)
 
-        var message = "You have won in $attempt tries\n\n"
+        var message = stringResource(R.string.YouWon) + " in " + attempt + stringResource(R.string.Attempt) + "\n\n"
 
 
         if (!autoSave) {
@@ -162,27 +165,27 @@ class TrainingLogic {
         val alertDialog =
             if (autoSave) {
                 androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-                    .setTitle("Finished")
+                    .setTitle(stringResource(R.string.Finished))
                     .setMessage(
                         message
                     )
-                    .setPositiveButton("Ok") { dialog, _ ->
+                    .setPositiveButton(stringResource(R.string.OkBtn)) { dialog, _ ->
                         navController.navigate("main")
                         dialog.dismiss()
                     }
                     .create()
             } else {
                 androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-                    .setTitle("Finished")
+                    .setTitle(stringResource(R.string.Finished))
                     .setMessage(
                         message
                     )
-                    .setPositiveButton("Save") { dialog, _ ->
+                    .setPositiveButton(stringResource(R.string.Save)) { dialog, _ ->
                         saveResult(result,context,gameTime)
                         navController.navigate("main")
                         dialog.dismiss()
                     }
-                    .setNegativeButton("Discard game stats") { dialog, _ ->
+                    .setNegativeButton(stringResource(R.string.DiscardGameStats)) { dialog, _ ->
                         navController.navigate("main")
                         dialog.dismiss()
                     }
@@ -223,9 +226,9 @@ class TrainingLogic {
     fun ShowAlert(message: String) {
 
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-            .setTitle("Warning")
+            .setTitle(stringResource(R.string.Warning))
             .setMessage(message)
-            .setPositiveButton("Ok") { dialog, _ ->
+            .setPositiveButton(stringResource(R.string.OkBtn)) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()

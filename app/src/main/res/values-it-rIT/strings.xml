@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NineTheGame</string>
+    <string name="Exit">Esci</string>
+    <string name="EnterBtn">Invio</string>
+    <string name="Warning">Attenzione</string>
+    <string name="SelectSquareOrAutoInsertAlert">Prima seleziona un riquadro oppure attiva la modalità di Inserimento Automatico nelle impostazioni</string>
+    <string name="EnterAllSymbolsAlert">Devi prima inserire tutti i simboli</string>
+    <string name="EnterDifferentSymbolsAlert">Devi inserire tutti simboli differenti</string>
+    <string name="AskSaveGameStats">Vuoi salvare i risultati di questa partita?</string>
+    <string name="YouWon">Hai vinto</string>
+    <string name="Time">Tempo</string>
+    <string name="minutes">minuti</string>
+    <string name="seconds">secondi</string>
+    <string name="TryAgain">Mi dispiace, riprova</string>
+    <string name="Finished">Finito</string>
+    <string name="Save">Salva</string>
+    <string name="DiscardGameStats">Scarta risultati partita</string>
+    <string name="Attempt">tentativi</string>
+    <string name="Rules">Regole</string>
+    <string name="PlayTutorial">Gioca il Tutorial</string>
+    <string name="SelectLanguage">Seleziona la tua lingua</string>
+    <string name="Settings">Impostazioni</string>
+    <string name="Language">Lingua</string>
+    <string name="SelectSymbol">Seleziona Simbolo</string>
+    <string name="SettingsChanges">Impostazioni Cambiate</string>
+    <string name="ConfirmSettingsOrGoHome">Conferma il cambiamento delle impostazioni o torna nella home page senza salvare</string>
+    <string name="UndoChanges">Annulla cambiamenti</string>
+    <string name="GameStats">Statistiche Gioco</string>
+    <string name="Score">Punti</string>
+    <string name="Mode">Modalità</string>
+    <string name="Date">Data</string>
+    <string name="NoGameResult">Nessun risultato di gioco</string>
+    <string name="ShowBestTimeResult">Mostra il tempo migliore</string>
+    <string name="ShowAllResult">Mostra tutti i risultati</string>
+    <string name="OrderNewest">Ordina dal più recente</string>
+    <string name="OrderOldest">Ordina dal meno recente</string>
+    <string name="ModeGroupON">Raggruppa per modalità: ON</string>
+    <string name="ModeGroupOFF">Raggruppa per modalità: OFF</string>
+    <string name="ClearResults">Elimina Risultati</string>
+    <string name="LeaveUsFeedback">Lascia un Feedback</string>
+    <string name="WriteAnEmailWithOpinion">Scrivici un email e facci sapere la tua opinione riguardo l\'app</string>
+    <string name="SendMail">Manda email</string>
+    <string name="Training">Allenamento</string>
+    <string name="Play">Partita</string>
+    <string name="Stats">Statistiche</string>
+</resources>

@@ -1,13 +1,14 @@
 package it.esercizi.ninethegame.logic.game
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.db.DbGameResult
 import it.esercizi.ninethegame.db.GameResult
 import it.esercizi.ninethegame.db.Repository
@@ -89,7 +90,7 @@ class PlayLogic {
         gameField.GameFieldMaker(
             game, navController,
             {
-                codeConfirm(game, gameLogic, result, showResult, message, showAlert)
+                codeConfirm(game, gameLogic, result, showResult, message, showAlert, context)
             },
             {
                 gameLogic.stopTimer()
@@ -113,43 +114,44 @@ class PlayLogic {
         result: MutableState<Boolean>,
         showResult: MutableState<Boolean>,
         message: MutableState<String>,
-        showAlert: MutableState<Boolean>
+        showAlert: MutableState<Boolean>,
+        context: Context
     ): Boolean {
 
         if (gameLogic.checkMissing(game)) {
-            message.value = "You must enter all the symbols"
+            message.value = context.getString(R.string.EnterAllSymbolsAlert)
             showAlert.value = true
             return false
         }
         if (gameLogic.checkDuplicate(game)) {
-            message.value = "You have to enter all different symbols"
+            message.value = context.getString(R.string.EnterDifferentSymbolsAlert)
             showAlert.value = true
             return false
         }
-        Log.d("Stampo timer", gameLogic.gameTime.value.toString())
+        //Log.d("Stampo timer", gameLogic.gameTime.value.toString())
 
         if (game.attempt.value == 0) {
             gameLogic.distanceVectorCalculator(game)
             game.attempt.value++
             if (gameLogic.checkMatchingCode(game)) {
                 gameLogic.stopTimer()
-                Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
+                //Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
                 result.value = true
                 showResult.value = true
             }
-            Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
+            //Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
         } else {
             if (gameLogic.checkRetryMissing(game)) {
-                message.value = "You must enter all the symbols"
+                message.value = context.getString(R.string.EnterAllSymbolsAlert)
                 showAlert.value = true
                 return false
             } else if (gameLogic.checkRetryDuplicate(game)) {
-                message.value = "You have to enter all different symbols"
+                message.value = context.getString(R.string.EnterDifferentSymbolsAlert)
                 showAlert.value = true
                 return false
             } else {
                 gameLogic.stopTimer()
-                Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
+                //Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
                 gameLogic.distanceVectorCalculator(game)
                 result.value = gameLogic.checkMatchingCode(game)
                 showResult.value = true
@@ -163,9 +165,9 @@ class PlayLogic {
     fun ShowAlert(message: String) {
 
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-            .setTitle("Warning")
+            .setTitle(stringResource(R.string.Warning))
             .setMessage(message)
-            .setPositiveButton("Ok") { dialog, _ ->
+            .setPositiveButton(stringResource(R.string.OkBtn)) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
@@ -211,12 +213,14 @@ class PlayLogic {
         context: Context
     ) {
 
-        val askForSave = "Do you want to save this game stats?"
+        val askForSave = stringResource(R.string.AskSaveGameStats)
 
         var message = if (result) {
-            "You have won\nTime: ${(time.value % 3600) / 60} minutes and ${time.value % 60} seconds\n\n"
+            stringResource(R.string.YouWon) + "\n" + stringResource(R.string.Time) + ": " + ((time.value % 3600) / 60) + stringResource(
+                R.string.minutes) + " - " + (time.value % 60) + stringResource(R.string.seconds) + "\n\n"
         } else {
-            "Sorry, try again\nTime: ${(time.value % 3600) / 60} minutes and ${time.value % 60} seconds\n\n"
+            stringResource(R.string.TryAgain) + "\n" + stringResource(R.string.Time) + ":" + ((time.value % 3600) / 60) + stringResource(
+                R.string.minutes) + " - " + (time.value % 60) + stringResource(R.string.seconds) + "\n\n"
         }
 
         if (!autoSave) {
@@ -226,27 +230,27 @@ class PlayLogic {
         val alertDialog =
             if (autoSave) {
                 androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-                    .setTitle("Finished")
+                    .setTitle(stringResource(R.string.Finished))
                     .setMessage(
                         message
                     )
-                    .setPositiveButton("Ok") { dialog, _ ->
+                    .setPositiveButton(stringResource(R.string.OkBtn)) { dialog, _ ->
                         navController.navigate("main")
                         dialog.dismiss()
                     }
                     .create()
             } else {
                 androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-                    .setTitle("Finished")
+                    .setTitle(stringResource(R.string.Finished))
                     .setMessage(
                         message
                     )
-                    .setPositiveButton("Save") { dialog, _ ->
-                        saveResult(result,context,time)
+                    .setPositiveButton(stringResource(R.string.Save)) { dialog, _ ->
+                        saveResult(result, context, time)
                         navController.navigate("main")
                         dialog.dismiss()
                     }
-                    .setNegativeButton("Discard game stats") { dialog, _ ->
+                    .setNegativeButton(stringResource(R.string.DiscardGameStats)) { dialog, _ ->
                         navController.navigate("main")
                         dialog.dismiss()
 

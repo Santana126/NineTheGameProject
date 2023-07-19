@@ -15,7 +15,9 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import it.esercizi.ninethegame.R
 
 class FeedbackClass {
 
@@ -40,7 +42,7 @@ class FeedbackClass {
                 //.padding(10.dp)
             ) {
                 Text(
-                    "Leave us a Feedback",
+                    stringResource(R.string.LeaveUsFeedback),
                     modifier = Modifier
                         .padding(20.dp)
                         .weight(0.3f)
@@ -48,17 +50,17 @@ class FeedbackClass {
                     style = MaterialTheme.typography.h4
                 )
                 Spacer(modifier = Modifier.weight(0.2f))
-                Text(text = "Write an email and let us known your opinion about the app", modifier = Modifier.align(CenterHorizontally).padding(10.dp))
+                Text(text = stringResource(R.string.WriteAnEmailWithOpinion), modifier = Modifier.align(CenterHorizontally).padding(10.dp))
                 Spacer(modifier = Modifier.weight(0.4f))
                 Row(modifier = Modifier
                     .background(color = Color.DarkGray)
                     .weight(0.1f)) {
                     Button(onClick = onClose, modifier = Modifier.padding(5.dp)) {
-                        Text("Exit")
+                        Text(stringResource(R.string.Exit))
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Button(onClick = { sendMail(email,context) }, modifier = Modifier.padding(5.dp)) {
-                        Text("Send email")
+                        Text(stringResource(R.string.SendMail))
                     }
                 }
 

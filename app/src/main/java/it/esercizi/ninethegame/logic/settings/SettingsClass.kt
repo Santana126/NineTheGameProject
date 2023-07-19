@@ -14,9 +14,6 @@ class SettingsClass : Parcelable {
     val notification = mutableStateOf(false)
 
     @IgnoredOnParcel
-    val darkMode = mutableStateOf(false)
-
-    @IgnoredOnParcel
     val autoSave = mutableStateOf(true)
 
     @IgnoredOnParcel

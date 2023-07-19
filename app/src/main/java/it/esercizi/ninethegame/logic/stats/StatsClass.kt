@@ -14,9 +14,11 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.db.DbGameResult
 import it.esercizi.ninethegame.db.GameResult
 import it.esercizi.ninethegame.db.Repository
@@ -79,7 +81,7 @@ class StatsClass {
                     .align(CenterHorizontally)
             ) {
                 Text(
-                    text = "Game Stats",
+                    text = stringResource(R.string.GameStats),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.h5
                 )
@@ -108,22 +110,22 @@ class StatsClass {
                         )
                 ) {
                     Text(
-                        text = "Score",
+                        text = stringResource(R.string.Score),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(0.2f)
                     )
                     Text(
-                        text = "Time",
+                        text = stringResource(R.string.Time),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(0.2f)
                     )
                     Text(
-                        text = "Mode",
+                        text = stringResource(R.string.Mode),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(0.2f)
                     )
                     Text(
-                        text = "Date",
+                        text = stringResource(R.string.Date),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(0.2f)
                     )
@@ -164,7 +166,7 @@ class StatsClass {
                                 .align(CenterHorizontally)
                                 .background(Color(85, 158, 207, 255))
                         ) {
-                            Text(text = "No game result")
+                            Text(text = stringResource(R.string.NoGameResult))
                         }
                     }
                 } else {
@@ -218,9 +220,9 @@ class StatsClass {
             ) {
                 Button(onClick = { showBestTime.value = !showBestTime.value }) {
                     if (!showBestTime.value) {
-                        Text(text = "Show best time game result")
+                        Text(text = stringResource(R.string.ShowBestTimeResult))
                     } else {
-                        Text(text = "Show all game results")
+                        Text(text = stringResource(R.string.ShowAllResult))
                     }
                 }
             }
@@ -229,7 +231,7 @@ class StatsClass {
             Row(
                 modifier = Modifier
                     .align(CenterHorizontally)
-                    .padding(top = 10.dp,bottom = 10.dp, start = 25.dp,end = 25.dp)
+                    .padding(top = 10.dp, bottom = 10.dp, start = 25.dp, end = 25.dp)
                     .weight(0.4f)
             ) {
                 Button(
@@ -238,9 +240,9 @@ class StatsClass {
                         .weight(0.4f)
                 ) {
                     if (!orderByData.value) {
-                        Text(text = "Order by newest")
+                        Text(text = stringResource(R.string.OrderNewest))
                     } else {
-                        Text(text = "Order by oldest")
+                        Text(text = stringResource(R.string.OrderOldest))
                     }
                 }
                 Spacer(modifier = Modifier.weight(0.3f))
@@ -250,9 +252,9 @@ class StatsClass {
                         .weight(0.4f)
                 ) {
                     if (!filterByMode.value) {
-                        Text(text = "Group by Mode: ON")
+                        Text(text = stringResource(R.string.ModeGroupON))
                     } else {
-                        Text(text = "Group by Mode: OFF")
+                        Text(text = stringResource(R.string.ModeGroupOFF))
                     }
                 }
             }
@@ -270,7 +272,7 @@ class StatsClass {
                     modifier = Modifier
                         .padding(20.dp)
                 ) {
-                    Text(text = "Clear Results")
+                    Text(text = stringResource(R.string.ClearResults))
                 }
 
 
@@ -280,7 +282,7 @@ class StatsClass {
                     modifier = Modifier
                         .padding(20.dp)
                 ) {
-                    Text(text = "Exit")
+                    Text(text = stringResource(R.string.Exit))
                 }
             }
         }

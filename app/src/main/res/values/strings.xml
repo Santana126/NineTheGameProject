@@ -1,3 +1,49 @@
 <resources>
     <string name="app_name">NineTheGame</string>
+    <string name="Exit">Exit</string>
+    <string name="CancelBtn" translatable="false">Canc</string>
+    <string name="EnterBtn">Enter</string>
+    <string name="Warning">Warning</string>
+    <string name="SelectSquareOrAutoInsertAlert">First select the square or active AutoInsert in the settings menu</string>
+    <string name="OkBtn" translatable="false">Ok</string>
+    <string name="EnterAllSymbolsAlert">You must enter all the symbols</string>
+    <string name="EnterDifferentSymbolsAlert">You have to enter all different symbols</string>
+    <string name="AskSaveGameStats">Do you want to save this game stats?</string>
+    <string name="YouWon">You have won</string>
+    <string name="Time">Time</string>
+    <string name="minutes">minutes</string>
+    <string name="seconds">seconds</string>
+    <string name="TryAgain">Sorry, try again</string>
+    <string name="Finished">Finished</string>
+    <string name="Save">Save</string>
+    <string name="DiscardGameStats">Discard game stats</string>
+    <string name="Attempt">attempt</string>
+    <string name="Rules">Rules</string>
+    <string name="PlayTutorial">Play the Tutorial</string>
+    <string name="OkDot" translatable="false">OK!</string>
+    <string name="SelectLanguage">Select your language</string>
+    <string name="Settings">Settings</string>
+    <string name="Language">Language</string>
+    <string name="SelectSymbol">Select Symbol</string>
+    <string name="SettingsChanges">Settings Changes</string>
+    <string name="ConfirmSettingsOrGoHome">Confirm Setting changes or return home without saving</string>
+    <string name="UndoChanges">Undo Changes</string>
+    <string name="GameStats">Game Stats</string>
+    <string name="Score">Score</string>
+    <string name="Mode">Mode</string>
+    <string name="Date">Date</string>
+    <string name="NoGameResult">No game result</string>
+    <string name="ShowBestTimeResult">Show best time game result</string>
+    <string name="ShowAllResult">Show all game results</string>
+    <string name="OrderNewest">Order by newest</string>
+    <string name="OrderOldest">Order by oldest</string>
+    <string name="ModeGroupON">Group by Mode: ON</string>
+    <string name="ModeGroupOFF">Group by Mode: OFF</string>
+    <string name="ClearResults">Clear Results</string>
+    <string name="LeaveUsFeedback">Leave us a Feedback</string>
+    <string name="WriteAnEmailWithOpinion">Write an email and let us known your opinion about the app</string>
+    <string name="SendMail">Send email</string>
+    <string name="Training">Training</string>
+    <string name="Play">Play</string>
+    <string name="Stats">Stats</string>
 </resources>

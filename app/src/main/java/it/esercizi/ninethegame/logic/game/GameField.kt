@@ -19,12 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.logic.FeedbackClass
 import it.esercizi.ninethegame.ui.theme.BtnBorder
 
@@ -41,7 +43,7 @@ class GameField {
         autoInsert: Boolean
     ) {
 
-        val showDistace = remember {
+        val showDistance = remember {
             mutableStateOf(false)
         }
 
@@ -82,7 +84,7 @@ class GameField {
                 Column(modifier = Modifier.weight(0.4f)) {
 
 
-                    SquaresMaker(game, showDistace.value)
+                    SquaresMaker(game, showDistance.value)
                     {
                         if (game.attempt.value <= 0) {
                             game.selectedSquareIndex.value = it
@@ -137,7 +139,7 @@ class GameField {
                     ) {
                         if (confirmRequest()) {
                             game.selectedSquareIndex.value = -1
-                            showDistace.value = true
+                            showDistance.value = true
                         }
                     }
                 }
@@ -448,7 +450,7 @@ class GameField {
                             .weight(0.3f)
                             .border(6.dp, color = BtnBorder)
                     ) {
-                        Text(text = "Exit")
+                        Text(text = stringResource(R.string.Exit))
                     }
                     Button(
                         onClick = { keyboardClick(("")) },
@@ -457,7 +459,7 @@ class GameField {
                             .weight(0.3f)
                             .border(6.dp, color = BtnBorder)
                     ) {
-                        Text(text = "Canc")
+                        Text(text = stringResource(R.string.CancelBtn))
                     }
                     Button(
                         onClick = { confirmPressed() },
@@ -466,7 +468,7 @@ class GameField {
                             .weight(0.3f)
                             .border(6.dp, color = BtnBorder)
                     ) {
-                        Text(text = "OK")
+                        Text(text = stringResource(R.string.EnterBtn))
                     }
                 }
             }
@@ -478,9 +480,9 @@ class GameField {
     fun ShowAlert() {
 
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-            .setTitle("Warning")
-            .setMessage("First select the square or active AutoInsert in the settings menu")
-            .setPositiveButton("Ok") { dialog, _ ->
+            .setTitle(stringResource(R.string.Warning))
+            .setMessage(stringResource(R.string.SelectSquareOrAutoInsertAlert))
+            .setPositiveButton(stringResource(R.string.OkBtn)) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()

@@ -17,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import it.esercizi.ninethegame.R
 
 class SettingsInit {
 
@@ -106,7 +108,7 @@ class SettingsInit {
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = "Settings",
+                        text = stringResource(R.string.Settings),
                         modifier = Modifier
                             .weight(1f)
                             .padding(3.dp),
@@ -125,7 +127,7 @@ class SettingsInit {
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = "Language",
+                        text = stringResource(R.string.Language),
                         modifier = Modifier
                             .weight(1f)
                             .padding(3.dp)
@@ -178,7 +180,7 @@ class SettingsInit {
                     horizontalArrangement = Arrangement.End
                 ) {
                     Text(
-                        text = "Select Symbol",
+                        text = stringResource(R.string.SelectSymbol),
                         modifier = Modifier
                             .weight(1f)
                             .padding(3.dp),
@@ -250,9 +252,9 @@ class SettingsInit {
         ) {
 
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context)
-            .setTitle("Settings Changes")
-            .setMessage("Confirm Setting changes or return home without saving")
-            .setPositiveButton("Ok") { dialog, _ ->
+            .setTitle(context.getString(R.string.SettingsChanges))
+            .setMessage(context.getString(R.string.ConfirmSettingsOrGoHome))
+            .setPositiveButton(context.getString(R.string.OkBtn)) { dialog, _ ->
                 //Saving selected value into settings class
                 settingsClass.backgroundGradient.value = settingsValueArray[0]
                 settingsClass.autoSave.value = settingsValueArray[1]
@@ -268,7 +270,7 @@ class SettingsInit {
                 dialog.dismiss()
             }
                 //Discard Changes and go Home Page
-            .setNegativeButton("Undo Changes") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.UndoChanges)) { dialog, _ ->
 
                 navController.navigate("main")
                 dialog.dismiss()

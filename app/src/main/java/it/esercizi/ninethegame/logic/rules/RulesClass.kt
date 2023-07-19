@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import it.esercizi.ninethegame.R
 
 class RulesClass {
 
@@ -34,7 +36,7 @@ class RulesClass {
                     //.padding(10.dp)
             ) {
                 Text(
-                    "Rules",
+                    stringResource(R.string.Rules),
                     modifier = Modifier.padding(top = 10.dp).weight(0.1f),
                     style = MaterialTheme.typography.h4
                 )
@@ -61,11 +63,11 @@ class RulesClass {
                 }
                 Row(modifier = Modifier.background(color = Color.DarkGray).weight(0.1f)) {
                     Button(onClick = onClose, modifier = Modifier.padding(5.dp)) {
-                        Text("Play the Tutorial")
+                        Text(stringResource(R.string.PlayTutorial))
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Button(onClick = onClose, modifier = Modifier.padding(5.dp)) {
-                        Text("OK!")
+                        Text(stringResource(R.string.OkDot))
                     }
                 }
 
