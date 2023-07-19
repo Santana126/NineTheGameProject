@@ -2,7 +2,10 @@ package it.esercizi.ninethegame.logic.game
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import it.esercizi.ninethegame.db.DbGameResult
@@ -62,15 +65,25 @@ class TrainingLogic {
         val context = LocalContext.current
 
         if (showResult.value) {
-            ShowResult(result.value, navController, game.attempt.value)
-            saveResult(result.value, context, gameLogic.gameTime)
+            ShowResult(
+                result.value,
+                navController,
+                game.attempt.value,
+                appSettings.autoSave.value,
+                gameLogic.gameTime,
+                context
+            )
+            if (appSettings.autoSave.value) {
+                saveResult(result.value, context, gameLogic.gameTime)
+            }
             showResult.value = false
         }
 
         game.choice.value = appSettings.symbolChoice.value
         game.loadSymbol()
 
-        gameField.GameFieldMaker(game, navController,
+        gameField.GameFieldMaker(
+            game, navController,
             {
                 codeConfirm(game, gameLogic, result, showResult, message, showAlert)
             },
@@ -79,7 +92,11 @@ class TrainingLogic {
             },
             {
                 gameLogic.getHint(game)
-            }
+            },
+            {
+                gameLogic.stopTimer()
+            },
+            appSettings.autoInsert.value
         )
 
 
@@ -123,26 +140,56 @@ class TrainingLogic {
 
 
     @Composable
-    fun ShowResult(result: Boolean, navController: NavHostController, attempt: Int) {
+    fun ShowResult(
+        result: Boolean,
+        navController: NavHostController,
+        attempt: Int,
+        autoSave: Boolean,
+        gameTime: MutableState<Int>,
+        context: Context
+    ) {
 
-        //Il result sarà sempre True. Sistemare in questo caso. (es. result = false se si esce dalla partita)
-        val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-            .setTitle("Finished")
-            .setMessage(
-                if (result) {
-                    "You have won in $attempt tries"
-                } else {
-                    "Sorry, try again"
-                }
-            )
-            .setPositiveButton("Ok") { dialog, _ ->
-                navController.navigate("main")
-                dialog.dismiss()
+
+        val askForSave = "Do you want to save this game stats?"
+
+        var message = "You have won in $attempt tries\n\n"
+
+
+        if (!autoSave) {
+            message += askForSave
+        }
+
+        val alertDialog =
+            if (autoSave) {
+                androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
+                    .setTitle("Finished")
+                    .setMessage(
+                        message
+                    )
+                    .setPositiveButton("Ok") { dialog, _ ->
+                        navController.navigate("main")
+                        dialog.dismiss()
+                    }
+                    .create()
+            } else {
+                androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
+                    .setTitle("Finished")
+                    .setMessage(
+                        message
+                    )
+                    .setPositiveButton("Save") { dialog, _ ->
+                        saveResult(result,context,gameTime)
+                        navController.navigate("main")
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Discard game stats") { dialog, _ ->
+                        navController.navigate("main")
+                        dialog.dismiss()
+                    }
+                    .create()
             }
-            .create()
 
         alertDialog.show()
-
     }
 
 

@@ -67,8 +67,18 @@ class PlayLogic {
         val context = LocalContext.current
 
         if (showResult.value) {
-            ShowResult(result.value, gameLogic.gameTime, navController)
-            saveResult(result.value, context, gameLogic.gameTime)
+
+            ShowResult(
+                result.value,
+                gameLogic.gameTime,
+                appSettings.autoSave.value,
+                navController,
+                context
+            )
+            if (appSettings.autoSave.value) {
+                saveResult(result.value, context, gameLogic.gameTime)
+            }
+
             showResult.value = false
         }
 
@@ -76,7 +86,8 @@ class PlayLogic {
         game.loadSymbol()
 
 
-        gameField.GameFieldMaker(game, navController,
+        gameField.GameFieldMaker(
+            game, navController,
             {
                 codeConfirm(game, gameLogic, result, showResult, message, showAlert)
             },
@@ -86,7 +97,12 @@ class PlayLogic {
             },
             {
                 gameLogic.getHint(game)
-            })
+            },
+            {
+                gameLogic.stopTimer()
+            },
+            appSettings.autoInsert.value
+        )
 
 
     }
@@ -164,6 +180,7 @@ class PlayLogic {
         gameTime: MutableState<Int>
     ) {
 
+
         val day = LocalDate.now().dayOfMonth.toString()
         val month = LocalDate.now().monthValue.toString()
         val year = LocalDate.now().year.toString()
@@ -186,25 +203,57 @@ class PlayLogic {
 
 
     @Composable
-    fun ShowResult(result: Boolean, time: MutableState<Int>, navController: NavHostController) {
+    fun ShowResult(
+        result: Boolean,
+        time: MutableState<Int>,
+        autoSave: Boolean,
+        navController: NavHostController,
+        context: Context
+    ) {
 
+        val askForSave = "Do you want to save this game stats?"
 
-        val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
-            .setTitle("Finished")
-            .setMessage(
-                if (result) {
-                    "You have won\nTime: ${(time.value % 3600) / 60} minutes and ${time.value % 60} seconds"
-                } else {
-                    "Sorry, try again\nTime: ${(time.value % 3600) / 60} minutes and ${time.value % 60} seconds"
-                }
-            )
-            .setPositiveButton("Ok") { dialog, _ ->
-                navController.navigate("main")
-                dialog.dismiss()
+        var message = if (result) {
+            "You have won\nTime: ${(time.value % 3600) / 60} minutes and ${time.value % 60} seconds\n\n"
+        } else {
+            "Sorry, try again\nTime: ${(time.value % 3600) / 60} minutes and ${time.value % 60} seconds\n\n"
+        }
+
+        if (!autoSave) {
+            message += askForSave
+        }
+
+        val alertDialog =
+            if (autoSave) {
+                androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
+                    .setTitle("Finished")
+                    .setMessage(
+                        message
+                    )
+                    .setPositiveButton("Ok") { dialog, _ ->
+                        navController.navigate("main")
+                        dialog.dismiss()
+                    }
+                    .create()
+            } else {
+                androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
+                    .setTitle("Finished")
+                    .setMessage(
+                        message
+                    )
+                    .setPositiveButton("Save") { dialog, _ ->
+                        saveResult(result,context,time)
+                        navController.navigate("main")
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Discard game stats") { dialog, _ ->
+                        navController.navigate("main")
+                        dialog.dismiss()
+
+                    }
+                    .create()
             }
-            .create()
 
         alertDialog.show()
-
     }
 }
