@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -43,29 +44,37 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                     .fillMaxSize()
             ) {
 
-                Spacer(modifier = Modifier.weight(0.2f))
+                Spacer(modifier = Modifier.weight(0.1f))
 
-                Image(
-                    painter = painterResource(id = R.drawable.app_logo_home_nine_version2),
-                    contentDescription = "AppTitleLogo",
-                    modifier = Modifier
-                        .align(CenterHorizontally)
-                        .padding(20.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.app_logo_home),
-                    contentDescription = "AppLogoImg",
-                    modifier = Modifier
-                        .align(CenterHorizontally)
-                        .size(250.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(0.3f))
+                Row(modifier = Modifier
+                    .weight(0.2f)
+                    .align(CenterHorizontally)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.app_logo_home_nine_version2),
+                        contentDescription = "AppTitleLogo",
+                        modifier = Modifier
+                            .align(CenterVertically)
+                            .padding(20.dp)
+                    )
+                }
+                Row(modifier = Modifier
+                    .weight(0.3f)
+                    .align(CenterHorizontally)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.app_logo_home),
+                        contentDescription = "AppLogoImg",
+                        modifier = Modifier
+                            .align(CenterVertically)
+                            .size(250.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.weight(0.1f))
 
                 ConstraintLayout(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 20.dp)
+                        // .padding(top = 20.dp)
+                        .weight(0.5f)
                 ) {
 
                     val (trainingBtn, playBtn, statsBtn) = createRefs()
@@ -81,7 +90,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                                 end.linkTo(parent.end)
                                 bottom.linkTo(playBtn.top)
                             }
-                            .padding(top = 20.dp)
+                            //.padding(top = 20.dp)
                             .padding(8.dp)
                             .width(150.dp),
 
@@ -122,7 +131,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                     }
 
                 }
-                Spacer(modifier = Modifier.weight(0.5f))
+                Spacer(modifier = Modifier.weight(0.2f))
                 BottomAppBar(
                     cutoutShape = CircleShape,
                     modifier = Modifier.align(CenterHorizontally)
