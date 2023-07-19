@@ -1,6 +1,7 @@
 package it.esercizi.ninethegame.logic.settings
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,7 +24,11 @@ import androidx.navigation.NavHostController
 class SettingsInit {
 
     @Composable
-    fun showSettingsPage(navController: NavHostController, settingsClass: SettingsClass) {
+    fun showSettingsPage(
+        navController: NavHostController,
+        settingsClass: SettingsClass,
+        sharedPreferences: SharedPreferences
+    ) {
 
         val settingsOption by mutableStateOf(
             listOf(
@@ -45,7 +50,9 @@ class SettingsInit {
             )
         }
 
-        var selectedOption by remember { mutableStateOf("") }
+
+
+        var selectedLanguage by remember { mutableStateOf("") }
 
         val context = LocalContext.current
 
@@ -53,12 +60,32 @@ class SettingsInit {
             mutableStateOf(false)
         }
 
+        val symbolProvider = SymbolProvider()
+
+        val availableSymbol = symbolProvider.getAvailableTrailerSymbol()
+
+        val symbolChoice = remember {
+            settingsClass.symbolChoice
+        }
+
+        sharedPreferences.edit().putBoolean("darkMode", settingsValueArray[0]).apply()
+        sharedPreferences.edit().putBoolean("autoSave", settingsValueArray[0]).apply()
+        sharedPreferences.edit().putBoolean("notification", settingsValueArray[2]).apply()
+        sharedPreferences.edit().putBoolean("music", settingsValueArray[3]).apply()
+        sharedPreferences.edit().putBoolean("autoInsert", settingsValueArray[4]).apply()
+
+        sharedPreferences.edit().putInt("symbolChoice", symbolChoice.value).apply()
+
+        sharedPreferences.edit().putString("language", selectedLanguage).apply()
+
+
+
         if (openLanguagePage.value) {
             //Language select Screen
             LanguageSettings().ShowLanguagePage(settingsClass,
                 { openLanguagePage.value = false },
                 {
-                    selectedOption = it
+                    selectedLanguage = settingsClass.languageAvailable[it]
                     openLanguagePage.value = false
                 },
                 { navController.navigate("main") })
@@ -139,13 +166,7 @@ class SettingsInit {
 
                 }
 
-                val symbolProvider = SymbolProvider()
 
-                val availableSymbol = symbolProvider.getAvailableTrailerSymbol()
-
-                val symbolChoice = remember {
-                    settingsClass.symbolChoice
-                }
 
                 //Symbol select
                 Row(
@@ -231,7 +252,7 @@ class SettingsInit {
 
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle("Settings Changes")
-            .setMessage("Confirm Setting changes or return home")
+            .setMessage("Confirm Setting changes or return home without saving")
             .setPositiveButton("Ok") { dialog, _ ->
                 //Saving selected value into settings class
                 settingsClass.darkMode.value = settingsValueArray[0]
