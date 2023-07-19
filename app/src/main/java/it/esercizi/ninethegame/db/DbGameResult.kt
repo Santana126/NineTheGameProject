@@ -18,9 +18,9 @@ abstract class DbGameResult: RoomDatabase() {
                 db = databaseBuilder(
                     context,
                     DbGameResult::class.java,
-                    "newDbProva.db"
+                    "gameResultsDb.db"
                 )
-                    .createFromAsset("newDbProva.db")
+                    .createFromAsset("gameResultsDb.db")
                     .build()
             }
             return db as DbGameResult
