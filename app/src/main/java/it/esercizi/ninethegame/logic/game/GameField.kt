@@ -35,7 +35,9 @@ class GameField {
         navController: NavHostController,
         confirmRequest: () -> Boolean,
         exitRequest: () -> Unit,
-        askHint: () -> Unit
+        askHint: () -> Unit,
+        gameExit: () -> Unit,
+        autoInsert: Boolean
     ) {
 
         val showDistace = remember {
@@ -89,7 +91,13 @@ class GameField {
                 KeyBoardMaker(
                     game,
                     {
+
                         if (game.attempt.value <= 0) {
+                            if(autoInsert){
+                                if (game.selectedSquareIndex.value == -1){
+                                    game.selectedSquareIndex.value = 0
+                                }
+                            }
                             if (game.selectedSquareIndex.value == -1) {
                                 showAlert.value = true
                             } else {
@@ -98,6 +106,11 @@ class GameField {
                                     (game.selectedSquareIndex.value + 1) % 9
                             }
                         } else {
+                            if(autoInsert){
+                                if (game.selectedRetrySquareIndex.value == -1){
+                                    game.selectedRetrySquareIndex.value = 0
+                                }
+                            }
                             if (game.selectedRetrySquareIndex.value == -1) {
                                 showAlert.value = true
                             } else {
@@ -128,7 +141,9 @@ class GameField {
                     Icon(Icons.Default.Help, contentDescription = "Help")
                 }
                 IconButton(
-                    onClick = { navController.navigate("settingsPage") },
+                    onClick = { gameExit()
+                        navController.navigate("settingsPage")
+                              },
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(Icons.Default.Settings, contentDescription = "Settings")
@@ -449,7 +464,7 @@ class GameField {
 
         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
             .setTitle("Warning")
-            .setMessage("First select the square")
+            .setMessage("First select the square or active AutoInsert in the settings menu")
             .setPositiveButton("Ok") { dialog, _ ->
                 dialog.dismiss()
             }
