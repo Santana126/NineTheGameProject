@@ -75,10 +75,10 @@ class GameClass : Parcelable {
             4 -> symbolProvider.symbolsBall.forEachIndexed { index, i ->
                 squaresSymbol[index] = i
             }
-            5 -> symbolProvider.symbolsHeart.forEachIndexed { index, i ->
+            5 -> symbolProvider.symbolsVehicle.forEachIndexed { index, i ->
                 squaresSymbol[index] = i
             }
-            6 -> symbolProvider.symbolsColoredCircle.forEachIndexed { index, i ->
+            6 -> symbolProvider.symbolsFruit.forEachIndexed { index, i ->
                 squaresSymbol[index] = i
             }
         }
