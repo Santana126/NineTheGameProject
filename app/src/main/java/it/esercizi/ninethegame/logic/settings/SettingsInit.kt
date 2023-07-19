@@ -35,7 +35,6 @@ class SettingsInit {
                 "Gradient Background",
                 "Auto Save",
                 "Notification",
-                "Music",
                 "Auto Insert"
             )
         )
@@ -45,7 +44,6 @@ class SettingsInit {
                 settingsClass.backgroundGradient.value,
                 settingsClass.autoSave.value,
                 settingsClass.notification.value,
-                settingsClass.music.value,
                 settingsClass.autoInsert.value
             )
         }
@@ -71,8 +69,7 @@ class SettingsInit {
         sharedPreferences.edit().putBoolean("backgroundGradient", settingsValueArray[0]).apply()
         sharedPreferences.edit().putBoolean("autoSave", settingsValueArray[1]).apply()
         sharedPreferences.edit().putBoolean("notification", settingsValueArray[2]).apply()
-        sharedPreferences.edit().putBoolean("music", settingsValueArray[3]).apply()
-        sharedPreferences.edit().putBoolean("autoInsert", settingsValueArray[4]).apply()
+        sharedPreferences.edit().putBoolean("autoInsert", settingsValueArray[3]).apply()
 
         sharedPreferences.edit().putInt("symbolChoice", symbolChoice.value).apply()
 
@@ -260,8 +257,7 @@ class SettingsInit {
                 settingsClass.backgroundGradient.value = settingsValueArray[0]
                 settingsClass.autoSave.value = settingsValueArray[1]
                 settingsClass.notification.value = settingsValueArray[2]
-                settingsClass.music.value = settingsValueArray[3]
-                settingsClass.autoInsert.value = settingsValueArray[4]
+                settingsClass.autoInsert.value = settingsValueArray[3]
 
                 settingsClass.symbolChoice.value = symbolChoice.value
 

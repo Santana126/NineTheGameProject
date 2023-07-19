@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             appSettings.notification.value = sharedPreferences.getBoolean("notification", false)
             appSettings.backgroundGradient.value = sharedPreferences.getBoolean("backgroundGradient",true)
             appSettings.autoSave.value = sharedPreferences.getBoolean("autoSave",true)
-            appSettings.music.value = sharedPreferences.getBoolean("music",true)
             appSettings.autoInsert.value = sharedPreferences.getBoolean("autoInsert",false)
             appSettings.symbolChoice.value = sharedPreferences.getInt("symbolChoice",1)
             appSettings.language.value = sharedPreferences.getString("language","English").toString()
