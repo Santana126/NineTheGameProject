@@ -68,7 +68,7 @@ class PlayLogic {
 
         if (showResult.value) {
             ShowResult(result.value, gameLogic.gameTime, navController)
-            saveResult(result.value, context)
+            saveResult(result.value, context, gameLogic.gameTime)
             showResult.value = false
         }
 
@@ -123,11 +123,21 @@ class PlayLogic {
             }
             Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
         } else {
-            gameLogic.stopTimer()
-            Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
-            gameLogic.distanceVectorCalculator(game)
-            result.value = gameLogic.checkMatchingCode(game)
-            showResult.value = true
+            if (gameLogic.checkRetryMissing(game)) {
+                message.value = "You must enter all the symbols"
+                showAlert.value = true
+                return false
+            } else if (gameLogic.checkRetryDuplicate(game)) {
+                message.value = "You have to enter all different symbols"
+                showAlert.value = true
+                return false
+            } else {
+                gameLogic.stopTimer()
+                Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
+                gameLogic.distanceVectorCalculator(game)
+                result.value = gameLogic.checkMatchingCode(game)
+                showResult.value = true
+            }
         }
         return true
     }
@@ -148,7 +158,11 @@ class PlayLogic {
 
     }
 
-    private fun saveResult(result: Boolean, context: Context) {
+    private fun saveResult(
+        result: Boolean,
+        context: Context,
+        gameTime: MutableState<Int>
+    ) {
 
         val day = LocalDate.now().dayOfMonth.toString()
         val month = LocalDate.now().monthValue.toString()
@@ -160,7 +174,7 @@ class PlayLogic {
             2
         }
 
-        val gameResult = GameResult(score, day, month, year)
+        val gameResult = GameResult(score, day, month, year, gameTime.value, "Play")
 
 
         val db = DbGameResult.getInstance(context)

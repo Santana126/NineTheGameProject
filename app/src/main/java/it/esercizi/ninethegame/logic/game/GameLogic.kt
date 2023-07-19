@@ -158,4 +158,14 @@ class GameLogic {
         }
     }
 
+    fun checkRetryMissing(game: GameClass): Boolean {
+        return game.retrySquaresValue.contains("")
+    }
+
+    fun checkRetryDuplicate(game: GameClass): Boolean {
+
+        return game.retrySquaresValue.size != game.retrySquaresValue.distinct().size
+
+    }
+
 }

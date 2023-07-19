@@ -1,10 +1,15 @@
 package it.esercizi.ninethegame.logic.game
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import it.esercizi.ninethegame.db.DbGameResult
+import it.esercizi.ninethegame.db.GameResult
+import it.esercizi.ninethegame.db.Repository
 import it.esercizi.ninethegame.logic.settings.SettingsClass
+import java.time.LocalDate
 
 class TrainingLogic {
 
@@ -30,6 +35,7 @@ class TrainingLogic {
         if (newGame.value) {
             newGame.value = false
             gameLogic.secretCodeGeneratorSecond(game)
+            gameLogic.startTimer()
         }
 
         val gameField = GameField()
@@ -53,9 +59,11 @@ class TrainingLogic {
             showAlert.value = false
         }
 
+        val context = LocalContext.current
+
         if (showResult.value) {
             ShowResult(result.value, navController, game.attempt.value)
-            saveResult(result.value)
+            saveResult(result.value, context, gameLogic.gameTime)
             showResult.value = false
         }
 
@@ -91,10 +99,19 @@ class TrainingLogic {
             showAlert.value = true
             return false
         }
+        if (game.attempt.value > 0) {
+
+            if (gameLogic.checkRetryMissing(game)) {
+                message.value = "You must enter all the symbols"
+                showAlert.value = true
+                return false
+            }
+        }
 
         gameLogic.trainingDistanceVectorCalculator(game)
         game.attempt.value++
         if (gameLogic.checkMatchingCode(game)) {
+            gameLogic.stopTimer()
             result.value = true
             showResult.value = true
         }
@@ -129,15 +146,29 @@ class TrainingLogic {
     }
 
 
-    private fun saveResult(result: Boolean) {
-        val dummy = !result
-        if (dummy) {
-            !dummy
+    private fun saveResult(
+        result: Boolean,
+        context: Context,
+        gameTime: MutableState<Int>
+    ) {
+
+        val day = LocalDate.now().dayOfMonth.toString()
+        val month = LocalDate.now().monthValue.toString()
+        val year = LocalDate.now().year.toString()
+
+        val score = if (result) {
+            5
+        } else {
+            0
         }
-        /*
-        TODO:
-            Salvataggio della partita nel DB
-         */
+
+        val gameResult = GameResult(score, day, month, year, gameTime.value, "Training")
+
+
+        val db = DbGameResult.getInstance(context)
+        val repository = Repository(db.gameResultDao())
+
+        repository.insert(gameResult)
 
     }
 
