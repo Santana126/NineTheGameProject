@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Feedback
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,14 +26,24 @@ class LanguageSettings {
     fun ShowLanguagePage(
         settings: SettingsClass,
         onClose: () -> Unit,
-        saveRequest: (String) -> Unit,
+        saveRequest: (Int) -> Unit,
         goHome: () -> Unit
     ) {
 
-        val choice = mutableStateOf("")
+        val choice = mutableStateOf(settings.language.value)
+
+        var langToIndex = 0
+
+        when (choice.value) {
+            "Italian" -> langToIndex = 0
+            "English" -> langToIndex = 1
+            "French" -> langToIndex = 2
+            "Spanish" -> langToIndex = 3
+        }
+
 
         val choiceIndex = remember {
-            mutableStateOf(0)
+            mutableStateOf(langToIndex)
         }
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -45,7 +56,8 @@ class LanguageSettings {
                     .align(Alignment.CenterHorizontally)
                     .background(color = Color.Gray),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End) {
+                horizontalArrangement = Arrangement.End
+            ) {
                 Text(
                     text = "Select your language",
                     modifier = Modifier.weight(1f),
@@ -53,7 +65,11 @@ class LanguageSettings {
                     fontFamily = FontFamily.SansSerif
                 )
             }
-            LazyColumn(modifier = Modifier.weight(0.7f).padding(10.dp)) {
+            LazyColumn(
+                modifier = Modifier
+                    .weight(0.7f)
+                    .padding(10.dp)
+            ) {
                 settings.languageAvailable.forEachIndexed { index, s ->
                     item {
                         Row(
@@ -65,7 +81,8 @@ class LanguageSettings {
                                 .align(Alignment.CenterHorizontally)
                                 .background(color = Color.LightGray),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.End) {
+                            horizontalArrangement = Arrangement.End
+                        ) {
                             Text(text = s, modifier = Modifier.weight(1f))
                             RadioButton(
                                 selected = (choiceIndex.value == index),
@@ -86,7 +103,7 @@ class LanguageSettings {
                     Icon(Icons.Default.Home, contentDescription = "Home")
                 }
                 IconButton(
-                    onClick = { saveRequest(choice.value) },
+                    onClick = { saveRequest(choiceIndex.value) },
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(Icons.Default.Save, contentDescription = "Save")

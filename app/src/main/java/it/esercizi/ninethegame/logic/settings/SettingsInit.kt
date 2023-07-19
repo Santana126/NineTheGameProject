@@ -222,6 +222,7 @@ class SettingsInit {
                         saveSettings(
                             settingsValueArray,
                             symbolChoice,
+                            selectedLanguage,
                             settingsClass,
                             context, navController
                         )
@@ -244,6 +245,7 @@ class SettingsInit {
     private fun saveSettings(
         settingsValueArray: SnapshotStateList<Boolean>,
         symbolChoice: MutableState<Int>,
+        selectedLanguage: String,
         settingsClass: SettingsClass,
         context: Context,
         navController: NavHostController,
@@ -259,8 +261,11 @@ class SettingsInit {
                 settingsClass.autoSave.value = settingsValueArray[1]
                 settingsClass.notification.value = settingsValueArray[2]
                 settingsClass.music.value = settingsValueArray[3]
+                settingsClass.autoInsert.value = settingsValueArray[4]
 
                 settingsClass.symbolChoice.value = symbolChoice.value
+
+                settingsClass.language.value = selectedLanguage
 
                 //Go Home Page
                 navController.navigate("main")
