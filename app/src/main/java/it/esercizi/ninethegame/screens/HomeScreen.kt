@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import it.esercizi.ninethegame.R
+import it.esercizi.ninethegame.logic.FeedbackClass
 import it.esercizi.ninethegame.logic.rules.RulesClass
 import it.esercizi.ninethegame.logic.settings.SettingsClass
 import it.esercizi.ninethegame.ui.theme.MyAppTheme
@@ -34,7 +35,15 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
             mutableStateOf(false)
         }
 
-        if (showRules.value) {
+        val showFeedbackForm = remember {
+            mutableStateOf(false)
+        }
+
+        if (showFeedbackForm.value) {
+            FeedbackClass().ShowFeedbackForm {
+                showFeedbackForm.value = false
+            }
+        } else if (showRules.value) {
             val rulesClass = RulesClass()
             rulesClass.ShowRules { showRules.value = false }
         } else {
@@ -46,9 +55,11 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
 
                 Spacer(modifier = Modifier.weight(0.1f))
 
-                Row(modifier = Modifier
-                    .weight(0.2f)
-                    .align(CenterHorizontally)) {
+                Row(
+                    modifier = Modifier
+                        .weight(0.2f)
+                        .align(CenterHorizontally)
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.app_logo_home_nine_version2),
                         contentDescription = "AppTitleLogo",
@@ -57,9 +68,11 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                             .padding(20.dp)
                     )
                 }
-                Row(modifier = Modifier
-                    .weight(0.3f)
-                    .align(CenterHorizontally)) {
+                Row(
+                    modifier = Modifier
+                        .weight(0.3f)
+                        .align(CenterHorizontally)
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.app_logo_home),
                         contentDescription = "AppLogoImg",
@@ -149,7 +162,9 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                     ) {
                         Icon(Icons.Default.Settings, contentDescription = "Settings")
                     }
-                    IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
+                    IconButton(onClick = {
+                        showFeedbackForm.value = true
+                    }, modifier = Modifier.weight(1f)) {
                         Icon(Icons.Default.Feedback, contentDescription = "Feedback")
 
                     }
@@ -157,6 +172,5 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
             }
         }
     }
-
 }
 

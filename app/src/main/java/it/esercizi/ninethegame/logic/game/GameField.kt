@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import it.esercizi.ninethegame.logic.FeedbackClass
 import it.esercizi.ninethegame.ui.theme.BtnBorder
 
 class GameField {
@@ -53,108 +54,122 @@ class GameField {
             showAlert.value = false
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+        val showFeedbackForm = remember {
+            mutableStateOf(false)
+        }
 
-            // Row with Hint Button
-            Row(modifier = Modifier.height(30.dp)) {
-                Spacer(modifier = Modifier.weight(0.8f))
-                IconButton(onClick = { askHint() }) {
-                    Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
-                }
-
+        if (showFeedbackForm.value) {
+            FeedbackClass().ShowFeedbackForm {
+                showFeedbackForm.value = false
             }
-            // Squares Space
-            Column(modifier = Modifier.weight(0.4f)) {
+        } else {
 
 
-                SquaresMaker(game, showDistace.value)
-                {
-                    if (game.attempt.value <= 0) {
-                        game.selectedSquareIndex.value = it
-                    } else {
-                        game.selectedSquareIndex.value = -1
-                        game.selectedRetrySquareIndex.value = it
-                    }
-                }
-
-            }
-            // Keyboard Space
             Column(
                 modifier = Modifier
-                    .weight(0.7f)
-
+                    .fillMaxSize()
             ) {
 
-                KeyBoardMaker(
-                    game,
-                    {
-
-                        if (game.attempt.value <= 0) {
-                            if(autoInsert){
-                                if (game.selectedSquareIndex.value == -1){
-                                    game.selectedSquareIndex.value = 0
-                                }
-                            }
-                            if (game.selectedSquareIndex.value == -1) {
-                                showAlert.value = true
-                            } else {
-                                game.squaresValues[game.selectedSquareIndex.value] = it
-                                if (it != "") game.selectedSquareIndex.value =
-                                    (game.selectedSquareIndex.value + 1) % 9
-                            }
-                        } else {
-                            if(autoInsert){
-                                if (game.selectedRetrySquareIndex.value == -1){
-                                    game.selectedRetrySquareIndex.value = 0
-                                }
-                            }
-                            if (game.selectedRetrySquareIndex.value == -1) {
-                                showAlert.value = true
-                            } else {
-                                game.retrySquaresValue[game.selectedRetrySquareIndex.value] = it
-                                if (it != "") game.selectedRetrySquareIndex.value =
-                                    (game.selectedRetrySquareIndex.value + 1) % 9
-                            }
-                        }
-
-                    },
-                    exitRequest
-                ) {
-                    if (confirmRequest()) {
-                        game.selectedSquareIndex.value = -1
-                        showDistace.value = true
+                // Row with Hint Button
+                Row(modifier = Modifier.height(30.dp)) {
+                    Spacer(modifier = Modifier.weight(0.8f))
+                    IconButton(onClick = { askHint() }) {
+                        Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
                     }
 
                 }
-            }
+                // Squares Space
+                Column(modifier = Modifier.weight(0.4f)) {
 
-            //Bottom Bar
-            BottomAppBar(
-                cutoutShape = CircleShape,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
 
-                IconButton(onClick = { /* TODO */ }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Help, contentDescription = "Help")
+                    SquaresMaker(game, showDistace.value)
+                    {
+                        if (game.attempt.value <= 0) {
+                            game.selectedSquareIndex.value = it
+                        } else {
+                            game.selectedSquareIndex.value = -1
+                            game.selectedRetrySquareIndex.value = it
+                        }
+                    }
+
                 }
-                IconButton(
-                    onClick = { gameExit()
-                        navController.navigate("settingsPage")
-                              },
-                    modifier = Modifier.weight(1f)
+                // Keyboard Space
+                Column(
+                    modifier = Modifier
+                        .weight(0.7f)
+
                 ) {
-                    Icon(Icons.Default.Settings, contentDescription = "Settings")
-                }
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
-                    Icon(Icons.Default.Feedback, contentDescription = "Feedback")
 
+                    KeyBoardMaker(
+                        game,
+                        {
+
+                            if (game.attempt.value <= 0) {
+                                if (autoInsert) {
+                                    if (game.selectedSquareIndex.value == -1) {
+                                        game.selectedSquareIndex.value = 0
+                                    }
+                                }
+                                if (game.selectedSquareIndex.value == -1) {
+                                    showAlert.value = true
+                                } else {
+                                    game.squaresValues[game.selectedSquareIndex.value] = it
+                                    if (it != "") game.selectedSquareIndex.value =
+                                        (game.selectedSquareIndex.value + 1) % 9
+                                }
+                            } else {
+                                if (autoInsert) {
+                                    if (game.selectedRetrySquareIndex.value == -1) {
+                                        game.selectedRetrySquareIndex.value = 0
+                                    }
+                                }
+                                if (game.selectedRetrySquareIndex.value == -1) {
+                                    showAlert.value = true
+                                } else {
+                                    game.retrySquaresValue[game.selectedRetrySquareIndex.value] = it
+                                    if (it != "") game.selectedRetrySquareIndex.value =
+                                        (game.selectedRetrySquareIndex.value + 1) % 9
+                                }
+                            }
+
+                        },
+                        exitRequest
+                    ) {
+                        if (confirmRequest()) {
+                            game.selectedSquareIndex.value = -1
+                            showDistace.value = true
+                        }
+                    }
+                }
+
+                //Bottom Bar
+                BottomAppBar(
+                    cutoutShape = CircleShape,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+
+                    IconButton(onClick = { /* TODO */ }, modifier = Modifier.weight(1f)) {
+                        Icon(Icons.Default.Help, contentDescription = "Help")
+                    }
+                    IconButton(
+                        onClick = {
+                            gameExit()
+                            navController.navigate("settingsPage")
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                    }
+                    IconButton(
+                        onClick = { showFeedbackForm.value = true },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Default.Feedback, contentDescription = "Feedback")
+
+                    }
                 }
             }
         }
-
 
     }
 
