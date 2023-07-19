@@ -15,7 +15,7 @@ fun SettingsPage(
     sharedPreferences: SharedPreferences
 ) {
 
-    MyAppTheme(backgroundChoice = appSettings.backgroundChoice.value) {
+    MyAppTheme(backgroundChoice = appSettings.backgroundGradient.value) {
         val settingsInit = SettingsInit()
         settingsInit.showSettingsPage(navController,appSettings,sharedPreferences)
 

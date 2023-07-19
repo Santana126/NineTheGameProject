@@ -16,7 +16,7 @@ private val DarkColorPalette = darkColors(
     primary = Purple200,
     primaryVariant = Purple700,
     secondary = Teal200,
-    background = BlueBack
+    background = BackgroundDark
 
 )
 
@@ -24,13 +24,13 @@ private val LightColorPalette = lightColors(
     primary = BtnColor,
     primaryVariant = Purple700,
     secondary = Teal200,
-    background = BlueBack
+    background = BackgroundLight
 
 )
 
 @Composable
 fun MyAppTheme(
-    backgroundChoice: Int,
+    backgroundChoice: Boolean,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
@@ -39,31 +39,26 @@ fun MyAppTheme(
     } else {
         LightColorPalette
     }
-    Image(
-        painter = painterResource(id = when (backgroundChoice) {
-            1 -> {
-                R.drawable.gradient_backgrounds_b1
-            }
-            2 -> {
-                R.drawable.gradient_backgrounds_b2
-            }
-            3 -> {
-                R.drawable.gradient_backgrounds_b3
-            }
-            else -> {
-                R.drawable.gradient_backgrounds_b1
-            }
-        }
-        ),
-        contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.FillBounds)
+    if(backgroundChoice){
+        Image(
+            painter = painterResource(
+                id = if (!darkTheme) {
+                    R.drawable.gradient_backgrounds_b1
+                } else {
+                    R.drawable.gradient_backgrounds_b3
+                }
+            ),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+    }
+
     MaterialTheme(
         colors = colors,
         typography = Typography,
         shapes = Shapes,
-        content = content
-
+        content = content,
     )
 
 }

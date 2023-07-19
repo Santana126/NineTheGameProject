@@ -10,7 +10,7 @@ import it.esercizi.ninethegame.ui.theme.MyAppTheme
 @Composable
 fun TrainingPage(navController: NavHostController, appSettings: SettingsClass) {
 
-    MyAppTheme(backgroundChoice = appSettings.backgroundChoice.value) {
+    MyAppTheme(backgroundChoice = appSettings.backgroundGradient.value) {
         val trainingLogic = TrainingLogic()
         trainingLogic.TrainingInit(navController,appSettings)
     }

@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             val appSettings = remember {SettingsClass()}
 
             appSettings.notification.value = sharedPreferences.getBoolean("notification", false)
-            appSettings.darkMode.value = sharedPreferences.getBoolean("darkMode",false)
+            appSettings.backgroundGradient.value = sharedPreferences.getBoolean("backgroundGradient",true)
             appSettings.autoSave.value = sharedPreferences.getBoolean("autoSave",true)
             appSettings.music.value = sharedPreferences.getBoolean("music",true)
             appSettings.autoInsert.value = sharedPreferences.getBoolean("autoInsert",false)
@@ -38,14 +38,12 @@ class MainActivity : AppCompatActivity() {
 
 
 
-            MyAppTheme(backgroundChoice = appSettings.backgroundChoice.value) {
+            MyAppTheme(backgroundChoice = appSettings.backgroundGradient.value) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ){
                     val navController = rememberNavController()
-
-
 
                     NavHost(navController = navController, startDestination = "main"){
                         composable("main") { HomePage(navController,appSettings) }

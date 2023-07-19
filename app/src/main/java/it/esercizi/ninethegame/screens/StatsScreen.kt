@@ -9,7 +9,7 @@ import it.esercizi.ninethegame.ui.theme.MyAppTheme
 
 @Composable
 fun StatsPage(navController: NavHostController, appSettings: SettingsClass) {
-    MyAppTheme(backgroundChoice = appSettings.backgroundChoice.value) {
+    MyAppTheme(backgroundChoice = appSettings.backgroundGradient.value) {
         val statsClass = StatsClass()
         statsClass.StatsScreen(navController)
     }

@@ -29,11 +29,7 @@ class SettingsClass : Parcelable {
     val symbolChoice = mutableStateOf(1)
 
     @IgnoredOnParcel
-    val backgroundChoice = if(darkMode.value){
-        mutableStateOf(1)
-    }else{
-        mutableStateOf(3)
-    }
+    val backgroundGradient = mutableStateOf(true)
 
     @IgnoredOnParcel
     val languageAvailable = mutableStateListOf("Italian","English","French","Spanish")

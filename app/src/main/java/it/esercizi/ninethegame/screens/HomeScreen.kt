@@ -29,7 +29,7 @@ import it.esercizi.ninethegame.ui.theme.MyAppTheme
 @Composable
 fun HomePage(navController: NavController, appSettings: SettingsClass) {
 
-    MyAppTheme(backgroundChoice = appSettings.backgroundChoice.value) {
+    MyAppTheme(backgroundChoice = appSettings.backgroundGradient.value) {
 
         val showRules = remember {
             mutableStateOf(false)

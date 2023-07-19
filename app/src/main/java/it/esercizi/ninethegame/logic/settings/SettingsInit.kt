@@ -32,7 +32,7 @@ class SettingsInit {
 
         val settingsOption by mutableStateOf(
             listOf(
-                "Dark Mode",
+                "Gradient Background",
                 "Auto Save",
                 "Notification",
                 "Music",
@@ -42,7 +42,7 @@ class SettingsInit {
 
         val settingsValueArray = remember {
             mutableStateListOf(
-                settingsClass.darkMode.value,
+                settingsClass.backgroundGradient.value,
                 settingsClass.autoSave.value,
                 settingsClass.notification.value,
                 settingsClass.music.value,
@@ -68,8 +68,8 @@ class SettingsInit {
             settingsClass.symbolChoice
         }
 
-        sharedPreferences.edit().putBoolean("darkMode", settingsValueArray[0]).apply()
-        sharedPreferences.edit().putBoolean("autoSave", settingsValueArray[0]).apply()
+        sharedPreferences.edit().putBoolean("backgroundGradient", settingsValueArray[0]).apply()
+        sharedPreferences.edit().putBoolean("autoSave", settingsValueArray[1]).apply()
         sharedPreferences.edit().putBoolean("notification", settingsValueArray[2]).apply()
         sharedPreferences.edit().putBoolean("music", settingsValueArray[3]).apply()
         sharedPreferences.edit().putBoolean("autoInsert", settingsValueArray[4]).apply()
@@ -257,7 +257,7 @@ class SettingsInit {
             .setMessage("Confirm Setting changes or return home without saving")
             .setPositiveButton("Ok") { dialog, _ ->
                 //Saving selected value into settings class
-                settingsClass.darkMode.value = settingsValueArray[0]
+                settingsClass.backgroundGradient.value = settingsValueArray[0]
                 settingsClass.autoSave.value = settingsValueArray[1]
                 settingsClass.notification.value = settingsValueArray[2]
                 settingsClass.music.value = settingsValueArray[3]
