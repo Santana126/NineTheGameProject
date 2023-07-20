@@ -12,3 +12,7 @@ val BackgroundLight = Color(0xFF00BCFF)
 val BackgroundDark = Color(0xFF8A6EC1)
 val BtnColor = Color(0xFFFFAB00)
 val BtnBorder = Color(0xFFB15B00)
+val RowNormalBackgroundDark = Color.DarkGray
+val RowNormalBackgroundLight = Color.LightGray
+val RowDarkerBackgroundDark = Color.Black
+val RowDarkerBackgroundLight = Color.DarkGray

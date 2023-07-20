@@ -1,9 +1,6 @@
 package it.esercizi.ninethegame.screens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -27,7 +24,7 @@ import it.esercizi.ninethegame.logic.FeedbackClass
 import it.esercizi.ninethegame.logic.profile.ProfileClass
 import it.esercizi.ninethegame.logic.rules.RulesClass
 import it.esercizi.ninethegame.logic.settings.SettingsClass
-import it.esercizi.ninethegame.ui.theme.MyAppTheme
+import it.esercizi.ninethegame.ui.theme.*
 
 
 @Composable
@@ -81,11 +78,17 @@ fun HomePage(navController: NavController, appSettings: SettingsClass, profile: 
             ) {
                 Row(
                     modifier = Modifier
-                        .padding(start = 20.dp, top = 10.dp)
+                        .padding(start = 20.dp, top = 10.dp, end = 10.dp)
                         .fillMaxWidth()
                 ) {
                     Row(modifier = Modifier
-                        .background(Color.White)
+                        .background(
+                            color = if (isSystemInDarkTheme()) {
+                                RowNormalBackgroundDark
+                            } else {
+                                RowNormalBackgroundLight
+                            }
+                        )
                         .border(2.dp, color = Color.DarkGray)) {
 
                         Icon(imageVector = Icons.Default.CurrencyBitcoin, contentDescription = "Money")

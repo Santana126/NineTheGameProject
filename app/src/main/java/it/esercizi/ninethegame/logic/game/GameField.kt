@@ -3,6 +3,7 @@ package it.esercizi.ninethegame.logic.game
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -29,6 +30,8 @@ import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.logic.FeedbackClass
 import it.esercizi.ninethegame.logic.profile.ProfileClass
 import it.esercizi.ninethegame.ui.theme.BtnBorder
+import it.esercizi.ninethegame.ui.theme.RowNormalBackgroundDark
+import it.esercizi.ninethegame.ui.theme.RowNormalBackgroundLight
 
 class GameField {
 
@@ -85,8 +88,14 @@ class GameField {
                     //Coin Balance
                     Row(
                         modifier = Modifier
-                            .background(Color.White)
-                            .border(2.dp, color = Color.DarkGray)
+                            .background(
+                                if (isSystemInDarkTheme()) {
+                                    RowNormalBackgroundDark
+                                } else {
+                                    RowNormalBackgroundLight
+                                }
+                            )
+                            .border(2.dp, color = Color.Black)
                     ) {
                         Icon(
                             imageVector = Icons.Default.CurrencyBitcoin,
@@ -106,8 +115,12 @@ class GameField {
                     //Hint button
                     Row(
                         modifier = Modifier
-                            .background(Color.White)
-                            .border(2.dp, color = Color.DarkGray)
+                            .background(if (isSystemInDarkTheme()) {
+                                RowNormalBackgroundDark
+                            } else {
+                                RowNormalBackgroundLight
+                            })
+                            .border(2.dp, color = Color.Black)
                             .padding(5.dp)
                             .align(CenterVertically),
                         horizontalArrangement = Arrangement.Center,
