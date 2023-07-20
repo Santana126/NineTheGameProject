@@ -2,6 +2,7 @@
 <resources>
 
     <style name="Theme.NineTheGame" parent="Theme.AppCompat">
-        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:statusBarColor">#6724AA</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>
