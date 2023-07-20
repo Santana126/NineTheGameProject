@@ -96,15 +96,14 @@ fun HomePage(navController: NavController, appSettings: SettingsClass, profile: 
 
                 Row(
                     modifier = Modifier
-                        .weight(0.2f)
+                        .weight(0.3f)
                         .align(CenterHorizontally)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.app_logo_home_nine_version2),
+                        painter = painterResource(id = R.drawable.nine_title),
                         contentDescription = "AppTitleLogo",
                         modifier = Modifier
                             .align(CenterVertically)
-                            .padding(20.dp)
                             .clickable(onClick = { count.value++ })
                     )
                 }
@@ -118,7 +117,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass, profile: 
                         contentDescription = "AppLogoImg",
                         modifier = Modifier
                             .align(CenterVertically)
-                            .size(250.dp)
+                            //.size(250.dp)
                     )
                 }
                 Spacer(modifier = Modifier.weight(0.1f))
