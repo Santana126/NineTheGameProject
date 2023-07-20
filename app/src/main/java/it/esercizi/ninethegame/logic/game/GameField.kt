@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -90,6 +91,8 @@ class GameField {
                         modifier = Modifier
                             .background(Color.White)
                             .border(2.dp, color = Color.DarkGray)
+                            .padding(5.dp)
+                            .align(CenterVertically)
                     ) {
                         IconButton(onClick = { askHint() }) {
                             Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
@@ -387,7 +390,7 @@ class GameField {
                         .padding(start = 20.dp, end = 20.dp, top = 3.dp)
                         .weight(0.3f)
                         .align(Alignment.CenterHorizontally),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
                     game.squaresSymbol.forEachIndexed { i, s ->
@@ -410,7 +413,7 @@ class GameField {
                         .padding(start = 20.dp, end = 20.dp, top = 3.dp)
                         .weight(0.3f)
                         .align(Alignment.CenterHorizontally),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
                     game.squaresSymbol.forEachIndexed { i, s ->
@@ -433,7 +436,7 @@ class GameField {
                         .padding(start = 20.dp, end = 20.dp, top = 3.dp)
                         .weight(0.3f)
                         .align(Alignment.CenterHorizontally),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
                     game.squaresSymbol.forEachIndexed { i, s ->
@@ -455,22 +458,22 @@ class GameField {
             //Action Button
             Column(
                 modifier = Modifier
-                    .weight(0.3f)
+                    .weight(0.35f)
             ) {
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp)
-                        .padding(5.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                        .padding(20.dp),
+                        //.padding(5.dp),
+                    verticalAlignment = CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
                     Button(
                         onClick = { exitRequest() },
                         modifier = Modifier
-                            .padding(10.dp)
                             .weight(0.3f)
+                            .padding(10.dp)
                             .border(6.dp, color = BtnBorder)
                     ) {
                         Text(text = stringResource(R.string.Exit))
@@ -478,8 +481,8 @@ class GameField {
                     Button(
                         onClick = { keyboardClick(("")) },
                         modifier = Modifier
-                            .padding(10.dp)
                             .weight(0.3f)
+                            .padding(10.dp)
                             .border(6.dp, color = BtnBorder)
                     ) {
                         Text(text = stringResource(R.string.CancelBtn))
@@ -487,8 +490,8 @@ class GameField {
                     Button(
                         onClick = { confirmPressed() },
                         modifier = Modifier
-                            .padding(10.dp)
                             .weight(0.3f)
+                            .padding(10.dp)
                             .border(6.dp, color = BtnBorder)
                     ) {
                         Text(text = stringResource(R.string.EnterBtn))
