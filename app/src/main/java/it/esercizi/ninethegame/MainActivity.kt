@@ -3,6 +3,7 @@ package it.esercizi.ninethegame
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             appSettings.autoSave.value = sharedPreferencesSettings.getBoolean("autoSave",true)
             appSettings.autoInsert.value = sharedPreferencesSettings.getBoolean("autoInsert",false)
             appSettings.symbolChoice.value = sharedPreferencesSettings.getInt("symbolChoice",1)
-            appSettings.language.value = sharedPreferencesSettings.getString("language","English").toString()
+            //appSettings.language.value = sharedPreferencesSettings.getString("language","English").toString()
 
             profile.firstAccess.value = sharedPreferencesProfile.getBoolean("firstAccess",true)
             profile.money.value = sharedPreferencesProfile.getInt("money",100)

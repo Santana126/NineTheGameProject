@@ -2,6 +2,8 @@ package it.esercizi.ninethegame.logic.settings
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import it.esercizi.ninethegame.R
+import java.util.*
 
 class SettingsInit {
 
@@ -29,7 +32,8 @@ class SettingsInit {
     fun showSettingsPage(
         navController: NavHostController,
         settingsClass: SettingsClass,
-        sharedPreferences: SharedPreferences
+        sharedPreferences: SharedPreferences,
+        firstContext: Context
     ) {
 
         val settingsOption by mutableStateOf(
@@ -52,7 +56,8 @@ class SettingsInit {
 
 
 
-        var selectedLanguage by remember { mutableStateOf("") }
+        //val selectedLanguage =  remember { mutableStateOf(settingsClass.language.value) }
+
 
         val context = LocalContext.current
 
@@ -75,21 +80,25 @@ class SettingsInit {
 
         sharedPreferences.edit().putInt("symbolChoice", symbolChoice.value).apply()
 
-        sharedPreferences.edit().putString("language", selectedLanguage).apply()
+        //sharedPreferences.edit().putString("language", selectedLanguage.value).apply()
 
 
-
+/*
         if (openLanguagePage.value) {
             //Language select Screen
             LanguageSettings().ShowLanguagePage(settingsClass,
                 { openLanguagePage.value = false },
                 {
-                    selectedLanguage = settingsClass.languageAvailable[it]
+                    settingsClass.language.value = settingsClass.languageAvailable[it]
+                    selectedLanguage.value = settingsClass.languageAvailable[it]
                     openLanguagePage.value = false
                 },
                 { navController.navigate("main") })
 
         } else {
+
+ */
+
 
             //Settings Screen
             Column(modifier = Modifier.fillMaxSize()) {
@@ -115,6 +124,7 @@ class SettingsInit {
                         fontWeight = FontWeight.Bold
                     )
                 }
+                /*
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -138,6 +148,8 @@ class SettingsInit {
                         modifier = Modifier.clickable { openLanguagePage.value = true }
                     )
                 }
+
+                 */
 
                 settingsOption.forEachIndexed { index, s ->
                     Row(
@@ -221,9 +233,9 @@ class SettingsInit {
                         saveSettings(
                             settingsValueArray,
                             symbolChoice,
-                            selectedLanguage,
+                            //selectedLanguage.value,
                             settingsClass,
-                            context, navController
+                            context, navController,firstContext
                         )
                     }, modifier = Modifier.weight(1f)) {
                         Icon(Icons.Default.Home, contentDescription = "Home")
@@ -237,17 +249,18 @@ class SettingsInit {
                 }
             }
 
-        }
+       // }
     }
 
 
     private fun saveSettings(
         settingsValueArray: SnapshotStateList<Boolean>,
         symbolChoice: MutableState<Int>,
-        selectedLanguage: String,
+        //selectedLanguage: String,
         settingsClass: SettingsClass,
         context: Context,
         navController: NavHostController,
+        firstContext: Context
 
         ) {
 
@@ -263,7 +276,9 @@ class SettingsInit {
 
                 settingsClass.symbolChoice.value = symbolChoice.value
 
-                settingsClass.language.value = selectedLanguage
+                //settingsClass.language.value = selectedLanguage
+
+                //changeLang(firstContext,settingsClass.language.value)
 
                 //Go Home Page
                 navController.navigate("main")
@@ -281,6 +296,26 @@ class SettingsInit {
         alertDialog.show()
 
     }
+/*
+    fun changeLang(context: Context,language: String){
+
+        val languageCode = when(language){
+            "English" -> "en"
+            else -> "it"
+        }
+
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val resources = context.resources
+        val configuration = Configuration(resources.configuration)
+        configuration.setLocale(locale)
+
+        context.createConfigurationContext(configuration)
+
+    }
+
+ */
 }
 
 

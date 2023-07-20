@@ -39,14 +39,14 @@ class LanguageSettings {
         when (choice.value) {
             "Italian" -> langToIndex = 0
             "English" -> langToIndex = 1
-            "French" -> langToIndex = 2
-            "Spanish" -> langToIndex = 3
         }
 
 
         val choiceIndex = remember {
             mutableStateOf(langToIndex)
         }
+
+
 
         Column(modifier = Modifier.fillMaxSize()) {
             Row(

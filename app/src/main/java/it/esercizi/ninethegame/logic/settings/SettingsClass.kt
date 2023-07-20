@@ -29,7 +29,7 @@ class SettingsClass : Parcelable {
     val backgroundGradient = mutableStateOf(true)
 
     @IgnoredOnParcel
-    val languageAvailable = mutableStateListOf("Italian","English","French","Spanish")
+    val languageAvailable = mutableStateListOf("Italian","English")
 
     @IgnoredOnParcel
     val language = mutableStateOf("English")
