@@ -1,6 +1,7 @@
 package it.esercizi.ninethegame.logic.game
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +13,7 @@ import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.db.DbGameResult
 import it.esercizi.ninethegame.db.GameResult
 import it.esercizi.ninethegame.db.Repository
+import it.esercizi.ninethegame.logic.profile.ProfileClass
 import it.esercizi.ninethegame.logic.settings.SettingsClass
 import java.time.LocalDate
 
@@ -19,7 +21,18 @@ class PlayLogic {
 
 
     @Composable
-    fun PlayInit(navController: NavHostController, appSettings: SettingsClass) {
+    fun PlayInit(
+        navController: NavHostController,
+        appSettings: SettingsClass,
+        profile: ProfileClass,
+        sharedPreferencesProfile: SharedPreferences,
+        context: Context
+    ) {
+
+
+        val hintCost = 5
+
+        sharedPreferencesProfile.edit().putInt("money",profile.money.value).apply()
 
 
         val gameInit = remember {
@@ -69,15 +82,18 @@ class PlayLogic {
 
         if (showResult.value) {
 
+
+
             ShowResult(
                 result.value,
                 gameLogic.gameTime,
                 appSettings.autoSave.value,
+                profile,
                 navController,
                 context
             )
             if (appSettings.autoSave.value) {
-                saveResult(result.value, context, gameLogic.gameTime)
+                saveResult(result.value, context, gameLogic.gameTime,profile)
             }
 
             showResult.value = false
@@ -98,11 +114,13 @@ class PlayLogic {
             },
             {
                 gameLogic.getHint(game)
+                profile.money.value = profile.money.value - hintCost
             },
+            hintCost,
             {
                 gameLogic.stopTimer()
             },
-            appSettings.autoInsert.value
+            appSettings.autoInsert.value,profile
         )
 
 
@@ -179,8 +197,13 @@ class PlayLogic {
     private fun saveResult(
         result: Boolean,
         context: Context,
-        gameTime: MutableState<Int>
+        gameTime: MutableState<Int>,
+        profile: ProfileClass
     ) {
+
+
+
+        profile.money.value = profile.money.value + 10
 
 
         val day = LocalDate.now().dayOfMonth.toString()
@@ -209,6 +232,7 @@ class PlayLogic {
         result: Boolean,
         time: MutableState<Int>,
         autoSave: Boolean,
+        profile: ProfileClass,
         navController: NavHostController,
         context: Context
     ) {
@@ -246,7 +270,7 @@ class PlayLogic {
                         message
                     )
                     .setPositiveButton(stringResource(R.string.Save)) { dialog, _ ->
-                        saveResult(result, context, time)
+                        saveResult(result, context, time,profile)
                         navController.navigate("main")
                         dialog.dismiss()
                     }

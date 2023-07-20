@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Feedback
-import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +25,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.logic.FeedbackClass
+import it.esercizi.ninethegame.logic.profile.ProfileClass
 import it.esercizi.ninethegame.ui.theme.BtnBorder
 
 class GameField {
@@ -39,8 +37,10 @@ class GameField {
         confirmRequest: () -> Boolean,
         exitRequest: () -> Unit,
         askHint: () -> Unit,
+        hintCost: Int,
         gameExit: () -> Unit,
-        autoInsert: Boolean
+        autoInsert: Boolean,
+        profile: ProfileClass
     ) {
 
         val showDistance = remember {
@@ -72,11 +72,34 @@ class GameField {
                     .fillMaxSize()
             ) {
 
-                // Row with Hint Button
-                Row(modifier = Modifier.height(30.dp)) {
+                // Row with Hint Button and money
+                Row(modifier = Modifier.weight(0.1f).padding(10.dp)) {
+                    Row(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .border(2.dp, color = Color.DarkGray)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.CurrencyBitcoin,
+                            contentDescription = "Money"
+                        )
+                        Text(text = profile.money.value.toString())
+                    }
                     Spacer(modifier = Modifier.weight(0.8f))
-                    IconButton(onClick = { askHint() }) {
-                        Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
+                    Row(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .border(2.dp, color = Color.DarkGray)
+                    ) {
+                        IconButton(onClick = { askHint() }) {
+                            Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
+                        }
+                        Text(text = "Cost ")
+                        Icon(
+                            imageVector = Icons.Default.CurrencyBitcoin,
+                            contentDescription = "Money"
+                        )
+                        Text(text = hintCost.toString())
                     }
 
                 }

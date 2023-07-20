@@ -1,13 +1,13 @@
 package it.esercizi.ninethegame.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Feedback
-import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,13 +22,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.logic.FeedbackClass
+import it.esercizi.ninethegame.logic.profile.ProfileClass
 import it.esercizi.ninethegame.logic.rules.RulesClass
 import it.esercizi.ninethegame.logic.settings.SettingsClass
 import it.esercizi.ninethegame.ui.theme.MyAppTheme
 
 
 @Composable
-fun HomePage(navController: NavController, appSettings: SettingsClass) {
+fun HomePage(navController: NavController, appSettings: SettingsClass, profile: ProfileClass) {
 
     MyAppTheme(backgroundChoice = appSettings.backgroundGradient.value) {
 
@@ -53,8 +54,18 @@ fun HomePage(navController: NavController, appSettings: SettingsClass) {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                Row(
+                    modifier = Modifier
+                        .padding(start = 20.dp, top = 10.dp)
+                        .fillMaxWidth()
+                ) {
+                    Row(modifier = Modifier.background(Color.White).border(2.dp, color = Color.DarkGray)) {
 
-                Spacer(modifier = Modifier.weight(0.1f))
+                        Icon(imageVector = Icons.Default.CurrencyBitcoin, contentDescription = "Money")
+                        Text(text = profile.money.value.toString())
+                    }
+                }
+                Spacer(modifier = Modifier.weight(0.05f))
 
                 Row(
                     modifier = Modifier

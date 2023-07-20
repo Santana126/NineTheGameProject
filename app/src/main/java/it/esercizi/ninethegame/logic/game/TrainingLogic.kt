@@ -1,7 +1,6 @@
 package it.esercizi.ninethegame.logic.game
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -13,13 +12,16 @@ import it.esercizi.ninethegame.R
 import it.esercizi.ninethegame.db.DbGameResult
 import it.esercizi.ninethegame.db.GameResult
 import it.esercizi.ninethegame.db.Repository
+import it.esercizi.ninethegame.logic.profile.ProfileClass
 import it.esercizi.ninethegame.logic.settings.SettingsClass
 import java.time.LocalDate
 
 class TrainingLogic {
 
     @Composable
-    fun TrainingInit(navController: NavHostController, appSettings: SettingsClass) {
+    fun TrainingInit(navController: NavHostController, appSettings: SettingsClass,profile: ProfileClass) {
+
+        val hintCost = 3
 
         val gameInit = remember {
             mutableStateOf(GameClass())
@@ -95,10 +97,12 @@ class TrainingLogic {
             {
                 gameLogic.getHint(game)
             },
+            hintCost,
             {
                 gameLogic.stopTimer()
             },
-            appSettings.autoInsert.value
+            appSettings.autoInsert.value,
+            profile
         )
 
 
