@@ -120,6 +120,12 @@ class PlayLogic {
             {
                 gameLogic.stopTimer()
             },
+            {
+                gameLogic.getTimeMin()
+            },
+            {
+                gameLogic.getTimeSec()
+            },
             appSettings.autoInsert.value,profile
         )
 

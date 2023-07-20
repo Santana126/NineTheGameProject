@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
             appSettings.backgroundGradient.value = sharedPreferencesSettings.getBoolean("backgroundGradient",true)
             appSettings.autoSave.value = sharedPreferencesSettings.getBoolean("autoSave",true)
             appSettings.autoInsert.value = sharedPreferencesSettings.getBoolean("autoInsert",false)
+            appSettings.timer.value = sharedPreferencesSettings.getBoolean("timerOnScreen",true)
+
             appSettings.symbolChoice.value = sharedPreferencesSettings.getInt("symbolChoice",1)
             //appSettings.language.value = sharedPreferencesSettings.getString("language","English").toString()
 

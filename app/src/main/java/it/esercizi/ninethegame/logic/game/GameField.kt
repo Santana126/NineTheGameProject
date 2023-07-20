@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,6 +41,8 @@ class GameField {
         askHint: () -> Unit,
         hintCost: Int,
         gameExit: () -> Unit,
+        getTimerMin: () -> Int,
+        getTimerSec: () -> Int,
         autoInsert: Boolean,
         profile: ProfileClass
     ) {
@@ -73,8 +76,13 @@ class GameField {
                     .fillMaxSize()
             ) {
 
-                // Row with Hint Button and money
-                Row(modifier = Modifier.weight(0.1f).padding(10.dp)) {
+                // Top Row
+                Row(
+                    modifier = Modifier
+                        .weight(0.1f)
+                        .padding(10.dp)
+                ) {
+                    //Coin Balance
                     Row(
                         modifier = Modifier
                             .background(Color.White)
@@ -87,12 +95,23 @@ class GameField {
                         Text(text = profile.money.value.toString())
                     }
                     Spacer(modifier = Modifier.weight(0.8f))
+                    //Timer
+                    Row() {
+                        Text(
+                            text = stringResource(R.string.Time) + ": " + getTimerMin() + ":" + getTimerSec(),
+                            fontWeight = FontWeight.Bold, fontSize = 20.sp
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(0.8f))
+                    //Hint button
                     Row(
                         modifier = Modifier
                             .background(Color.White)
                             .border(2.dp, color = Color.DarkGray)
                             .padding(5.dp)
-                            .align(CenterVertically)
+                            .align(CenterVertically),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = CenterVertically
                     ) {
                         IconButton(onClick = { askHint() }) {
                             Icon(imageVector = Icons.Default.Lightbulb, contentDescription = "Hint")
@@ -231,6 +250,7 @@ class GameField {
                     },
                     textAlign = TextAlign.Center,
                     fontSize = 25.sp,
+                    color = Color.Black,
                     modifier = Modifier
                         .size(40.dp)
                         .clip(MaterialTheme.shapes.medium)
@@ -289,6 +309,7 @@ class GameField {
                         text = game.distanceVector[i],
                         textAlign = TextAlign.Center,
                         fontSize = 25.sp,
+                        color = Color.Black,
                         modifier = Modifier
                             .size(40.dp)
                             .clip(MaterialTheme.shapes.medium)
@@ -330,6 +351,7 @@ class GameField {
                         },
                         textAlign = TextAlign.Center,
                         fontSize = 25.sp,
+                        color = Color.Black,
                         modifier = Modifier
                             .size(40.dp)
                             .clip(MaterialTheme.shapes.medium)
@@ -402,7 +424,7 @@ class GameField {
                                     .padding(10.dp)
                                     .border(6.dp, color = BtnBorder)
                             ) {
-                                Text(text = s)
+                                Text(text = s, fontSize = 20.sp)
                             }
                         }
                     }
@@ -425,7 +447,7 @@ class GameField {
                                     .padding(10.dp)
                                     .border(6.dp, color = BtnBorder)
                             ) {
-                                Text(text = s)
+                                Text(text = s, fontSize = 20.sp)
                             }
                         }
                     }
@@ -448,7 +470,7 @@ class GameField {
                                     .padding(10.dp)
                                     .border(6.dp, color = BtnBorder)
                             ) {
-                                Text(text = s)
+                                Text(text = s, fontSize = 20.sp)
                             }
                         }
                     }
@@ -465,7 +487,7 @@ class GameField {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp),
-                        //.padding(5.dp),
+                    //.padding(5.dp),
                     verticalAlignment = CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
@@ -476,7 +498,7 @@ class GameField {
                             .padding(10.dp)
                             .border(6.dp, color = BtnBorder)
                     ) {
-                        Text(text = stringResource(R.string.Exit))
+                        Text(text = stringResource(R.string.Exit), fontSize = 20.sp)
                     }
                     Button(
                         onClick = { keyboardClick(("")) },
@@ -485,7 +507,7 @@ class GameField {
                             .padding(10.dp)
                             .border(6.dp, color = BtnBorder)
                     ) {
-                        Text(text = stringResource(R.string.CancelBtn))
+                        Text(text = stringResource(R.string.CancelBtn), fontSize = 20.sp)
                     }
                     Button(
                         onClick = { confirmPressed() },
@@ -494,7 +516,7 @@ class GameField {
                             .padding(10.dp)
                             .border(6.dp, color = BtnBorder)
                     ) {
-                        Text(text = stringResource(R.string.EnterBtn))
+                        Text(text = stringResource(R.string.EnterBtn), fontSize = 20.sp)
                     }
                 }
             }

@@ -27,6 +27,14 @@ class GameLogic {
         //println("Timer interrotto. Tempo trascorso: ${gameTime.value} secondi")
     }
 
+    fun getTimeMin(): Int {
+        return ((gameTime.value % 3600) / 60)
+    }
+
+    fun getTimeSec(): Int {
+        return (gameTime.value % 60)
+    }
+
     fun secretCodeGeneratorSecond(gameClass: GameClass){
 
         if(!gameClass.initializer.value){

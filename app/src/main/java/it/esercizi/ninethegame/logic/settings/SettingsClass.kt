@@ -20,6 +20,9 @@ class SettingsClass : Parcelable {
     val music = mutableStateOf(true)
 
     @IgnoredOnParcel
+    val timer = mutableStateOf(true)
+
+    @IgnoredOnParcel
     val autoInsert = mutableStateOf(false)
 
     @IgnoredOnParcel

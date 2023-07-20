@@ -19,7 +19,11 @@ import java.time.LocalDate
 class TrainingLogic {
 
     @Composable
-    fun TrainingInit(navController: NavHostController, appSettings: SettingsClass,profile: ProfileClass) {
+    fun TrainingInit(
+        navController: NavHostController,
+        appSettings: SettingsClass,
+        profile: ProfileClass
+    ) {
 
         val hintCost = 3
 
@@ -89,7 +93,7 @@ class TrainingLogic {
         gameField.GameFieldMaker(
             game, navController,
             {
-                codeConfirm(game, gameLogic, result, showResult, message, showAlert,context)
+                codeConfirm(game, gameLogic, result, showResult, message, showAlert, context)
             },
             {
                 navController.navigate("main")
@@ -100,6 +104,12 @@ class TrainingLogic {
             hintCost,
             {
                 gameLogic.stopTimer()
+            },
+            {
+                ((gameLogic.getTimeMin()) / 60)
+            },
+            {
+                (((gameLogic.getTimeSec()) % 3600) / 60)
             },
             appSettings.autoInsert.value,
             profile
@@ -159,7 +169,8 @@ class TrainingLogic {
 
         val askForSave = stringResource(R.string.AskSaveGameStats)
 
-        var message = stringResource(R.string.YouWon) + " in " + attempt + stringResource(R.string.Attempt) + "\n\n"
+        var message =
+            stringResource(R.string.YouWon) + " in " + attempt + stringResource(R.string.Attempt) + "\n\n"
 
 
         if (!autoSave) {
@@ -185,7 +196,7 @@ class TrainingLogic {
                         message
                     )
                     .setPositiveButton(stringResource(R.string.Save)) { dialog, _ ->
-                        saveResult(result,context,gameTime)
+                        saveResult(result, context, gameTime)
                         navController.navigate("main")
                         dialog.dismiss()
                     }

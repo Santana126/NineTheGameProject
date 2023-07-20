@@ -41,7 +41,8 @@ class SettingsInit {
                 "Gradient Background",
                 "Auto Save",
                 "Notification",
-                "Auto Insert"
+                "Auto Insert",
+                "Timer on Screen"
             )
         )
 
@@ -50,7 +51,8 @@ class SettingsInit {
                 settingsClass.backgroundGradient.value,
                 settingsClass.autoSave.value,
                 settingsClass.notification.value,
-                settingsClass.autoInsert.value
+                settingsClass.autoInsert.value,
+                settingsClass.timer.value
             )
         }
 
@@ -77,6 +79,8 @@ class SettingsInit {
         sharedPreferences.edit().putBoolean("autoSave", settingsValueArray[1]).apply()
         sharedPreferences.edit().putBoolean("notification", settingsValueArray[2]).apply()
         sharedPreferences.edit().putBoolean("autoInsert", settingsValueArray[3]).apply()
+        sharedPreferences.edit().putBoolean("timerOnScreen", settingsValueArray[4]).apply()
+
 
         sharedPreferences.edit().putInt("symbolChoice", symbolChoice.value).apply()
 
@@ -273,6 +277,8 @@ class SettingsInit {
                 settingsClass.autoSave.value = settingsValueArray[1]
                 settingsClass.notification.value = settingsValueArray[2]
                 settingsClass.autoInsert.value = settingsValueArray[3]
+                settingsClass.timer.value = settingsValueArray[4]
+
 
                 settingsClass.symbolChoice.value = symbolChoice.value
 
