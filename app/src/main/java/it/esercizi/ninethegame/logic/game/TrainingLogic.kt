@@ -150,7 +150,6 @@ class TrainingLogic {
             result.value = true
             showResult.value = true
         }
-        //Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
 
         return true
 

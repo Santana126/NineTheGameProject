@@ -56,16 +56,9 @@ class SettingsInit {
         }
 
 
-        //val selectedLanguage =  remember { mutableStateOf(settingsClass.language.value) }
-
 
         val context = LocalContext.current
-/*
-        val openLanguagePage = remember {
-            mutableStateOf(false)
-        }
 
- */
 
         val symbolProvider = SymbolProvider()
 
@@ -84,10 +77,17 @@ class SettingsInit {
 
         sharedPreferences.edit().putInt("symbolChoice", symbolChoice.value).apply()
 
-        //sharedPreferences.edit().putString("language", selectedLanguage.value).apply()
 
-
+        //Old Language Select
 /*
+        val selectedLanguage =  remember { mutableStateOf(settingsClass.language.value) }
+        val openLanguagePage = remember {
+            mutableStateOf(false)
+        }
+
+
+        sharedPreferences.edit().putString("language", selectedLanguage.value).apply()
+
         if (openLanguagePage.value) {
             //Language select Screen
             LanguageSettings().ShowLanguagePage(settingsClass,
@@ -134,6 +134,8 @@ class SettingsInit {
                     fontWeight = FontWeight.Bold
                 )
             }
+
+            //Old Language Select Page
             /*
             Row(
                 modifier = Modifier
@@ -154,7 +156,7 @@ class SettingsInit {
                 )
                 Icon(
                     imageVector = Icons.Default.ArrowRight,
-                    contentDescription = "Freccia",
+                    contentDescription = "Arrow",
                     modifier = Modifier.clickable { openLanguagePage.value = true }
                 )
             }
@@ -260,7 +262,6 @@ class SettingsInit {
                     saveSettings(
                         settingsValueArray,
                         symbolChoice,
-                        //selectedLanguage.value,
                         settingsClass,
                         context, navController, firstContext
                     )
@@ -283,7 +284,6 @@ class SettingsInit {
     private fun saveSettings(
         settingsValueArray: SnapshotStateList<Boolean>,
         symbolChoice: MutableState<Int>,
-        //selectedLanguage: String,
         settingsClass: SettingsClass,
         context: Context,
         navController: NavHostController,
@@ -305,8 +305,8 @@ class SettingsInit {
 
                 settingsClass.symbolChoice.value = symbolChoice.value
 
+                //Old Language Select
                 //settingsClass.language.value = selectedLanguage
-
                 //changeLang(firstContext,settingsClass.language.value)
 
                 //Go Home Page
@@ -325,6 +325,8 @@ class SettingsInit {
         alertDialog.show()
 
     }
+
+    //Old Language Select Function
 /*
     fun changeLang(context: Context,language: String){
 

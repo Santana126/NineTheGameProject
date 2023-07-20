@@ -107,7 +107,7 @@ class GameField {
                     Spacer(modifier = Modifier.weight(0.8f))
                     //Timer
                     if (timerOnScreen) {
-                        Row() {
+                        Row{
                             Text(
                                 text = stringResource(R.string.Time) + ": " + getTimerMin() + ":" + getTimerSec(),
                                 fontWeight = FontWeight.Bold, fontSize = 20.sp

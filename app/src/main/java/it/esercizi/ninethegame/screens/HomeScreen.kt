@@ -52,7 +52,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass, profile: 
 
             val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
                 .setTitle("Compliments")
-                .setMessage("You found the mistery rewards\n"+"I give you 100 coins...\n\n\ttimes NINE")
+                .setMessage("You have found the secret reward\n"+"I give you 100 coins...\n\n\ttimes NINE")
                 .setPositiveButton("Thanks \uD83D\uDC52") { dialog, _ ->
                     dialog.dismiss()
                 }

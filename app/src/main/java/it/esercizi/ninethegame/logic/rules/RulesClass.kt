@@ -66,18 +66,18 @@ class RulesClass {
                             contentDescription = "EnterButtonImage"
                         )
                     }
-                    item() {
+                    item{
                         Text(
                             text = "Dopo aver confermato il tuo codice, ti verrà mostrata per ogni simbolo, la distanza tra la sua posizione e quella in cui si trova all'interno della combinazione segreta\n"
                                     + "Attenzione: la distanza può indicare il numero di riquadri sia verso destra che verso sinistra, inoltre se la distanza è maggiore del numero di riquadri disponibili in quella posizione, puoi continuare contando dall'altro lato dei riquadri"
                                     + "Puoi capire meglio guardando l'esempio qui sotto o giocando il tutorial"
                         )
                         Image(
-                            painter = painterResource(id = R.drawable.partita_squares_image),
+                            painter = painterResource(id = R.drawable.square_distance_rules),
                             contentDescription = "SquareInGameImage"
                         )
                     }
-                    item() {
+                    item{
                         Text(
                             text = "Tramite queste informazioni dovrai capire dove si trovano i simboli nella combinazione segreta, fare le tue scelte e confermare ancora il codice.\n"
                                     + "Se non ti è possibile indovinare la posizione dei simboli non ti preoccupare. È presente in alto a destra un bottone con cui chiedere un aiuto, esso ti indicherà la posizione corretta di un simbolo e lo inserirà in automatico all'interno della combinazione.\n"

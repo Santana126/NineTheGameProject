@@ -15,7 +15,6 @@ class GameLogic {
         timer?.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 gameTime.value += 1
-                //println("Tempo trascorso: ${gameTime.value} secondi")
             }
         }, 1000, 1000)
     }
@@ -24,7 +23,6 @@ class GameLogic {
     fun stopTimer() {
         timer?.cancel()
         timer = null
-        //println("Timer interrotto. Tempo trascorso: ${gameTime.value} secondi")
     }
 
     fun getTimeMin(): Int {
@@ -43,8 +41,6 @@ class GameLogic {
             secretCodeInit.forEachIndexed { index, s ->
                 gameClass.secretCode[index] = s
             }
-
-            //Log.d("Secret code (game.secretcode)", gameClass.secretCode.joinToString())
         }
 
     }

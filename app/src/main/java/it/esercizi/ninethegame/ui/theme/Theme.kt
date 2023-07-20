@@ -47,7 +47,7 @@ fun MyAppTheme(
                 id = if (!darkTheme) {
                     R.drawable.gradient_backgrounds_b1
                 } else {
-                    R.drawable.gradient_backgrounds_b3
+                    R.drawable.gradient_backgrounds_b2
                 }
             ),
             contentDescription = null,

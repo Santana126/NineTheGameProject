@@ -25,8 +25,7 @@ class PlayLogic {
         navController: NavHostController,
         appSettings: SettingsClass,
         profile: ProfileClass,
-        sharedPreferencesProfile: SharedPreferences,
-        context: Context
+        sharedPreferencesProfile: SharedPreferences
     ) {
 
 
@@ -154,18 +153,15 @@ class PlayLogic {
             showAlert.value = true
             return false
         }
-        //Log.d("Stampo timer", gameLogic.gameTime.value.toString())
 
         if (game.attempt.value == 0) {
             gameLogic.distanceVectorCalculator(game)
             game.attempt.value++
             if (gameLogic.checkMatchingCode(game)) {
                 gameLogic.stopTimer()
-                //Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
                 result.value = true
                 showResult.value = true
             }
-            //Log.d("Distance Vector (game.distanceVector)", game.distanceVector.joinToString())
         } else {
             if (gameLogic.checkRetryMissing(game)) {
                 message.value = context.getString(R.string.EnterAllSymbolsAlert)
@@ -177,7 +173,6 @@ class PlayLogic {
                 return false
             } else {
                 gameLogic.stopTimer()
-                //Log.d("Timer Interrotto", gameLogic.gameTime.value.toString())
                 gameLogic.distanceVectorCalculator(game)
                 result.value = gameLogic.checkMatchingCode(game)
                 showResult.value = true

@@ -3,7 +3,6 @@ package it.esercizi.ninethegame
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
@@ -58,7 +57,12 @@ class MainActivity : AppCompatActivity() {
 
                     NavHost(navController = navController, startDestination = "main"){
                         composable("main") { HomePage(navController,appSettings,profile) }
-                        composable("playPage") { PlayPage(navController,appSettings,profile,sharedPreferencesProfile,context)}
+                        composable("playPage") { PlayPage(
+                            navController,
+                            appSettings,
+                            profile,
+                            sharedPreferencesProfile
+                        )}
                         composable("trainingPage"){ TrainingPage(navController,appSettings,profile)}
                         composable("statsPage"){ StatsPage(navController,appSettings) }
                         composable("settingsPage"){ SettingsPage(navController,appSettings,sharedPreferencesSettings,context) }
