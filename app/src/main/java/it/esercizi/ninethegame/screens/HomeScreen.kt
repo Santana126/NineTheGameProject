@@ -3,6 +3,7 @@ package it.esercizi.ninethegame.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -41,6 +43,29 @@ fun HomePage(navController: NavController, appSettings: SettingsClass, profile: 
             mutableStateOf(false)
         }
 
+        val count = remember {
+            mutableStateOf(0)
+        }
+
+        val prizeAvailable = remember {
+            mutableStateOf(true)
+        }
+
+        if ((count.value == 9) && (prizeAvailable.value)){
+
+            val alertDialog = androidx.appcompat.app.AlertDialog.Builder(LocalContext.current)
+                .setTitle("Compliments")
+                .setMessage("You found the mistery rewards\n"+"I give you 100 coins...\n\n\ttimes NINE")
+                .setPositiveButton("Thanks \uD83D\uDC52") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+
+            alertDialog.show()
+            prizeAvailable.value = false
+            profile.money.value = profile.money.value + 900
+        }
+
         if (showFeedbackForm.value) {
             FeedbackClass().ShowFeedbackForm {
                 showFeedbackForm.value = false
@@ -59,7 +84,9 @@ fun HomePage(navController: NavController, appSettings: SettingsClass, profile: 
                         .padding(start = 20.dp, top = 10.dp)
                         .fillMaxWidth()
                 ) {
-                    Row(modifier = Modifier.background(Color.White).border(2.dp, color = Color.DarkGray)) {
+                    Row(modifier = Modifier
+                        .background(Color.White)
+                        .border(2.dp, color = Color.DarkGray)) {
 
                         Icon(imageVector = Icons.Default.CurrencyBitcoin, contentDescription = "Money")
                         Text(text = profile.money.value.toString())
@@ -78,6 +105,7 @@ fun HomePage(navController: NavController, appSettings: SettingsClass, profile: 
                         modifier = Modifier
                             .align(CenterVertically)
                             .padding(20.dp)
+                            .clickable(onClick = { count.value++ })
                     )
                 }
                 Row(
