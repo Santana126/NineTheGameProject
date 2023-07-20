@@ -126,7 +126,9 @@ class PlayLogic {
             {
                 gameLogic.getTimeSec()
             },
-            appSettings.autoInsert.value,profile
+            appSettings.timer.value,
+            appSettings.autoInsert.value,
+            profile
         )
 
 

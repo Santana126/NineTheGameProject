@@ -111,6 +111,7 @@ class TrainingLogic {
             {
                 (((gameLogic.getTimeSec()) % 3600) / 60)
             },
+            appSettings.timer.value,
             appSettings.autoInsert.value,
             profile
         )

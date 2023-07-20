@@ -46,6 +46,7 @@ class GameField {
         gameExit: () -> Unit,
         getTimerMin: () -> Int,
         getTimerSec: () -> Int,
+        timerOnScreen: Boolean,
         autoInsert: Boolean,
         profile: ProfileClass
     ) {
@@ -105,21 +106,25 @@ class GameField {
                     }
                     Spacer(modifier = Modifier.weight(0.8f))
                     //Timer
-                    Row() {
-                        Text(
-                            text = stringResource(R.string.Time) + ": " + getTimerMin() + ":" + getTimerSec(),
-                            fontWeight = FontWeight.Bold, fontSize = 20.sp
-                        )
+                    if (timerOnScreen) {
+                        Row() {
+                            Text(
+                                text = stringResource(R.string.Time) + ": " + getTimerMin() + ":" + getTimerSec(),
+                                fontWeight = FontWeight.Bold, fontSize = 20.sp
+                            )
+                        }
+                        Spacer(modifier = Modifier.weight(0.8f))
                     }
-                    Spacer(modifier = Modifier.weight(0.8f))
                     //Hint button
                     Row(
                         modifier = Modifier
-                            .background(if (isSystemInDarkTheme()) {
-                                RowNormalBackgroundDark
-                            } else {
-                                RowNormalBackgroundLight
-                            })
+                            .background(
+                                if (isSystemInDarkTheme()) {
+                                    RowNormalBackgroundDark
+                                } else {
+                                    RowNormalBackgroundLight
+                                }
+                            )
                             .border(2.dp, color = Color.Black)
                             .padding(5.dp)
                             .align(CenterVertically),
